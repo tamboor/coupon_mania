@@ -9,17 +9,21 @@ import java.util.Date;
 
 @Data
 @NoArgsConstructor
-@Builder
 @Entity
 @Table (name = "coupons")
 public class Coupon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(nullable = false)
-    private long companyId;
-    @Column(nullable = false)
-    private Category category;
+
+//    @Column(nullable = false)
+//    private long companyId;
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    private Company company;
+
+//    @Column(nullable = false)
+//    private Category category;
     @Column(nullable = false, length = 30)
     private String title;
     @Column(nullable = false, length = 256)
