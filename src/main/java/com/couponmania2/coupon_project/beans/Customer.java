@@ -28,5 +28,5 @@ public class Customer {
     private String password;
     @OneToMany (cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
     @Singular
-    private List<Coupon> coupons = new ArrayList<>();
+    private List<Coupon> coupons ;
 }
