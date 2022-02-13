@@ -50,4 +50,16 @@ public class Coupon {
     private double price;
     @Column
     private String image;
+
+
+    public Coupon(Coupon coupon){
+        this.company = coupon.getCompany();
+        this.category = coupon.getCategory();
+        this.title = coupon.getTitle();
+        this.description = coupon.getDescription();
+        this.startDate = coupon.getStartDate();
+        this.endDate = coupon.getEndDate();
+        this.amount = coupon.getAmount();
+        this.price = coupon.getPrice();
+    }
 }

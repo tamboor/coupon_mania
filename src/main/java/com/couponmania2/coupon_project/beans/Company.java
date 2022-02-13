@@ -15,6 +15,7 @@ import java.util.List;
 @Entity
 public class Company {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -27,8 +28,7 @@ public class Company {
 
     @Column(nullable = false , length = 30)
     private String password;
-@Column
-//    @OneToMany(orphanRemoval = true , cascade = CascadeType.ALL , fetch = )
+
     @OneToMany(mappedBy = "company" , orphanRemoval = true , cascade = CascadeType.ALL , fetch = FetchType.EAGER)
     private List<Coupon> coupons;
 }

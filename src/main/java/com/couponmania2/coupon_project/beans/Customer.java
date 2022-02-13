@@ -14,6 +14,7 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @Table(name= "customer")
+
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +27,13 @@ public class Customer {
     private String email;
     @Column(nullable = false,length = 40)
     private String password;
-    @OneToMany (cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
+
+    @ManyToMany (cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinTable (name = "customer_coupons" )
     @Singular
     private List<Coupon> coupons ;
+
+
+
+
 }
