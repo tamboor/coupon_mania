@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import javax.xml.crypto.Data;
 import java.util.Date;
 
-@Component
+//@Component
 @Order (1)
 public class TestMockData implements CommandLineRunner {
     @Autowired

@@ -1,6 +1,7 @@
 package com.couponmania2.coupon_project.beans;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 //@Entity
@@ -12,6 +13,7 @@ public enum Category {
     Vacation ("vacation"),
     Tattoos ("tattoos");
 
+    //@Id
     private String name;
 
     private Category (String name){
