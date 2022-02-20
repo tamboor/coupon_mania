@@ -53,11 +53,17 @@ public class TestCustomerAnnaAref implements CommandLineRunner {
 
 
 
-        couponRepo.deleteById(4);
-        companyRepo.deleteById(1);
+//        couponRepo.deleteById(4);
+//        companyRepo.deleteById(1);
 //        couponRepo.deletePurchaseByCoupon(1);
 //        couponRepo.deletePurchaseByCoupon(5);
-        System.out.println(couponRepo.get(1));
+//        System.out.println(couponRepo.get(1));
+//        companyRepo.deleteById(2);
+//        customerRepo.deleteById(1);
+//        couponRepo.deleteById(4);
+//        couponRepo.deleteByCompanyId(2);
+        couponRepo.deleteByCompany(companyRepo.getById(2));
+
 
 
 
