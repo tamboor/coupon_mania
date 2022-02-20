@@ -4,25 +4,25 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-@Table (name = "coupons")
+@Table(name = "coupons")
 public class Coupon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
 
-//    @Column(nullable = false)
-//    private long companyId;
     @ManyToOne
-    @JoinColumn(name = "company_id")
     private Company company;
 
     @Column(nullable = false)
@@ -52,8 +52,13 @@ public class Coupon {
     private String image;
 
 
-    public Coupon(Coupon coupon){
-        this.company = coupon.getCompany();
+    @ManyToMany( mappedBy = "coupons")
+    private Set<Customer> owners = new HashSet<>();
+
+
+
+    public Coupon(Coupon coupon) {
+//        this.company = coupon.getCompany();
         this.category = coupon.getCategory();
         this.title = coupon.getTitle();
         this.description = coupon.getDescription();

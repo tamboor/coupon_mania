@@ -18,7 +18,7 @@ public class Company {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
 
     @Column(nullable = false , length = 30)
     private String name;
@@ -29,6 +29,6 @@ public class Company {
     @Column(nullable = false , length = 30)
     private String password;
 
-    @OneToMany(mappedBy = "company" , orphanRemoval = true , cascade = CascadeType.ALL , fetch = FetchType.EAGER)
-    private List<Coupon> coupons;
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY , mappedBy = "company" , orphanRemoval = true)
+    private List<Coupon> coupons = new ArrayList<>();
 }

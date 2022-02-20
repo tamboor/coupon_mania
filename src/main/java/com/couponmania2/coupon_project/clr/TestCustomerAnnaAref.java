@@ -2,6 +2,7 @@ package com.couponmania2.coupon_project.clr;
 
 import com.couponmania2.coupon_project.beans.Coupon;
 import com.couponmania2.coupon_project.beans.Customer;
+import com.couponmania2.coupon_project.repositories.CompanyRepo;
 import com.couponmania2.coupon_project.repositories.CouponRepo;
 import com.couponmania2.coupon_project.repositories.CustomerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,17 +20,11 @@ public class TestCustomerAnnaAref implements CommandLineRunner {
     CustomerRepo customerRepo;
     @Autowired
     CouponRepo couponRepo;
+    @Autowired
+    CompanyRepo companyRepo;
 
     @Override
     public void run(String... args) throws Exception {
-
-
-//        List<Coupon> coupons = new ArrayList<>();
-//
-//        coupons.add(couponRepo.getById((long)1));
-//        coupons.add(couponRepo.getById((long)1));
-//
-
 
         //todo: read hibernate
         customerRepo.save(Customer.builder()
@@ -37,7 +32,8 @@ public class TestCustomerAnnaAref implements CommandLineRunner {
                 .password("customer1pass")
                 .firstName("nir")
                 .lastName("nir")
-                        .coupon(couponRepo.getById((long)1))
+                        .coupon(couponRepo.getById(1))
+                        .coupon(couponRepo.getById(3))
                 .build());
         customerRepo.save(Customer.builder()
                 .email("customer2@customer2.com")
@@ -51,7 +47,22 @@ public class TestCustomerAnnaAref implements CommandLineRunner {
                 .password("customer3pass")
                 .firstName("ran")
                 .lastName("ran")
-
+                .coupon(couponRepo.getById(4))
+                .coupon(couponRepo.getById(5))
                 .build());
+
+
+
+        couponRepo.deleteById(4);
+        companyRepo.deleteById(1);
+//        couponRepo.deletePurchaseByCoupon(1);
+//        couponRepo.deletePurchaseByCoupon(5);
+        System.out.println(couponRepo.get(1));
+
+
+
+
+
+
     }
 }

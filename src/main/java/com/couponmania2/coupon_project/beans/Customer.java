@@ -6,7 +6,9 @@ import org.springframework.boot.autoconfigure.batch.BatchDataSource;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -18,7 +20,7 @@ import java.util.List;
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
     @Column(nullable = false,length = 40)
     private String firstName;
     @Column(nullable = false,length = 40)
@@ -28,10 +30,25 @@ public class Customer {
     @Column(nullable = false,length = 40)
     private String password;
 
-    @ManyToMany (cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinTable (name = "customer_coupons" )
+    @ManyToMany
+    @JoinTable (name = "customer_coupons",
+            joinColumns =
+            @JoinColumn(name = "customer_id" , referencedColumnName = "id"),
+
+            inverseJoinColumns =
+            @JoinColumn(name = "coupon_id" , referencedColumnName = "id"))
     @Singular
-    private List<Coupon> coupons ;
+    private Set<Coupon> coupons = new HashSet<>();
+
+//    public void addCoupon(Coupon coupon){
+//        coupons.add(coupon);
+//        coupon.getOwners().add(this);
+//    }
+//
+//    public void removeCoupon(Coupon coupon){
+//        coupons.remove(coupon);
+//        coupon.getOwners().remove(this);
+//    }
 
 
 
