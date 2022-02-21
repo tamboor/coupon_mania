@@ -29,7 +29,7 @@ public class TestCustomerAnnaAref implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        //todo: read hibernate
+        //todo: read hibernate or else
         customerRepo.save(Customer.builder()
                 .email("customer1@customer1.com")
                 .password("customer1pass")
