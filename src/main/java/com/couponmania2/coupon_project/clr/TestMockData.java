@@ -10,6 +10,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import javax.validation.Valid;
 import javax.xml.crypto.Data;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -79,7 +80,8 @@ public class TestMockData implements CommandLineRunner {
 //        couponRepo.deleteById(5);
 //        companyRepo.deleteById(3);
         Company insertCompany = new Company("company 4", "mail4", "pass4");
-        insertCompany.setCoupons(new HashSet<Coupon>(Arrays.asList(
+
+                insertCompany.setCoupons(new HashSet<Coupon>(Arrays.asList(
                 new Coupon(insertCompany , Category.Cars , "cool title1" ,
                         "desccccc1" , Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)),
                         10 , 10 ,"img"
@@ -90,9 +92,11 @@ public class TestMockData implements CommandLineRunner {
                 ),
                 new Coupon(insertCompany , Category.Cars , "cool title3" ,
                         "desccccc3" , Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)),
-                        10 , 10 ,"img"
+                        -1 , 10 ,"img"
                 ))));
         companyRepo.save(insertCompany);
+
+        System.out.println(couponRepo.getById(1));
 
 
 

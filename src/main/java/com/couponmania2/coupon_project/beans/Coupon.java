@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import javax.validation.constraints.Positive;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.HashSet;
@@ -37,10 +38,13 @@ public class Coupon {
     private java.sql.Date endDate;
 
     @Column(nullable = false)
+    @Positive
     //TODO: create an annotation that deals with insertion of a negative number
     private int amount;
 
+
     @Column(nullable = false)
+    @Positive
     //TODO: create an annotation that deals with insertion of a negative number
     private double price;
     @Column
@@ -154,5 +158,22 @@ public class Coupon {
 
     public void setPurchases(Set<Purchase> purchases) {
         this.purchases = purchases;
+    }
+
+    @Override
+    public String toString() {
+        return "Coupon{" +
+                "id=" + id +
+                ", company=" + company +
+                ", category=" + category +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", amount=" + amount +
+                ", price=" + price +
+                ", image='" + image + '\'' +
+                ", purchases=" + purchases +
+                '}';
     }
 }

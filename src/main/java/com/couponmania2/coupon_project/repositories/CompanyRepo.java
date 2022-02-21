@@ -8,11 +8,5 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface CompanyRepo extends JpaRepository <Company , Integer> {
-
-//    @Override
-//    @Transactional
-//    @Modifying
-//    default void deleteById(Integer integer) {
-
-
+    Company findByEmailAndPassword(String email , String password);
 }

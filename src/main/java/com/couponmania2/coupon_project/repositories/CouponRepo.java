@@ -12,20 +12,4 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface CouponRepo extends JpaRepository<Coupon,Integer> {
-//    @Modifying
-//    @Transactional
-//    @Query("DELETE FROM Coupon c WHERE c.id = ?1")
-//    void deleteById(Integer id);
-//
-//    @Modifying
-//    @Transactional
-//    @Query("SELECT c FROM Coupon c JOIN c.owners o WHERE c.id = ?1")
-//    List<Coupon> get(Integer id);
-//
-//    @Modifying
-//    @Transactional
-//    @Query("DELETE FROM Coupon c WHERE c.company = ?1")
-//void deleteByTitle (Integer companyID);
-
-    //todo: add a delete purchase
 }
