@@ -1,5 +1,6 @@
 package com.couponmania2.coupon_project.repositories;
 
+import com.couponmania2.coupon_project.beans.Category;
 import com.couponmania2.coupon_project.beans.Company;
 import com.couponmania2.coupon_project.beans.Coupon;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,19 +17,15 @@ public interface CouponRepo extends JpaRepository<Coupon,Integer> {
     @Query("DELETE FROM Coupon c WHERE c.id = ?1")
     void deleteById(Integer id);
 
-//    @Modifying
-//    @Transactional
-//    @Query("DELETE FROM Coupon c WHERE c.company = ?1")
-//    void deleteByCompanyId(Integer id);
-    @Transactional
     @Modifying
-    @Query("DELETE FROM Coupon c WHERE c.company = :company")
-    void deleteByCompany(@Param("company") Company company);
+    @Transactional
+    @Query("SELECT c FROM Coupon c JOIN c.owners o WHERE c.id = ?1")
+    List<Coupon> get(Integer id);
 
-//    @Modifying
-//    @Transactional
-//    @Query("DELETE c FROM Coupon c JOIN c.owners o WHERE c.id = ?1")
-//    void deletePurchaseByCouponId(Integer id);
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Coupon c WHERE c.company = ?1")
+void deleteByTitle (Integer companyID);
 
     //todo: add a delete purchase
 }

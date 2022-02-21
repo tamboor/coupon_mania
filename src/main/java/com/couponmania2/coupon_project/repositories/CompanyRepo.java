@@ -1,16 +1,18 @@
 package com.couponmania2.coupon_project.repositories;
 
 import com.couponmania2.coupon_project.beans.Company;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface CompanyRepo extends JpaRepository <Company , Integer> {
-    @Modifying
+
+    @Override
     @Transactional
-    @Query("DELETE FROM Company c WHERE c.id = ?1")
+    @Modifying
+    default void deleteById(Integer integer) {
 
-    void deleteById(Integer id);
-
+    }
 }

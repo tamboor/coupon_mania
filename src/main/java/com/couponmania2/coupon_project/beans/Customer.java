@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.batch.BatchDataSource;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -38,6 +39,7 @@ public class Customer {
             inverseJoinColumns =
             @JoinColumn(name = "coupon_id" , referencedColumnName = "id"))
     @Singular
+
     private Set<Coupon> coupons = new HashSet<>();
 
 //    public void addCoupon(Coupon coupon){

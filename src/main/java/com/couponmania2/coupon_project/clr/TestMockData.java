@@ -14,8 +14,9 @@ import org.springframework.stereotype.Component;
 
 import javax.xml.crypto.Data;
 import java.util.Date;
+import java.util.HashSet;
 
-//@Component
+@Component
 @Order (1)
 public class TestMockData implements CommandLineRunner {
     @Autowired
@@ -48,7 +49,7 @@ public class TestMockData implements CommandLineRunner {
 
 
         couponRepo.save(Coupon.builder()
-                        .amount(10)
+                        .amount(0)
                         .category(Category.Cars)
                         .endDate(new Date())
                         .description("description")
@@ -58,7 +59,7 @@ public class TestMockData implements CommandLineRunner {
                         .price(20)
                         .startDate(new Date())
                 .build());
-
+//
         couponRepo.save(Coupon.builder()
                 .amount(10)
                 .category(Category.Food)

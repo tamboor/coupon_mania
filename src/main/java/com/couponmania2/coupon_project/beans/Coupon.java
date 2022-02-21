@@ -50,7 +50,7 @@ public class Coupon {
     private String image;
 
 
-    @ManyToMany( mappedBy = "coupons")
+    @ManyToMany ( mappedBy = "coupons" )
     private Set<Customer> owners = new HashSet<>();
 
 

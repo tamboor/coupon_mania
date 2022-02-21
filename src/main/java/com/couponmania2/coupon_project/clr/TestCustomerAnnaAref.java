@@ -1,5 +1,7 @@
 package com.couponmania2.coupon_project.clr;
 
+import com.couponmania2.coupon_project.beans.Category;
+import com.couponmania2.coupon_project.beans.Company;
 import com.couponmania2.coupon_project.beans.Coupon;
 import com.couponmania2.coupon_project.beans.Customer;
 import com.couponmania2.coupon_project.repositories.CompanyRepo;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Component
 @Order(2)
@@ -32,8 +35,8 @@ public class TestCustomerAnnaAref implements CommandLineRunner {
                 .password("customer1pass")
                 .firstName("nir")
                 .lastName("nir")
-                        .coupon(couponRepo.getById(1))
-                        .coupon(couponRepo.getById(3))
+                .coupon(couponRepo.getById(1))
+                .coupon(couponRepo.getById(3))
                 .build());
         customerRepo.save(Customer.builder()
                 .email("customer2@customer2.com")
@@ -51,24 +54,28 @@ public class TestCustomerAnnaAref implements CommandLineRunner {
                 .coupon(couponRepo.getById(5))
                 .build());
 
+//deleteCompany(companyRepo.getById(1));
 
+//couponRepo.deleteByTitle(1);
 
-//        couponRepo.deleteById(4);
-//        companyRepo.deleteById(1);
+     //   customerRepo.delete(customerRepo.getById(1));
+
+companyRepo.delete(companyRepo.getById(3));
+           //  couponRepo.deleteById(4);
+        //      companyRepo.deleteById(1);
 //        couponRepo.deletePurchaseByCoupon(1);
 //        couponRepo.deletePurchaseByCoupon(5);
-//        System.out.println(couponRepo.get(1));
-//        companyRepo.deleteById(2);
-//        customerRepo.deleteById(1);
-//        couponRepo.deleteById(4);
-//        couponRepo.deleteByCompanyId(2);
-        couponRepo.deleteByCompany(companyRepo.getById(2));
+     //   System.out.println(couponRepo.get(1));
 
 
-
-
-
-
-
+    }
+    public void deleteCompany (Company c){
+        List<Coupon> couponsToDelete = couponRepo.findAll();
+        for (Coupon item : couponsToDelete){
+            if (item.getCompany().getId()== c.getId()){
+                couponRepo.deleteById(item.getId());
+            }
+        }
+         companyRepo.deleteById(c.getId());
     }
 }

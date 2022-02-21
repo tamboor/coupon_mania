@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,6 @@ public class Company {
     @Column(nullable = false , length = 30)
     private String password;
 
-    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY , mappedBy = "company" , orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY , mappedBy = "company" , orphanRemoval = true)
     private List<Coupon> coupons = new ArrayList<>();
 }
