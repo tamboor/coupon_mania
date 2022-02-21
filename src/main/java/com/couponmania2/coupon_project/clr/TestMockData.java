@@ -1,6 +1,7 @@
 package com.couponmania2.coupon_project.clr;
 
 import com.couponmania2.coupon_project.beans.*;
+import com.couponmania2.coupon_project.facade.CustomerFacade;
 import com.couponmania2.coupon_project.repositories.CompanyRepo;
 import com.couponmania2.coupon_project.repositories.CouponRepo;
 import com.couponmania2.coupon_project.repositories.CustomerRepo;
@@ -29,6 +30,8 @@ public class TestMockData implements CommandLineRunner {
     private CouponRepo couponRepo;
     @Autowired
     private PurchaseRepo purchaseRepo;
+    @Autowired
+    private CustomerFacade customerFacade;
 
 
     @Override
@@ -45,22 +48,22 @@ public class TestMockData implements CommandLineRunner {
                 10 , 10 ,"img"));
         couponRepo.save(new Coupon(companyRepo.getById(1),Category.Tattoos , "coupon2",
                 "coupon2desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
-                10 , 10 ,"img"));
+                10 , 15 ,"img"));
         couponRepo.save(new Coupon(companyRepo.getById(1),Category.Food , "coupon3",
                 "coupon3desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
-                10 , 10 ,"img"));
+                10 , 20 ,"img"));
         couponRepo.save(new Coupon(companyRepo.getById(2),Category.Xtreme , "coupon4",
                 "coupon4desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
-                10 , 10 ,"img"));
+                10 , 25 ,"img"));
         couponRepo.save(new Coupon(companyRepo.getById(2),Category.Vacation , "coupon5",
                 "coupon5desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
-                10 , 10 ,"img"));
+                10 , 30 ,"img"));
         couponRepo.save(new Coupon(companyRepo.getById(3),Category.Food , "coupon6",
                 "coupon6desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
-                10 , 10 ,"img"));
+                10 , 45 ,"img"));
         couponRepo.save(new Coupon(companyRepo.getById(3),Category.Vacation , "coupon7",
                 "coupon7desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
-                10 , 10 ,"img"));
+                10 , 50 ,"img"));
 
 
         customerRepo.save(new Customer("nir" , "katz" , "mail1" , "pass"));
@@ -95,13 +98,14 @@ public class TestMockData implements CommandLineRunner {
                         -1 , 10 ,"img"
                 ))));
         companyRepo.save(insertCompany);
+//        System.out.println(couponRepo.getById(1));
+//        purchaseRepo.deleteById(4);
 
-        System.out.println(couponRepo.getById(1));
+    //    customerFacade.purchaseCoupon(couponRepo.getById(8), customerRepo.getById(3));
+     //   customerFacade.getCustomerCoupons(1);
+      //  System.out.println(purchaseRepo.getCouponsOfCustomerByMaxPrice(customerRepo.getById(3),21));
 
 
-
-
-        purchaseRepo.deleteById(4);
 
 
 

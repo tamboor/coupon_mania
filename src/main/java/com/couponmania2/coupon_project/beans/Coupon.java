@@ -13,6 +13,7 @@ import java.util.Set;
 //@Data
 @Entity
 @Table(name = "coupons")
+
 public class Coupon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -172,8 +173,7 @@ public class Coupon {
                 ", endDate=" + endDate +
                 ", amount=" + amount +
                 ", price=" + price +
-                ", image='" + image + '\'' +
-                ", purchases=" + purchases +
+                ", image='" + image +
                 '}';
     }
 }
