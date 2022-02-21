@@ -9,10 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface CompanyRepo extends JpaRepository <Company , Integer> {
 
-    @Override
-    @Transactional
-    @Modifying
-    default void deleteById(Integer integer) {
+//    @Override
+//    @Transactional
+//    @Modifying
+//    default void deleteById(Integer integer) {
 
-    }
+
 }

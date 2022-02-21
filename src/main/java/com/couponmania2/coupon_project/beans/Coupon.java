@@ -5,14 +5,11 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+//@Data
 @Entity
 @Table(name = "coupons")
 public class Coupon {
@@ -24,7 +21,6 @@ public class Coupon {
     private Company company;
 
     @Column(nullable = false)
-    //@ManyToOne
     private Category category;
 
     @Column(nullable = false, length = 30)
@@ -33,11 +29,12 @@ public class Coupon {
     @Column(nullable = false, length = 256)
     private String description;
 
+    //TODO: check what date type needed
     @Column(nullable = false)
-    private Date startDate;
+    private java.sql.Date startDate;
 
     @Column(nullable = false)
-    private Date endDate;
+    private java.sql.Date endDate;
 
     @Column(nullable = false)
     //TODO: create an annotation that deals with insertion of a negative number
@@ -49,20 +46,113 @@ public class Coupon {
     @Column
     private String image;
 
+    @OneToMany(mappedBy = "coupon", orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private Set<Purchase> purchases = new HashSet<>();
 
-    @ManyToMany ( mappedBy = "coupons" )
-    private Set<Customer> owners = new HashSet<>();
 
-
+    protected Coupon() {
+    }
 
     public Coupon(Coupon coupon) {
-//        this.company = coupon.getCompany();
-        this.category = coupon.getCategory();
-        this.title = coupon.getTitle();
-        this.description = coupon.getDescription();
-        this.startDate = coupon.getStartDate();
-        this.endDate = coupon.getEndDate();
-        this.amount = coupon.getAmount();
-        this.price = coupon.getPrice();
+        this(coupon.getCompany(), coupon.getCategory(), coupon.getTitle(), coupon.getDescription(),
+                coupon.getStartDate(), coupon.getEndDate()
+                , coupon.getAmount(), coupon.getPrice(), coupon.getImage(), new HashSet<>());
+    }
+
+    public Coupon(Company company, Category category, String title, String description, java.sql.Date startDate, Date endDate, int amount, double price, String image) {
+        this(company, category, title, description, startDate, endDate, amount, price, image, new HashSet<>());
+    }
+
+    public Coupon(Company company, Category category, String title, String description, java.sql.Date startDate, java.sql.Date endDate, int amount, double price, String image, Set<Purchase> purchases) {
+        this.company = company;
+        this.category = category;
+        this.title = title;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.amount = amount;
+        this.price = price;
+        this.image = image;
+        this.purchases = purchases;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Set<Purchase> getPurchases() {
+        return purchases;
+    }
+
+    public void setPurchases(Set<Purchase> purchases) {
+        this.purchases = purchases;
     }
 }

@@ -11,13 +11,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Data
-@NoArgsConstructor
-@Builder
-@Entity
-@AllArgsConstructor
-@Table(name= "customer")
 
+//@NoArgsConstructor
+@Entity
+@Table(name= "customers")
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,28 +28,60 @@ public class Customer {
     @Column(nullable = false,length = 40)
     private String password;
 
-    @ManyToMany
-    @JoinTable (name = "customer_coupons",
-            joinColumns =
-            @JoinColumn(name = "customer_id" , referencedColumnName = "id"),
+    @OneToMany(mappedBy = "customer",orphanRemoval = true , cascade = CascadeType.PERSIST , fetch = FetchType.LAZY)
+    Set<Purchase> purchases = new HashSet<>();
 
-            inverseJoinColumns =
-            @JoinColumn(name = "coupon_id" , referencedColumnName = "id"))
-    @Singular
+    protected Customer(){}
 
-    private Set<Coupon> coupons = new HashSet<>();
+    public Customer(String firstName, String lastName, String email, String password, Set<Purchase> purchases) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.purchases = purchases;
+    }
 
-//    public void addCoupon(Coupon coupon){
-//        coupons.add(coupon);
-//        coupon.getOwners().add(this);
-//    }
-//
-//    public void removeCoupon(Coupon coupon){
-//        coupons.remove(coupon);
-//        coupon.getOwners().remove(this);
-//    }
+    public Customer(String firstName, String lastName, String email, String password) {
+        this(firstName,lastName,email,password,new HashSet<>());
+    }
 
+    public String getFirstName() {
+        return firstName;
+    }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
+    public String getLastName() {
+        return lastName;
+    }
 
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<Purchase> getPurchases() {
+        return purchases;
+    }
+
+    public void setPurchases(Set<Purchase> purchases) {
+        this.purchases = purchases;
+    }
 }

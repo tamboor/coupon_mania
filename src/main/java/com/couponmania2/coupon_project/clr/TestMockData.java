@@ -1,20 +1,21 @@
 package com.couponmania2.coupon_project.clr;
 
-import com.couponmania2.coupon_project.beans.Category;
-import com.couponmania2.coupon_project.beans.Company;
-import com.couponmania2.coupon_project.beans.Coupon;
-import com.couponmania2.coupon_project.beans.Customer;
+import com.couponmania2.coupon_project.beans.*;
 import com.couponmania2.coupon_project.repositories.CompanyRepo;
 import com.couponmania2.coupon_project.repositories.CouponRepo;
 import com.couponmania2.coupon_project.repositories.CustomerRepo;
+import com.couponmania2.coupon_project.repositories.PurchaseRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import javax.xml.crypto.Data;
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 @Component
 @Order (1)
@@ -25,110 +26,80 @@ public class TestMockData implements CommandLineRunner {
     private CustomerRepo customerRepo;
     @Autowired
     private CouponRepo couponRepo;
+    @Autowired
+    private PurchaseRepo purchaseRepo;
 
 
     @Override
     public void run(String... args) throws Exception {
-       companyRepo.save(Company.builder()
-                       .email("company1@email.com")
-                       .name("company1")
-                       .password("company1")
-               .build());
-
-        companyRepo.save(Company.builder()
-                .email("company1@email.com")
-                .name("company2")
-                .password("company2")
-                .build());
-
-        companyRepo.save(Company.builder()
-                .email("company1@email.com")
-                .name("company3")
-                .password("company3")
-                .build());
+        companyRepo.save(new Company("company1" , "email1" , "password1"));
+        companyRepo.save(new Company("company2" , "email2" , "password2"));
+        companyRepo.save(new Company("company3" , "email3" , "password3"));
+        companyRepo.save(new Company("company4" , "email4" , "password4"));
+        companyRepo.save(new Company("company5" , "email5" , "password5"));
 
 
-        couponRepo.save(Coupon.builder()
-                        .amount(0)
-                        .category(Category.Cars)
-                        .endDate(new Date())
-                        .description("description")
-                        .company(companyRepo.getById(1))
-                        .title("coupon1")
-                        .image("url")
-                        .price(20)
-                        .startDate(new Date())
-                .build());
-//
-        couponRepo.save(Coupon.builder()
-                .amount(10)
-                .category(Category.Food)
-                .endDate(new Date())
-                .description("description")
-                .company(companyRepo.getById(2))
-                .title("coupon2")
-                .image("url")
-                .price(20)
-                .startDate(new Date())
-                .build());
-        couponRepo.save(Coupon.builder()
-                .amount(12)
-                .category(Category.Food)
-                .endDate(new Date())
-                .description("description")
-                .company(companyRepo.getById(2))
-                .title("coupon3")
-                .image("url")
-                .price(15)
-                .startDate(new Date())
-                .build());
-        couponRepo.save(Coupon.builder()
-                .amount(18)
-                .category(Category.Tattoos)
-                .endDate(new Date())
-                .description("description")
-                .company(companyRepo.getById(3))
-                .title("coupon4")
-                .image("url")
-                .price(15)
-                .startDate(new Date())
-                .build());
-        couponRepo.save(Coupon.builder()
-                .amount(18)
-                .category(Category.Tattoos)
-                .endDate(new Date())
-                .description("description")
-                .company(companyRepo.getById(1))
-                .title("coupon5")
-                .image("url")
-                .price(25)
-                .startDate(new Date())
-                .build());
+        couponRepo.save(new Coupon(companyRepo.getById(1),Category.Cars , "coupon1",
+                "coupon1desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
+                10 , 10 ,"img"));
+        couponRepo.save(new Coupon(companyRepo.getById(1),Category.Tattoos , "coupon2",
+                "coupon2desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
+                10 , 10 ,"img"));
+        couponRepo.save(new Coupon(companyRepo.getById(1),Category.Food , "coupon3",
+                "coupon3desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
+                10 , 10 ,"img"));
+        couponRepo.save(new Coupon(companyRepo.getById(2),Category.Xtreme , "coupon4",
+                "coupon4desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
+                10 , 10 ,"img"));
+        couponRepo.save(new Coupon(companyRepo.getById(2),Category.Vacation , "coupon5",
+                "coupon5desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
+                10 , 10 ,"img"));
+        couponRepo.save(new Coupon(companyRepo.getById(3),Category.Food , "coupon6",
+                "coupon6desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
+                10 , 10 ,"img"));
+        couponRepo.save(new Coupon(companyRepo.getById(3),Category.Vacation , "coupon7",
+                "coupon7desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
+                10 , 10 ,"img"));
+
+
+        customerRepo.save(new Customer("nir" , "katz" , "mail1" , "pass"));
+        customerRepo.save(new Customer("alon" , "mintz" , "mail2" , "pass"));
+        customerRepo.save(new Customer("ran" , "manor" , "mail3" , "pass"));
+
+
+        purchaseRepo.save(new Purchase(customerRepo.getById(1) , couponRepo.getById(3)));
+        purchaseRepo.save(new Purchase(customerRepo.getById(1) , couponRepo.getById(4)));
+        purchaseRepo.save(new Purchase(customerRepo.getById(2) , couponRepo.getById(5)));
+        purchaseRepo.save(new Purchase(customerRepo.getById(2) , couponRepo.getById(6)));
+        purchaseRepo.save(new Purchase(customerRepo.getById(3) , couponRepo.getById(3)));
+        purchaseRepo.save(new Purchase(customerRepo.getById(3) , couponRepo.getById(5)));
+
+
+//        customerRepo.deleteById(1);
+//        couponRepo.deleteById(5);
+//        companyRepo.deleteById(3);
+        Company insertCompany = new Company("company 4", "mail4", "pass4");
+        insertCompany.setCoupons(new HashSet<Coupon>(Arrays.asList(
+                new Coupon(insertCompany , Category.Cars , "cool title1" ,
+                        "desccccc1" , Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)),
+                        10 , 10 ,"img"
+                        ),
+                new Coupon(insertCompany , Category.Vacation , "cool title2" ,
+                        "desccccc2" , Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)),
+                        10 , 10 ,"img"
+                ),
+                new Coupon(insertCompany , Category.Cars , "cool title3" ,
+                        "desccccc3" , Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)),
+                        10 , 10 ,"img"
+                ))));
+        companyRepo.save(insertCompany);
 
 
 
-//        customerRepo.save(Customer.builder()
-//                        .email("customer1@customer1.com")
-//                        .password("customer1pass")
-//                        .firstName("nir")
-//                        .lastName("nir")
-////                        .coupon(couponRepo.getById((long)1))
-////                        .coupon(couponRepo.getById((long)2))
-//                .build());
-//        customerRepo.save(Customer.builder()
-//                .email("customer2@customer2.com")
-//                .password("customer2pass")
-//                .firstName("alon")
-//                .lastName("alon")
-//
-//                .build());
-//        customerRepo.save(Customer.builder()
-//                .email("customer3@customer3.com")
-//                .password("customer3pass")
-//                .firstName("ran")
-//                .lastName("ran")
-//
-//                .build());
+
+        purchaseRepo.deleteById(4);
+
+
 
 
 
