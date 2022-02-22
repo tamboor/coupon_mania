@@ -10,7 +10,7 @@ import java.util.Set;
 public class Purchase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id", nullable = false, updatable = false)
     private int id;
 //
     @ManyToOne

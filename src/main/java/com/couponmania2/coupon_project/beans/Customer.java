@@ -18,6 +18,7 @@ import java.util.Set;
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false)
     private int id;
     @Column(nullable = false,length = 40)
     private String firstName;

@@ -17,6 +17,7 @@ import java.util.Set;
 public class Coupon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false)
     private int id;
 
     @ManyToOne
