@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 @Order (1)
@@ -65,7 +66,7 @@ public class TestMockData implements CommandLineRunner {
                 "coupon7desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
                 10 , 50 ,"img"));
 
-
+//todo: find out what happens if you insert purchases in a new customer that doesn't has an id yet
         customerRepo.save(new Customer("nir" , "katz" , "mail1" , "pass"));
         customerRepo.save(new Customer("alon" , "mintz" , "mail2" , "pass"));
         customerRepo.save(new Customer("ran" , "manor" , "mail3" , "pass"));
@@ -105,7 +106,7 @@ public class TestMockData implements CommandLineRunner {
      //   customerFacade.getCustomerCoupons(1);
       //  System.out.println(purchaseRepo.getCouponsOfCustomerByMaxPrice(customerRepo.getById(3),21));
 
-
+companyRepo.deleteById(1);
 
 
 

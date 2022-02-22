@@ -5,6 +5,9 @@ import com.couponmania2.coupon_project.beans.Coupon;
 import com.couponmania2.coupon_project.beans.Customer;
 import com.couponmania2.coupon_project.beans.Purchase;
 import com.couponmania2.coupon_project.repositories.CompanyRepo;
+import com.couponmania2.coupon_project.repositories.CouponRepo;
+import com.couponmania2.coupon_project.repositories.CustomerRepo;
+import com.couponmania2.coupon_project.repositories.PurchaseRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +16,15 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class CustomerFacade extends ClientFacade implements CustomerService {
+public class CustomerFacade implements CustomerService {
+    @Autowired
+    protected CompanyRepo companyRepo;
+    @Autowired
+    protected CustomerRepo customerRepo;
+    @Autowired
+    protected CouponRepo couponRepo;
+    @Autowired
+    protected PurchaseRepo purchaseRepo;
     //todo: add validation
     @Override
     public void purchaseCoupon(Coupon coupon, Customer customer) {

@@ -10,7 +10,6 @@ import java.util.Set;
 
 public interface CustomerService {
 
-
     void purchaseCoupon(Coupon coupon , Customer customer);
     void purchaseCoupon(int couponId , int customerId) ;
     Set<Coupon> getCustomerCoupons(int customerId);
