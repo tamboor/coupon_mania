@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class CustomerFacade implements CustomerService {
+public class CustomerServiceImpl implements CustomerService {
     @Autowired
     protected CompanyRepo companyRepo;
     @Autowired

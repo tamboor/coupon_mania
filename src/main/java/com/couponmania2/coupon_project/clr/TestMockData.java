@@ -1,7 +1,7 @@
 package com.couponmania2.coupon_project.clr;
 
 import com.couponmania2.coupon_project.beans.*;
-import com.couponmania2.coupon_project.facade.CustomerFacade;
+import com.couponmania2.coupon_project.facade.CustomerServiceImpl;
 import com.couponmania2.coupon_project.repositories.CompanyRepo;
 import com.couponmania2.coupon_project.repositories.CouponRepo;
 import com.couponmania2.coupon_project.repositories.CustomerRepo;
@@ -11,14 +11,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import javax.validation.Valid;
-import javax.xml.crypto.Data;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 @Order (1)
@@ -32,7 +28,7 @@ public class TestMockData implements CommandLineRunner {
     @Autowired
     private PurchaseRepo purchaseRepo;
     @Autowired
-    private CustomerFacade customerFacade;
+    private CustomerServiceImpl customerFacade;
 
 
     @Override
