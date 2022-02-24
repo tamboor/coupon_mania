@@ -1,7 +1,7 @@
 package com.couponmania2.coupon_project.exceptions;
 
 public enum AppUnauthorizedRequestMessage {
-    NO_LOGIN
+    NO_LOGIN("Unauthorized request - please login to an authorized account.");
 
     private String message;
 

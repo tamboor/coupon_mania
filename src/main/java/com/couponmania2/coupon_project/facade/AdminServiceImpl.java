@@ -2,6 +2,10 @@ package com.couponmania2.coupon_project.facade;
 
 import com.couponmania2.coupon_project.beans.Company;
 import com.couponmania2.coupon_project.beans.Customer;
+import com.couponmania2.coupon_project.exceptions.AppTargetExistsException;
+import com.couponmania2.coupon_project.exceptions.AppTargetExistsMessage;
+import com.couponmania2.coupon_project.exceptions.AppTargetNotFoundException;
+import com.couponmania2.coupon_project.exceptions.AppTargetNotFoundMessage;
 import com.couponmania2.coupon_project.repositories.CompanyRepo;
 import com.couponmania2.coupon_project.repositories.CustomerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,50 +25,50 @@ public class AdminServiceImpl implements AdminService {
     //todo: check if update checks can be handled in restcontroller
 
     @Override
-    public void addCompany(Company company) throws Exception {
+    public void addCompany(Company company) throws AppTargetExistsException {
         if (companyRepo.existsByEmailOrName(company.getEmail(), company.getName())) {
-            throw new Exception();
+            throw new AppTargetExistsException(AppTargetExistsMessage.COMPANY_EXISTS);
         }
         companyRepo.save(company);
     }
 
     @Override
-    public void addCustomer(Customer customer) throws Exception {
+    public void addCustomer(Customer customer) throws AppTargetExistsException {
         if (customerRepo.existsByEmail(customer.getEmail())) {
-            throw new Exception();
+            throw new AppTargetExistsException(AppTargetExistsMessage.CUSTOMER_EXISTS);
         }
         customerRepo.save(customer);
     }
 
     @Override
-    public void updateCompany(Company company) {
+    public void updateCompany(Company company) throws AppTargetNotFoundException {
 //        companyRepo.existsByIdAndName(company)
         if (!companyRepo.existsByIdAndName(company.getId(), company.getName())) {
-            //todo: throw exception
+            throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);
         }
         companyRepo.save(company);
     }
 
     @Override
-    public void updateCustomer(Customer customer) {
+    public void updateCustomer(Customer customer) throws AppTargetNotFoundException {
         if (!customerRepo.existsById(customer.getId())) {
-            //todo: throw exception
+            throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
         }
         customerRepo.save(customer);
     }
 
     @Override
-    public void deleteCompany(int companyID) {
+    public void deleteCompany(int companyID) throws AppTargetNotFoundException {
         if (!companyRepo.existsById(companyID)) {
-            //todo: throw exception
+            throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);
         }
         companyRepo.deleteById(companyID);
     }
 
     @Override
-    public void deleteCustomer(int customerID) {
+    public void deleteCustomer(int customerID) throws AppTargetNotFoundException {
         if (!customerRepo.existsById(customerID)) {
-            //todo: throw exception
+            throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
         }
         customerRepo.deleteById(customerID);
     }
@@ -80,19 +84,19 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Company getOneCompany(int companyID) {
+    public Company getOneCompany(int companyID) throws AppTargetNotFoundException {
         Optional<Company> companyOptional = companyRepo.findById(companyID);
         if (companyOptional.isEmpty()) {
-            //todo: throw exception
+            throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);
         }
         return companyOptional.get();
     }
 
     @Override
-    public Customer getOneCustomer(int customerID) {
+    public Customer getOneCustomer(int customerID) throws AppTargetNotFoundException {
         Optional<Customer> customerOptional = customerRepo.findById(customerID);
         if (customerOptional.isEmpty()) {
-            //todo: throw exception
+            throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
         }
         return customerOptional.get();
     }
