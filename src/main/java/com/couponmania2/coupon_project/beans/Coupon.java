@@ -21,6 +21,7 @@ public class Coupon {
     private int id;
 
     @ManyToOne
+
     private Company company;
 
     @Column(nullable = false)
