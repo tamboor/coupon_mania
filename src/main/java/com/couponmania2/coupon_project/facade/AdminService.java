@@ -7,7 +7,7 @@ import java.util.Set;
 
 public interface    AdminService {
     void addCompany (Company company) throws Exception;
-    void addCustomer(Customer customer);
+    void addCustomer(Customer customer) throws Exception;
     void updateCompany(Company company);
     void updateCustomer(Customer customer);
     void deleteCompany(int companyID);

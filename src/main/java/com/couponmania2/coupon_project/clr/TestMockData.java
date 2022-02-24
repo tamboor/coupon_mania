@@ -108,6 +108,11 @@ companyRepo.deleteById(1);
         System.out.println(companyRepo.existsByEmailOrName("asdasd" , "company10"));
         System.out.println(companyRepo.existsByEmailOrName("asdasd" , "company2"));
 
+//       Company c100  = companyRepo.getById(30);
+//        System.out.println("here!!!!!!!!!!");
+//        System.out.println(c100);
+
+
 
 
 

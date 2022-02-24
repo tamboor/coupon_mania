@@ -14,6 +14,8 @@ public class AdminServiceImpl implements AdminService{
     @Autowired
     CustomerRepo customerRepo;
 
+    //todo: check if update checks can be handled in restcontroller
+
     @Override
     public void addCompany(Company company) throws Exception {
         if (companyRepo.existsByEmailOrName(company.getEmail() , company.getName())){
@@ -23,8 +25,11 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public void addCustomer(Customer customer) {
-
+    public void addCustomer(Customer customer) throws Exception {
+        if (customerRepo.existsByEmail(customer.getEmail())){
+            throw new Exception();
+        }
+        customerRepo.save(customer);
     }
 
     @Override
