@@ -13,7 +13,7 @@ public interface CustomerService {
     void purchaseCoupon(Coupon coupon , Customer customer);
     void purchaseCoupon(int couponId , int customerId) ;
     Set<Coupon> getCustomerCoupons(int customerId);
-    Set<Coupon> getCustomerCouponsByCategory(Customer customer, Category category);
-    Set<Coupon> getCustomerCouponsByMaxPrice(Customer customer, double maxPrice);
-    Customer getCustomerDetails(int id);
+    Set<Coupon> getCustomerCouponsByCategory(int customerId, Category category);
+    Set<Coupon> getCustomerCouponsByMaxPrice(int customerId, double maxPrice);
+    Customer getCustomerDetails(int customerId);
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Set;
 
 @Service
+//todo: change to required args c'tor
 public class CompanyServiceImpl implements CompanyService {
     @Autowired
     protected CompanyRepo companyRepo;

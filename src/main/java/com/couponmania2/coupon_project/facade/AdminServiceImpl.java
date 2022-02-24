@@ -7,7 +7,7 @@ import com.couponmania2.coupon_project.repositories.CustomerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Set;
-
+//todo: change to required args c'tor
 public class AdminServiceImpl implements AdminService{
     @Autowired
     CompanyRepo companyRepo;
