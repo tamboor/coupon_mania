@@ -114,7 +114,7 @@ companyRepo.deleteById(1);
 
 
 
-
+        System.out.println(couponRepo.existsByCompanyAndTitle(companyRepo.getById(4),"coupon4"));
 
 
 

@@ -8,7 +8,7 @@ import java.util.Set;
 
 public interface CompanyService {
      void addCoupon(Coupon coupon);
-     void updateCoupon(Coupon coupon);
+     void updateCoupon(Coupon coupon) throws Exception;
      void deleteCoupon(int couponId);
      Set<Coupon>getAllCompanyCoupons();
      Set<Coupon>getCompanyByCategory(Category category);

@@ -23,12 +23,19 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public void addCoupon(Coupon coupon) {
-
+        if (!couponRepo.existsByCompanyAndTitle(coupon.getCompany(), coupon.getTitle())) {
+            couponRepo.save(coupon);
+        } else {
+            //todo: throw add custom  exp
+        }
     }
-
+//todo: check if company verification can be implemented in REST
     @Override
-    public void updateCoupon(Coupon coupon) {
-
+    public void updateCoupon(Coupon coupon) throws Exception {
+        if (couponRepo.getById(coupon.getId()).getCompany() != coupon.getCompany()) {
+            throw new Exception("CCCCCCCCC");
+        }
+        couponRepo.save(coupon);
     }
 
     @Override

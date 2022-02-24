@@ -82,11 +82,19 @@ public class Coupon {
         this.purchases = purchases;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    private void setId(int id) {
+        this.id = id;
+    }
+
     public Company getCompany() {
         return company;
     }
 
-    public void setCompany(Company company) {
+    private void setCompany(Company company) {
         this.company = company;
     }
 
