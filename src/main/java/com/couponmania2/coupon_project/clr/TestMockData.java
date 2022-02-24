@@ -109,7 +109,7 @@ companyRepo.deleteById(1);
         System.out.println(companyRepo.existsByEmailOrName("asdasd" , "company2"));
 
 
-
+        System.out.println(couponRepo.existsByCompanyAndTitle(companyRepo.getById(4),"coupon4"));
 
 
 
