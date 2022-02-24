@@ -9,5 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface CompanyRepo extends JpaRepository <Company , Integer> {
     Company findByEmailAndPassword(String email , String password);
-    //fdnjds
+
+    boolean existsByEmailOrName(String email, String name);
 }
