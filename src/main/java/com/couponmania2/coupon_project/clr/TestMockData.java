@@ -74,8 +74,6 @@ public class TestMockData implements CommandLineRunner {
         purchaseRepo.save(new Purchase(customerRepo.getById(2) , couponRepo.getById(6)));
         purchaseRepo.save(new Purchase(customerRepo.getById(3) , couponRepo.getById(3)));
         purchaseRepo.save(new Purchase(customerRepo.getById(3) , couponRepo.getById(5)));
-
-
 //        customerRepo.deleteById(1);
 //        couponRepo.deleteById(5);
 //        companyRepo.deleteById(3);
@@ -114,7 +112,10 @@ companyRepo.deleteById(1);
 
 
 
+
         System.out.println(couponRepo.existsByCompanyAndTitle(companyRepo.getById(4),"coupon4"));
+
+
 
 
 
