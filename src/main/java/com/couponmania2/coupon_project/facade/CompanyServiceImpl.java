@@ -29,7 +29,8 @@ public class CompanyServiceImpl implements CompanyService {
             //todo: throw add custom  exp
         }
     }
-//todo: check if company verification can be implemented in REST
+
+    //todo: check if company verification can be implemented in REST
     @Override
     public void updateCoupon(Coupon coupon) throws Exception {
         if (couponRepo.getById(coupon.getId()).getCompany() != coupon.getCompany()) {
@@ -40,6 +41,10 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public void deleteCoupon(int couponId) {
+        if (!couponRepo.existsById(couponId)) {
+            //:todo throw exp coupon exist
+        }
+        couponRepo.deleteById(couponId);
 
     }
 
