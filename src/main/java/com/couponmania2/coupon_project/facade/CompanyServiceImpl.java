@@ -8,9 +8,11 @@ import com.couponmania2.coupon_project.repositories.CouponRepo;
 import com.couponmania2.coupon_project.repositories.CustomerRepo;
 import com.couponmania2.coupon_project.repositories.PurchaseRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+@Service
 public class CompanyServiceImpl implements CompanyService {
     @Autowired
     protected CompanyRepo companyRepo;
@@ -50,8 +52,11 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Set<Coupon> getAllCompanyCoupons() {
-        return null;
+    public Set<Coupon> getAllCompanyCoupons(int companyId) {
+        if (!companyRepo.existsById(companyId)) {
+            //todo: throw custom exception
+        }
+        return couponRepo.findByCompany(companyRepo.getById(companyId));
     }
 
     @Override
@@ -65,7 +70,10 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Company getCompanyDetails() {
-        return null;
+    public Company getCompanyDetails(int companyId) {
+        if (!companyRepo.existsById(companyId)){
+            //todo: throw custom exeption
+        }
+        return companyRepo.getById(companyId);
     }
 }

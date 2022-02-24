@@ -39,7 +39,7 @@ public class AdminServiceImpl implements AdminService{
             //todo: throw exception
         }
         companyRepo.save(company);
-        companyRepo.
+        //companyRepo.
     }
 
     @Override
