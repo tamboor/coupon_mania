@@ -5,9 +5,13 @@ import com.couponmania2.coupon_project.beans.Customer;
 import com.couponmania2.coupon_project.repositories.CompanyRepo;
 import com.couponmania2.coupon_project.repositories.CustomerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
+@Service
 public class AdminServiceImpl implements AdminService{
     @Autowired
     CompanyRepo companyRepo;
@@ -39,41 +43,57 @@ public class AdminServiceImpl implements AdminService{
             //todo: throw exception
         }
         companyRepo.save(company);
-        companyRepo.
     }
 
     @Override
     public void updateCustomer(Customer customer) {
-
+        if (!customerRepo.existsById(customer.getId())){
+            //todo: throw exception
+        }
+        customerRepo.save(customer);
     }
 
     @Override
     public void deleteCompany(int companyID) {
-
+        if (!companyRepo.existsById(companyID)){
+            //todo: throw exception
+        }
+        companyRepo.deleteById(companyID);
     }
 
     @Override
     public void deleteCustomer(int customerID) {
-
+        if (!customerRepo.existsById(customerID)){
+            //todo: throw exception
+        }
+        customerRepo.deleteById(customerID);
     }
 
     @Override
     public Set<Company> getAllComapnies() {
-        return null;
+        return new HashSet<>(companyRepo.findAll());
     }
 
     @Override
     public Set<Customer> getAllCustomers() {
-        return null;
+        return new HashSet<>(customerRepo.findAll());
     }
 
     @Override
     public Company getOneCompany(int companyID) {
-        return null;
+       Optional<Company> companyOptional = companyRepo.findById(companyID);
+       if (companyOptional.isEmpty()){
+           //todo: throw exception
+       }
+       return companyOptional.get();
     }
 
     @Override
     public Customer getOneCustomer(int customerID) {
-        return null;
+        Optional<Customer> customerOptional = customerRepo.findById(customerID);
+        if (customerOptional.isEmpty()){
+            //todo: throw exception
+        }
+        return customerOptional.get();
     }
 }

@@ -16,6 +16,10 @@ import java.util.Set;
 @Entity
 @Table(name= "customers")
 public class Customer {
+    public int getId() {
+        return id;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false)
