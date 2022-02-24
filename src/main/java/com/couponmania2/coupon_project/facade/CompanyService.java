@@ -11,8 +11,8 @@ public interface CompanyService {
      void updateCoupon(Coupon coupon) throws Exception;
      void deleteCoupon(int couponId);
      Set<Coupon>getAllCompanyCoupons();
-     Set<Coupon>getCompanyByCategory(Category category);
-    Set<Coupon>getCompanyByMaxPrice(double maxPrice);
+     Set<Coupon>getCompanyCouponsByCategory(int companyId,Category category);
+    Set<Coupon>getCompanyCouponsByMaxPrice(int companyId,double maxPrice);
     Company getCompanyDetails();
 
 
