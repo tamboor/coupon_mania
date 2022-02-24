@@ -70,12 +70,12 @@ public class AdminController extends ClientController {
     }
 
     @GetMapping("/getAllCustomers")
-    public ResponseEntity<Set<?>> getAllCustomer() {
+    public ResponseEntity<?> getAllCustomer() {
         return new ResponseEntity<>(adminService.getAllCustomers(), HttpStatus.OK);
     }
 
     @GetMapping("/getOneCustomer/{customerId}")
-    public ResponseEntity<Customer> getOneCustomer(@PathVariable int customerId) {
+    public ResponseEntity<?> getOneCustomer(@PathVariable int customerId) {
         return new ResponseEntity<>(adminService.getOneCustomer(customerId), HttpStatus.OK);
     }
 
