@@ -33,6 +33,9 @@ public class TestMockData implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+
+        //todo: create dateUtils
+
         companyRepo.save(new Company("company1" , "email1" , "password1"));
         companyRepo.save(new Company("company2" , "email2" , "password2"));
         companyRepo.save(new Company("company3" , "email3" , "password3"));
