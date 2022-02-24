@@ -29,7 +29,8 @@ public class CompanyServiceImpl implements CompanyService {
             //todo: throw add custom  exp
         }
     }
-//todo: check if company verification can be implemented in REST
+
+    //todo: check if company verification can be implemented in REST
     @Override
     public void updateCoupon(Coupon coupon) throws Exception {
         if (couponRepo.getById(coupon.getId()).getCompany() != coupon.getCompany()) {
@@ -40,6 +41,11 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public void deleteCoupon(int couponId) {
+        if (!couponRepo.existsById(couponId)) {
+            //:todo throw exp coupon exist
+        }
+        couponRepo.deleteById(couponId);
+
 
     }
 
@@ -49,13 +55,19 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Set<Coupon> getCompanyByCategory(Category category) {
-        return null;
+    public Set<Coupon> getCompanyCouponsByCategory(int companyId,Category category) {
+        if(!companyRepo.existsById(companyId)){
+            //todo: throw exp id is not exist
+        }
+        return couponRepo.findByCompanyAndCategory(companyRepo.getById(companyId),category);
     }
 
     @Override
-    public Set<Coupon> getCompanyByMaxPrice(double maxPrice) {
-        return null;
+    public Set<Coupon> getCompanyCouponsByMaxPrice(int companyId,double maxPrice) {
+        if(!companyRepo.existsById(companyId) || maxPrice<= 0){
+            //todo: throw exp id is not exist
+        }
+        return couponRepo.findByCompanyAndPrice(companyRepo.getById(companyId),maxPrice);
     }
 
     @Override
