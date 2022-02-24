@@ -14,6 +14,7 @@ import java.util.Set;
 
 public interface CouponRepo extends JpaRepository<Coupon,Integer> {
  boolean existsByCompanyAndTitle(Company company,String title);
- Set<Coupon> findByCompany (Company company);
+ Set<Coupon>findByCompanyAndCategory(Company company,Category category);
+ Set<Coupon>findByCompanyAndPrice(Company company, double price);
 
 }
