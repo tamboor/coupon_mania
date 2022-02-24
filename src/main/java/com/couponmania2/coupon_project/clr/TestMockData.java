@@ -103,17 +103,19 @@ public class TestMockData implements CommandLineRunner {
 companyRepo.deleteById(1);
 
 
-        System.out.println(companyRepo.existsByEmailOrName("asdasd" , "company10"));
-        System.out.println(companyRepo.existsByEmailOrName("asdasd" , "company2"));
+//        System.out.println(companyRepo.existsByEmailOrName("asdasd" , "company10"));
+//        System.out.println(companyRepo.existsByEmailOrName("asdasd" , "company2"));
 
 //       Company c100  = companyRepo.getById(30);
 //        System.out.println("here!!!!!!!!!!");
 //        System.out.println(c100);
+//        System.out.println(companyRepo.existsByIdAndName(3 ,"email2"));
+//
+//        System.out.println(companyRepo.existsByIdAndName(2 ,"company2"));
 
 
 
-
-        System.out.println(couponRepo.existsByCompanyAndTitle(companyRepo.getById(4),"coupon4"));
+//        System.out.println(couponRepo.existsByCompanyAndTitle(companyRepo.getById(4),"coupon4"));
 
 
 

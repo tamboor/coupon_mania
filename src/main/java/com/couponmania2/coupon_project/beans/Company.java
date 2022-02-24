@@ -14,6 +14,10 @@ import java.util.Set;
 public class Company {
 
 
+    public int getId() {
+        return id;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false)

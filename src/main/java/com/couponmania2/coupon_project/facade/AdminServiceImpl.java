@@ -34,7 +34,12 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public void updateCompany(Company company) {
-
+//        companyRepo.existsByIdAndName(company)
+        if (!companyRepo.existsByIdAndName(company.getId() , company.getName())){
+            //todo: throw exception
+        }
+        companyRepo.save(company);
+        companyRepo.
     }
 
     @Override
