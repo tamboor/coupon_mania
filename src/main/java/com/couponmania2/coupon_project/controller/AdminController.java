@@ -2,6 +2,7 @@ package com.couponmania2.coupon_project.controller;
 
 import com.couponmania2.coupon_project.beans.Company;
 import com.couponmania2.coupon_project.beans.Customer;
+import com.couponmania2.coupon_project.exceptions.AppTargetNotFoundException;
 import com.couponmania2.coupon_project.facade.AdminServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,13 +31,13 @@ public class AdminController extends ClientController {
 
     @PutMapping("/updateCompany")
     @ResponseStatus(HttpStatus.OK)
-    public void updateCompany(@RequestBody Company company) {
+    public void updateCompany(@RequestBody Company company) throws AppTargetNotFoundException {
         adminService.updateCompany(company);
     }
 
     @DeleteMapping("/deleteCompany/{companyId}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteCompany(@PathVariable int companyId) {
+    public void deleteCompany(@PathVariable int companyId) throws AppTargetNotFoundException {
         adminService.deleteCompany(companyId);
     }
 
@@ -47,7 +48,7 @@ public class AdminController extends ClientController {
     }
 
     @GetMapping("/getOneCompany/{companyId}")
-    public ResponseEntity<?> getOneCompany(@PathVariable int companyId) {
+    public ResponseEntity<?> getOneCompany(@PathVariable int companyId) throws AppTargetNotFoundException {
         return new ResponseEntity<>(adminService.getOneCompany(companyId), HttpStatus.OK);
     }
 
@@ -59,13 +60,13 @@ public class AdminController extends ClientController {
     }
 
     @PutMapping("/updateCustomer")
-    public void updateCustomer(Customer customer) {
+    public void updateCustomer(Customer customer) throws AppTargetNotFoundException {
         adminService.updateCustomer(customer);
     }
 
     @DeleteMapping("/deleteCustomer/{customerId}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteCustomer(int customerId) {
+    public void deleteCustomer(int customerId) throws AppTargetNotFoundException {
         adminService.deleteCustomer(customerId);
     }
 
@@ -75,7 +76,7 @@ public class AdminController extends ClientController {
     }
 
     @GetMapping("/getOneCustomer/{customerId}")
-    public ResponseEntity<?> getOneCustomer(@PathVariable int customerId) {
+    public ResponseEntity<?> getOneCustomer(@PathVariable int customerId) throws AppTargetNotFoundException {
         return new ResponseEntity<>(adminService.getOneCustomer(customerId), HttpStatus.OK);
     }
 
