@@ -1,11 +1,13 @@
 package com.couponmania2.coupon_project.controller;
 
+import com.couponmania2.coupon_project.auth.UserDetails;
 import com.couponmania2.coupon_project.beans.Category;
 import com.couponmania2.coupon_project.beans.Coupon;
 import com.couponmania2.coupon_project.beans.Customer;
 import com.couponmania2.coupon_project.facade.AdminServiceImpl;
 import com.couponmania2.coupon_project.facade.CustomerServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,17 +17,20 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class CustomerController extends ClientController{
     private final CustomerServiceImpl customerService;
+    private final int customerId;
     //todo: check what to do about customer id
-        private final int customerId ;
+    @Autowired
+    UserDetails userCustomerDetails;
+
 
     @Override
     public boolean login(String email, String password) {
         return false;
     }
-    @PostMapping("/purchaseCoupon")
-    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/newPurchase")
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public void purchaseCoupon(@RequestBody Coupon coupon){
-        customerService.purchaseCoupon(coupon.getId(),customerId);
+      //  customerService.purchaseCoupon(customerService.getCustomerDetails(userCustomerDetails.getId()),coupon.getId());
     }
     @GetMapping("/getCustomerCoupons")
     public ResponseEntity<?> getCustomerCoupons(){
