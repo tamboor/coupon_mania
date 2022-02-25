@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("customer")
 @RequiredArgsConstructor
+
+//todo: add jwt and update methods accordingly.
 public class CustomerController extends ClientController{
     private final CustomerServiceImpl customerService;
     private final int customerId;
@@ -27,24 +29,28 @@ public class CustomerController extends ClientController{
     public boolean login(String email, String password) {
         return false;
     }
+
     @PostMapping("/newPurchase")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void purchaseCoupon(@RequestBody Coupon coupon){
       //  customerService.purchaseCoupon(customerService.getCustomerDetails(userCustomerDetails.getId()),coupon.getId());
     }
+
     @GetMapping("/getCustomerCoupons")
     public ResponseEntity<?> getCustomerCoupons(){
       return new ResponseEntity<>(customerService.getCustomerCoupons(customerId),HttpStatus.OK)  ;
     }
 
-    @GetMapping("/getCustomerCoupons")
-    public ResponseEntity<?> getCustomerCoupons(@RequestBody Category category){
+    @GetMapping("/getCustomerCoupons/category")
+    public ResponseEntity<?> getCustomerCouponsByCategory(@RequestBody Category category){
         return new ResponseEntity<>(customerService.getCustomerCouponsByCategory(customerId,category),HttpStatus.OK);
     }
+
     @GetMapping("/getCustomerCoupons/maxPrice")
-    public ResponseEntity<?> getCustomerCoupons(@PathVariable double maxPrice){
+    public ResponseEntity<?> getCustomerCouponsByMaxPrice(@PathVariable double maxPrice){
         return new ResponseEntity<>(customerService.getCustomerCouponsByMaxPrice(customerId,maxPrice),HttpStatus.OK);
     }
+
     @GetMapping("/getCustomerDetails/?")//:todo check this Get
     public ResponseEntity<?>getCustomerDetails(@RequestBody Customer customer){
         return new ResponseEntity<>(customerService.getCustomerDetails(customer.getId()),HttpStatus.OK);

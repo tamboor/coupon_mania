@@ -26,14 +26,14 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public void addCoupon(Coupon coupon) {
-        if (!couponRepo.existsByCompanyAndTitle(coupon.getCompany(), coupon.getTitle())) {
-            couponRepo.save(coupon);
-        } else {
+        if (couponRepo.existsByCompanyAndTitle(coupon.getCompany(), coupon.getTitle())) {
             //todo: throw add custom  exp
         }
+        couponRepo.save(coupon);
     }
 
     //todo: check if company verification can be implemented in REST
+    //todo: change to custom exception
     @Override
     public void updateCoupon(Coupon coupon) throws Exception {
         if (couponRepo.getById(coupon.getId()).getCompany() != coupon.getCompany()) {
@@ -61,24 +61,24 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Set<Coupon> getCompanyCouponsByCategory(int companyId,Category category) {
-        if(!companyRepo.existsById(companyId)){
+    public Set<Coupon> getCompanyCouponsByCategory(int companyId, Category category) {
+        if (!companyRepo.existsById(companyId)) {
             //todo: throw exp id is not exist
         }
-        return couponRepo.findByCompanyAndCategory(companyRepo.getById(companyId),category);
+        return couponRepo.findByCompanyAndCategory(companyRepo.getById(companyId), category);
     }
 
     @Override
-    public Set<Coupon> getCompanyCouponsByMaxPrice(int companyId,double maxPrice) {
-        if(!companyRepo.existsById(companyId) || maxPrice<= 0){
+    public Set<Coupon> getCompanyCouponsByMaxPrice(int companyId, double maxPrice) {
+        if (!companyRepo.existsById(companyId) || maxPrice <= 0) {
             //todo: throw exp id is not exist
         }
-        return couponRepo.findByCompanyAndPrice(companyRepo.getById(companyId),maxPrice);
+        return couponRepo.findByCompanyAndPrice(companyRepo.getById(companyId), maxPrice);
     }
 
     @Override
     public Company getCompanyDetails(int companyId) {
-        if (!companyRepo.existsById(companyId)){
+        if (!companyRepo.existsById(companyId)) {
             //todo: throw custom exeption
         }
         return companyRepo.getById(companyId);
