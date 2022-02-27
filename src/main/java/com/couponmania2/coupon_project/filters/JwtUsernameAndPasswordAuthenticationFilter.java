@@ -21,7 +21,6 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-//        return super.attemptAuthentication(request, response);
         try{
             UserDetails userDetails = new ObjectMapper().readValue(request.getInputStream() , UserDetails.class);
             Authentication authentication = new UsernamePasswordAuthenticationToken(
@@ -36,6 +35,8 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
         catch (IOException e) {
             //todo: change from printstacktrace
             e.printStackTrace();
+            //todo: read about throw new runtime exception
+            throw new RuntimeException(e);
         }
 
     }
