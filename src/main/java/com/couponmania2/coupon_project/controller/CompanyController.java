@@ -17,7 +17,7 @@ public class CompanyController extends ClientController{
 
     private final CompanyServiceImpl companyService;
     //temp
-    private final int companyId;
+//    private final int companyId;
 
     @Override
     public boolean login(String email, String password) {
@@ -36,31 +36,31 @@ public class CompanyController extends ClientController{
         companyService.updateCoupon(coupon);
     }
 
-    @DeleteMapping("/deleteCoupon")
-    @ResponseStatus(HttpStatus.OK)
-    private void deleteCoupon (@PathVariable int couponId){
-        companyService.deleteCoupon(couponId);
-    }
+//    @DeleteMapping("/deleteCoupon/{couponId}")
+//    @ResponseStatus(HttpStatus.OK)
+//    private void deleteCoupon (@PathVariable int couponId){
+//        companyService.deleteCoupon(couponId);
+//    }
 
-    @GetMapping("/getCompanyCoupons")
-    private ResponseEntity<?> getAllCoupons (){
-        return new ResponseEntity<>(companyService.getAllCompanyCoupons(companyId),HttpStatus.OK);
-    }
-
-    @GetMapping("/getCompanyCoupons/category")
-    private ResponseEntity<?> getCouponsByCategory (@PathVariable Category category){
-        return new ResponseEntity<>(companyService.getCompanyCouponsByCategory(companyId, category),HttpStatus.OK);
-    }
-
-    @GetMapping("/getCompanyCoupons/maxPrice")
-    private ResponseEntity<?> getCouponsByMaxPrice (@PathVariable double maxPrice){
-        return new ResponseEntity<>(companyService.getCompanyCouponsByMaxPrice(companyId, maxPrice),HttpStatus.OK);
-    }
-
-    @GetMapping("/getCompanyDetails")
-    private ResponseEntity<?> getCompanyDetails (){
-        return new ResponseEntity<>(companyService.getCompanyDetails(companyId),HttpStatus.OK);
-    }
+//    @GetMapping("/getCompanyCoupons")
+//    private ResponseEntity<?> getAllCoupons (){
+//        return new ResponseEntity<>(companyService.getAllCompanyCoupons(companyId),HttpStatus.OK);
+//    }
+//
+//    @GetMapping("/getCompanyCoupons/category")
+//    private ResponseEntity<?> getCouponsByCategory (@PathVariable Category category){
+//        return new ResponseEntity<>(companyService.getCompanyCouponsByCategory(companyId, category),HttpStatus.OK);
+//    }
+//
+//    @GetMapping("/getCompanyCoupons/maxPrice")
+//    private ResponseEntity<?> getCouponsByMaxPrice (@PathVariable double maxPrice){
+//        return new ResponseEntity<>(companyService.getCompanyCouponsByMaxPrice(companyId, maxPrice),HttpStatus.OK);
+//    }
+//
+//    @GetMapping("/getCompanyDetails")
+//    private ResponseEntity<?> getCompanyDetails (){
+//        return new ResponseEntity<>(companyService.getCompanyDetails(companyId),HttpStatus.OK);
+//    }
 
 
 

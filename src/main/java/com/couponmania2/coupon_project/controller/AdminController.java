@@ -14,9 +14,15 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("admin")
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class AdminController extends ClientController {
     private final AdminServiceImpl adminService;
+
+    AdminController(AdminServiceImpl adminService){
+        this.adminService = adminService;
+        getAllCustomer();
+
+    }
 
 
     @Override
@@ -76,9 +82,12 @@ public class AdminController extends ClientController {
         return new ResponseEntity<>(adminService.getAllCustomers(), HttpStatus.OK);
     }
 
-    @GetMapping("/getOneCustomer/{customerId}")
+    @GetMapping("getOneCustomer/{customerId}")
     public ResponseEntity<?> getOneCustomer(@PathVariable int customerId) throws AppTargetNotFoundException {
         return new ResponseEntity<>(adminService.getOneCustomer(customerId), HttpStatus.OK);
+//        return ResponseEntity.status(HttpStatus.OK).body(adminService.getOneCustomer(customerId));
+//        return new ResponseEntity<Customer>(HttpStatus.);
+
     }
 
 }

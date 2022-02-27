@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.*;
 //todo: add jwt and update methods accordingly.
 public class CustomerController extends ClientController{
     private final CustomerServiceImpl customerService;
-    private final int customerId;
+//    private final int customerId;
     //todo: check what to do about customer id
-    @Autowired
-    UserDetails userCustomerDetails;
+//    @Autowired
+//    UserDetails userCustomerDetails;
 
 
     @Override
@@ -35,21 +35,21 @@ public class CustomerController extends ClientController{
     public void purchaseCoupon(@RequestBody Coupon coupon){
       //  customerService.purchaseCoupon(customerService.getCustomerDetails(userCustomerDetails.getId()),coupon.getId());
     }
-
-    @GetMapping("/getCustomerCoupons")
-    public ResponseEntity<?> getCustomerCoupons(){
-      return new ResponseEntity<>(customerService.getCustomerCoupons(customerId),HttpStatus.OK)  ;
-    }
-
-    @GetMapping("/getCustomerCoupons/category")
-    public ResponseEntity<?> getCustomerCouponsByCategory(@RequestBody Category category){
-        return new ResponseEntity<>(customerService.getCustomerCouponsByCategory(customerId,category),HttpStatus.OK);
-    }
-
-    @GetMapping("/getCustomerCoupons/maxPrice")
-    public ResponseEntity<?> getCustomerCouponsByMaxPrice(@PathVariable double maxPrice){
-        return new ResponseEntity<>(customerService.getCustomerCouponsByMaxPrice(customerId,maxPrice),HttpStatus.OK);
-    }
+//
+//    @GetMapping("/getCustomerCoupons")
+//    public ResponseEntity<?> getCustomerCoupons(){
+//      return new ResponseEntity<>(customerService.getCustomerCoupons(customerId),HttpStatus.OK)  ;
+//    }
+//
+//    @GetMapping("/getCustomerCoupons/category")
+//    public ResponseEntity<?> getCustomerCouponsByCategory(@RequestBody Category category){
+//        return new ResponseEntity<>(customerService.getCustomerCouponsByCategory(customerId,category),HttpStatus.OK);
+//    }
+//
+//    @GetMapping("/getCustomerCoupons/maxPrice")
+//    public ResponseEntity<?> getCustomerCouponsByMaxPrice(@PathVariable double maxPrice){
+//        return new ResponseEntity<>(customerService.getCustomerCouponsByMaxPrice(customerId,maxPrice),HttpStatus.OK);
+//    }
 
     @GetMapping("/getCustomerDetails/?")//:todo check this Get
     public ResponseEntity<?>getCustomerDetails(@RequestBody Customer customer){

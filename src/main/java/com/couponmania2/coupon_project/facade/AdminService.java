@@ -4,6 +4,7 @@ import com.couponmania2.coupon_project.beans.Company;
 import com.couponmania2.coupon_project.beans.Customer;
 import com.couponmania2.coupon_project.exceptions.AppTargetNotFoundException;
 
+import java.util.Optional;
 import java.util.Set;
 
 public interface    AdminService {
@@ -16,5 +17,5 @@ public interface    AdminService {
     Set<Company> getAllComapnies();
     Set<Customer> getAllCustomers();
     Company getOneCompany(int companyID) throws AppTargetNotFoundException;
-    Customer getOneCustomer(int customerID) throws AppTargetNotFoundException;
+    Optional<Customer> getOneCustomer(int customerID) throws AppTargetNotFoundException;
 }
