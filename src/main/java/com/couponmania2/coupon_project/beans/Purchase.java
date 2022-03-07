@@ -11,7 +11,7 @@ public class Purchase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
-    private int id;
+    private long id;
 //
     @ManyToOne
     private Customer customer;

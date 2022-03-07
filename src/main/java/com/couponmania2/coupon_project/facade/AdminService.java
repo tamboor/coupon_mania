@@ -12,10 +12,10 @@ public interface    AdminService {
     void addCustomer(Customer customer) throws Exception;
     void updateCompany(Company company) throws AppTargetNotFoundException;
     void updateCustomer(Customer customer) throws AppTargetNotFoundException;
-    void deleteCompany(int companyID) throws AppTargetNotFoundException;
-    void deleteCustomer(int customerID) throws AppTargetNotFoundException;
+    void deleteCompany(long companyID) throws AppTargetNotFoundException;
+    void deleteCustomer(long customerID) throws AppTargetNotFoundException;
     Set<Company> getAllComapnies();
     Set<Customer> getAllCustomers();
-    Company getOneCompany(int companyID) throws AppTargetNotFoundException;
-    Optional<Customer> getOneCustomer(int customerID) throws AppTargetNotFoundException;
+    Company getOneCompany(long companyID) throws AppTargetNotFoundException;
+    Optional<Customer> getOneCustomer(long customerID) throws AppTargetNotFoundException;
 }

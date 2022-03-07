@@ -38,7 +38,7 @@ public class CompanyController extends ClientController{
 
 //    @DeleteMapping("/deleteCoupon/{couponId}")
 //    @ResponseStatus(HttpStatus.OK)
-//    private void deleteCoupon (@PathVariable int couponId){
+//    private void deleteCoupon (@PathVariable long couponId){
 //        companyService.deleteCoupon(couponId);
 //    }
 

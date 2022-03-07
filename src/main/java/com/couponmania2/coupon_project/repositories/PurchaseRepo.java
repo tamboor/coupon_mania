@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Set;
 
-public interface PurchaseRepo extends JpaRepository<Purchase , Integer> {
+public interface PurchaseRepo extends JpaRepository<Purchase , Long> {
     Purchase findByCustomerAndCoupon (Customer customer , Coupon coupon);
 
     @Query("SELECT p.coupon FROM Purchase p WHERE p.customer = :customer")

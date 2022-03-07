@@ -37,7 +37,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void purchaseCoupon(int couponId, int customerId) {
+    public void purchaseCoupon(long couponId, long customerId) {
         if (purchaseRepo.findByCustomerAndCoupon(customerRepo.getById(customerId), couponRepo.getById(couponId)) != null) {
             //todo: add custom exception.
         }
@@ -45,7 +45,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Set<Coupon> getCustomerCoupons(int customerId) {
+    public Set<Coupon> getCustomerCoupons(long customerId) {
         if (customerRepo.findById(customerId).isEmpty()) {
             //todo: add custom exception if customer doesn't exist.
         }
@@ -53,7 +53,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Set<Coupon> getCustomerCouponsByCategory(int customerId, Category category) {
+    public Set<Coupon> getCustomerCouponsByCategory(long customerId, Category category) {
         if (!customerRepo.existsById(customerId)){
             //todo: add custom exception
         }
@@ -61,7 +61,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Set<Coupon> getCustomerCouponsByMaxPrice(int customerId, double maxPrice) {
+    public Set<Coupon> getCustomerCouponsByMaxPrice(long customerId, double maxPrice) {
         if (!customerRepo.existsById(customerId)){
             //todo: add custom exception
         }
@@ -72,7 +72,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer getCustomerDetails(int customerId) {
+    public Customer getCustomerDetails(long customerId) {
         if (customerRepo.findById(customerId).isEmpty()) {
             //todo: add custom exception if customer doesn't exist.
         }
