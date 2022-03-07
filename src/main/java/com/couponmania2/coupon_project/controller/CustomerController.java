@@ -1,9 +1,11 @@
 package com.couponmania2.coupon_project.controller;
 
+import com.couponmania2.coupon_project.auth.ClientType;
 import com.couponmania2.coupon_project.auth.UserDetails;
 import com.couponmania2.coupon_project.beans.Category;
 import com.couponmania2.coupon_project.beans.Coupon;
 import com.couponmania2.coupon_project.beans.Customer;
+import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestException;
 import com.couponmania2.coupon_project.facade.AdminServiceImpl;
 import com.couponmania2.coupon_project.facade.CustomerServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 
 //todo: add jwt and update methods accordingly.
-public class CustomerController extends ClientController{
+public class CustomerController extends ClientController {
     private final CustomerServiceImpl customerService;
 //    private final int customerId;
     //todo: check what to do about customer id
@@ -25,16 +27,21 @@ public class CustomerController extends ClientController{
 //    UserDetails userCustomerDetails;
 
 
+    //    @Override
+//    public ResponseEntity<?> login(@RequestBody UserDetails userDetails) {
+//        return null;
+//    }
     @Override
-    public ResponseEntity<?> login(@RequestBody UserDetails userDetails) {
+    public ResponseEntity<?> login(@RequestParam String userName, @RequestParam String userPass, @RequestParam ClientType clientType)
+            throws AppUnauthorizedRequestException {
         return null;
     }
 
 
     @PostMapping("/newPurchase")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void purchaseCoupon(@RequestBody Coupon coupon){
-      //  customerService.purchaseCoupon(customerService.getCustomerDetails(userCustomerDetails.getId()),coupon.getId());
+    public void purchaseCoupon(@RequestBody Coupon coupon) {
+        //  customerService.purchaseCoupon(customerService.getCustomerDetails(userCustomerDetails.getId()),coupon.getId());
     }
 //
 //    @GetMapping("/getCustomerCoupons")
@@ -53,8 +60,8 @@ public class CustomerController extends ClientController{
 //    }
 
     @GetMapping("/getCustomerDetails/?")//:todo check this Get
-    public ResponseEntity<?>getCustomerDetails(@RequestBody Customer customer){
-        return new ResponseEntity<>(customerService.getCustomerDetails(customer.getId()),HttpStatus.OK);
+    public ResponseEntity<?> getCustomerDetails(@RequestBody Customer customer) {
+        return new ResponseEntity<>(customerService.getCustomerDetails(customer.getId()), HttpStatus.OK);
     }
 
 

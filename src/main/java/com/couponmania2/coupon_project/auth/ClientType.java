@@ -11,7 +11,7 @@ public enum ClientType {
         this.name = name;
     }
 
-    String getName(){
+    public String getName(){
         return this.name;
     }
 }

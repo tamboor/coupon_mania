@@ -1,8 +1,10 @@
 package com.couponmania2.coupon_project.controller;
 
+import com.couponmania2.coupon_project.auth.ClientType;
 import com.couponmania2.coupon_project.auth.UserDetails;
 import com.couponmania2.coupon_project.beans.Category;
 import com.couponmania2.coupon_project.beans.Coupon;
+import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestException;
 import com.couponmania2.coupon_project.facade.CompanyServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,27 +16,32 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 
 //todo: add jwt and update methods accordingly.
-public class CompanyController extends ClientController{
+public class CompanyController extends ClientController {
 
     private final CompanyServiceImpl companyService;
     //temp
 //    private final int companyId;
 
+    //    @Override
+//    public ResponseEntity<?> login(@RequestBody UserDetails userDetails) {
+//        return null;
+//    }
     @Override
-    public ResponseEntity<?> login(@RequestBody UserDetails userDetails) {
+    public ResponseEntity<?> login(@RequestParam String userName, @RequestParam String userPass, @RequestParam ClientType clientType)
+            throws AppUnauthorizedRequestException {
         return null;
     }
 
 
     @PostMapping("/addCoupon")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addCoupon (@RequestBody Coupon coupon){
+    public void addCoupon(@RequestBody Coupon coupon) {
         companyService.addCoupon(coupon);
     }
 
     @PutMapping("/updateCoupon")
     @ResponseStatus(HttpStatus.OK)
-    private void updateCoupon (@RequestBody Coupon coupon) throws Exception {
+    private void updateCoupon(@RequestBody Coupon coupon) throws Exception {
         companyService.updateCoupon(coupon);
     }
 
@@ -64,7 +71,6 @@ public class CompanyController extends ClientController{
 //    private ResponseEntity<?> getCompanyDetails (){
 //        return new ResponseEntity<>(companyService.getCompanyDetails(companyId),HttpStatus.OK);
 //    }
-
 
 
 }

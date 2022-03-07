@@ -16,6 +16,10 @@ import java.util.Date;
 @Service
 public class JwtUtils {
 
+    private final String idClaimKey = "id";
+    private final String roleClaimKey = "role";
+
+
     public String generateToken(UserDetails userDetails) {
         //TODO: create jwt key
         try {
@@ -25,9 +29,9 @@ public class JwtUtils {
                     .withSubject(userDetails.getUserName())
                     //todo: create dateUtils
                     .withIssuedAt(java.sql.Date.valueOf(LocalDate.now()))
-                    .withExpiresAt(Date.from(Instant.now().plusSeconds(5)))
-                    .withClaim("id", userDetails.getId())
-                    .withClaim("role", userDetails.getClientType().getName())
+                    .withExpiresAt(Date.from(Instant.now().plusSeconds(60*30)))
+                    .withClaim(idClaimKey, userDetails.getId())
+                    .withClaim(roleClaimKey, userDetails.getRole())
 //                    .withClaim("authorities" ,
 //                            authResult.getAuthorities()
 //                                    .stream().map(auth -> new SimpleGrantedAuthority(auth.getAuthority()))
@@ -44,13 +48,19 @@ public class JwtUtils {
         return null;
     }
 
-    public void validateToken(String token) throws AppUnauthorizedRequestException {
+    public UserDetails validateToken(String token) throws AppUnauthorizedRequestException {
         try{
             DecodedJWT jwt = JWT.decode(token);
             JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256("alon_nir_ran_the_kings_of_the_valley".getBytes()))
                //     .acceptExpiresAt(1)
                     .build();
             DecodedJWT decodedJWT = jwtVerifier.verify(jwt.getToken());
+            UserDetails user = new UserDetails();
+            user.setUserName(decodedJWT.getSubject());
+            user.setId(decodedJWT.getClaim(idClaimKey).asLong());
+            user.setRole(decodedJWT.getClaim(roleClaimKey).asString());
+//            switch ()
+            return user;
         } catch (TokenExpiredException err){
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.LOGIN_EXPIRED.getMessage());
 
