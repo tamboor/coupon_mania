@@ -1,8 +1,11 @@
 package com.couponmania2.coupon_project.controller;
 
+import com.couponmania2.coupon_project.auth.JwtUtils;
+import com.couponmania2.coupon_project.auth.UserDetails;
 import com.couponmania2.coupon_project.beans.Company;
 import com.couponmania2.coupon_project.beans.Customer;
 import com.couponmania2.coupon_project.exceptions.AppTargetNotFoundException;
+import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestException;
 import com.couponmania2.coupon_project.facade.AdminServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,26 +17,23 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("admin")
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 public class AdminController extends ClientController {
     private final AdminServiceImpl adminService;
-
-    AdminController(AdminServiceImpl adminService){
-        this.adminService = adminService;
-        getAllCustomer();
-
-    }
-
+    private final JwtUtils jwtUtils;
 
     @Override
-    public boolean login(String email, String password) {
-        return false;
+    @PostMapping("login")
+    public ResponseEntity<?> login(@RequestBody UserDetails userDetails) throws AppUnauthorizedRequestException {
+        userDetails.setId(adminService.checkCredentials(userDetails.getUserName(), userDetails.getUserPass()));
+        return new ResponseEntity<>(jwtUtils.generateToken(userDetails), HttpStatus.OK);
     }
 
     @PostMapping("/addCompany")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addCompany(@RequestBody Company company) throws Exception {
-        adminService.addCompany(company);
+    public void addCompany(@RequestHeader(name = "Authorization") String token, @RequestBody Company company) throws Exception {
+       jwtUtils.validateToken(token);
+       adminService.addCompany(company);
     }
 
     @PutMapping("/updateCompany")
@@ -50,7 +50,8 @@ public class AdminController extends ClientController {
 
     //todo: nir needs to read about response entity
     @GetMapping("/getAllCompanies")
-    public ResponseEntity<?> getAllCompanies() {
+    public ResponseEntity<?> getAllCompanies(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException {
+        jwtUtils.validateToken(token);
         return new ResponseEntity<>(adminService.getAllComapnies(), HttpStatus.OK);
     }
 
@@ -89,5 +90,6 @@ public class AdminController extends ClientController {
 //        return new ResponseEntity<Customer>(HttpStatus.);
 
     }
+
 
 }

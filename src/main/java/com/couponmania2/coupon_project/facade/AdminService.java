@@ -1,5 +1,6 @@
 package com.couponmania2.coupon_project.facade;
 
+import com.couponmania2.coupon_project.auth.ClientType;
 import com.couponmania2.coupon_project.beans.Company;
 import com.couponmania2.coupon_project.beans.Customer;
 import com.couponmania2.coupon_project.exceptions.AppTargetNotFoundException;

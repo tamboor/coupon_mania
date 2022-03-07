@@ -124,10 +124,7 @@ companyRepo.deleteById(1L);
 
 //        System.out.println(companyRepo.findById(10));
 //        System.out.println(couponRepo.existsByCompanyAndTitle(companyRepo.getById(4),"coupon4"));
-        System.out.println(companyRepo.findByEmailAndPassword("asda" , "1"));
 
-
-        System.out.println(adminService.getOneCustomer(1));
 
 
 

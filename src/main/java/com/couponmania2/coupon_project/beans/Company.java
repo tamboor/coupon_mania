@@ -1,5 +1,6 @@
 package com.couponmania2.coupon_project.beans;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -32,6 +33,7 @@ public class Company {
     @Column(nullable = false , length = 30)
     private String password;
 
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY , mappedBy = "company" , orphanRemoval = true)
     private Set<Coupon> coupons = new HashSet<>();
 

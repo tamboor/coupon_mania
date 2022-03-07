@@ -1,5 +1,6 @@
 package com.couponmania2.coupon_project.beans;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -13,9 +14,11 @@ public class Purchase {
     @Column(name = "id", nullable = false, updatable = false)
     private long id;
 //
+    @JsonBackReference
     @ManyToOne
     private Customer customer;
 
+    @JsonBackReference
     @ManyToOne
     private Coupon coupon;
 

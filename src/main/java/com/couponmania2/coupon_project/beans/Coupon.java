@@ -1,5 +1,7 @@
 package com.couponmania2.coupon_project.beans;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +22,7 @@ public class Coupon {
     @Column(updatable = false)
     private long id;
 
+    @JsonBackReference
     @ManyToOne
     private Company company;
 
@@ -52,6 +55,7 @@ public class Coupon {
     @Column
     private String image;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "coupon", orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Set<Purchase> purchases = new HashSet<>();
 

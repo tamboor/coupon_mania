@@ -1,5 +1,6 @@
 package com.couponmania2.coupon_project.controller;
 
+import com.couponmania2.coupon_project.auth.UserDetails;
 import com.couponmania2.coupon_project.beans.Category;
 import com.couponmania2.coupon_project.beans.Coupon;
 import com.couponmania2.coupon_project.facade.CompanyServiceImpl;
@@ -20,9 +21,10 @@ public class CompanyController extends ClientController{
 //    private final int companyId;
 
     @Override
-    public boolean login(String email, String password) {
-        return false;
+    public ResponseEntity<?> login(@RequestBody UserDetails userDetails) {
+        return null;
     }
+
 
     @PostMapping("/addCoupon")
     @ResponseStatus(HttpStatus.CREATED)
@@ -35,6 +37,7 @@ public class CompanyController extends ClientController{
     private void updateCoupon (@RequestBody Coupon coupon) throws Exception {
         companyService.updateCoupon(coupon);
     }
+
 
 //    @DeleteMapping("/deleteCoupon/{couponId}")
 //    @ResponseStatus(HttpStatus.OK)

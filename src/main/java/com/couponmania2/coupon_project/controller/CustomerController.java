@@ -26,9 +26,10 @@ public class CustomerController extends ClientController{
 
 
     @Override
-    public boolean login(String email, String password) {
-        return false;
+    public ResponseEntity<?> login(@RequestBody UserDetails userDetails) {
+        return null;
     }
+
 
     @PostMapping("/newPurchase")
     @ResponseStatus(HttpStatus.ACCEPTED)

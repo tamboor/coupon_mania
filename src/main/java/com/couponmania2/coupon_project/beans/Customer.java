@@ -1,5 +1,6 @@
 package com.couponmania2.coupon_project.beans;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.batch.BatchDataSource;
@@ -15,6 +16,7 @@ import java.util.Set;
 //@NoArgsConstructor
 @Entity
 @Table(name= "customers")
+
 public class Customer {
     public long getId() {
         return id;
@@ -33,6 +35,7 @@ public class Customer {
     @Column(nullable = false,length = 40)
     private String password;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "customer",orphanRemoval = true , cascade = CascadeType.PERSIST , fetch = FetchType.LAZY)
     Set<Purchase> purchases = new HashSet<>();
 

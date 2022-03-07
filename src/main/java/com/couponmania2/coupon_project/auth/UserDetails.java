@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class UserDetails {
-    private int id;
+    private long id = -1;
     private String userName;
     private String userPass;
     private ClientType clientType;
