@@ -94,10 +94,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Optional<Customer> getOneCustomer(int customerID) throws AppTargetNotFoundException {
-        Optional<Customer> customerOptional = customerRepo.findById(customerID);
-        if (customerOptional.isEmpty()) {
+        if (customerRepo.findById(customerID).isEmpty()) {
             throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
         }
-        return customerOptional;
+        return customerRepo.findById(customerID);
     }
 }

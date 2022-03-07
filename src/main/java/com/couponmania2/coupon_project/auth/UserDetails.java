@@ -11,4 +11,5 @@ public class UserDetails {
     private int id;
     private String userName;
     private String userPass;
+    private ClientType clientType;
 }

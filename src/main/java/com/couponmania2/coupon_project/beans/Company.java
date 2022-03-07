@@ -32,7 +32,7 @@ public class Company {
     @Column(nullable = false , length = 30)
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY , mappedBy = "company" , orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY , mappedBy = "company" , orphanRemoval = true)
     private Set<Coupon> coupons = new HashSet<>();
 
     protected Company() {
