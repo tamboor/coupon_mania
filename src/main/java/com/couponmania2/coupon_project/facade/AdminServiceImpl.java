@@ -17,9 +17,8 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
 
-    CompanyRepo companyRepo;
-    @Autowired
-    CustomerRepo customerRepo;
+    private final CompanyRepo companyRepo;
+    private final CustomerRepo customerRepo;
     private final String ADMIN_EMAIL = "admin@admin.com";
     private final String AMDIN_PASSWORD = "admin";
 
