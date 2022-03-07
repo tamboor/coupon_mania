@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestException;
 import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestMessage;
@@ -24,7 +25,7 @@ public class JwtUtils {
                     .withSubject(userDetails.getUserName())
                     //todo: create dateUtils
                     .withIssuedAt(java.sql.Date.valueOf(LocalDate.now()))
-                    .withExpiresAt(Date.from(Instant.now().plusSeconds(60 * 30)))
+                    .withExpiresAt(Date.from(Instant.now().plusSeconds(5)))
                     .withClaim("id", userDetails.getId())
                     .withClaim("role", userDetails.getClientType().getName())
 //                    .withClaim("authorities" ,
@@ -47,9 +48,12 @@ public class JwtUtils {
         try{
             DecodedJWT jwt = JWT.decode(token);
             JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256("alon_nir_ran_the_kings_of_the_valley".getBytes()))
-                    .acceptExpiresAt(60*30)
+               //     .acceptExpiresAt(1)
                     .build();
             DecodedJWT decodedJWT = jwtVerifier.verify(jwt.getToken());
+        } catch (TokenExpiredException err){
+            throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.LOGIN_EXPIRED.getMessage());
+
         }
         catch (Exception err){
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.NO_LOGIN.getMessage());
