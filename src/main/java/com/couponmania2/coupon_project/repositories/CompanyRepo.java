@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
-public interface CompanyRepo extends JpaRepository <Company , Integer> {
+public interface CompanyRepo extends JpaRepository <Company , Long> {
     Company findByEmailAndPassword(String email , String password);
     boolean existsByEmailOrName(String email, String name);
-    boolean existsByIdAndName(Integer id , String name);
+    boolean existsByIdAndName(long id , String name);
 }

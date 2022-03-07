@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Set;
 
-public interface CouponRepo extends JpaRepository<Coupon,Integer> {
+public interface CouponRepo extends JpaRepository<Coupon,Long> {
  boolean existsByCompanyAndTitle(Company company,String title);
  Set<Coupon> findByCompany (Company company);
  Set<Coupon>findByCompanyAndCategory(Company company,Category category);

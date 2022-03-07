@@ -16,14 +16,14 @@ import java.util.Set;
 @Entity
 @Table(name= "customers")
 public class Customer {
-    public int getId() {
+    public long getId() {
         return id;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false)
-    private int id;
+    private long id;
     @Column(nullable = false,length = 40)
     private String firstName;
     @Column(nullable = false,length = 40)

@@ -44,7 +44,7 @@ public class AdminController extends ClientController {
 
     @DeleteMapping("/deleteCompany/{companyId}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteCompany(@PathVariable int companyId) throws AppTargetNotFoundException {
+    public void deleteCompany(@PathVariable long companyId) throws AppTargetNotFoundException {
         adminService.deleteCompany(companyId);
     }
 
@@ -55,7 +55,7 @@ public class AdminController extends ClientController {
     }
 
     @GetMapping("/getOneCompany/{companyId}")
-    public ResponseEntity<?> getOneCompany(@PathVariable int companyId) throws AppTargetNotFoundException {
+    public ResponseEntity<?> getOneCompany(@PathVariable long companyId) throws AppTargetNotFoundException {
         return new ResponseEntity<>(adminService.getOneCompany(companyId), HttpStatus.OK);
     }
 
@@ -73,7 +73,7 @@ public class AdminController extends ClientController {
 
     @DeleteMapping("/deleteCustomer/{customerId}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteCustomer(int customerId) throws AppTargetNotFoundException {
+    public void deleteCustomer(long customerId) throws AppTargetNotFoundException {
         adminService.deleteCustomer(customerId);
     }
 
@@ -83,7 +83,7 @@ public class AdminController extends ClientController {
     }
 
     @GetMapping("getOneCustomer/{customerId}")
-    public ResponseEntity<?> getOneCustomer(@PathVariable int customerId) throws AppTargetNotFoundException {
+    public ResponseEntity<?> getOneCustomer(@PathVariable long customerId) throws AppTargetNotFoundException {
         return new ResponseEntity<>(adminService.getOneCustomer(customerId), HttpStatus.OK);
 //        return ResponseEntity.status(HttpStatus.OK).body(adminService.getOneCustomer(customerId));
 //        return new ResponseEntity<Customer>(HttpStatus.);

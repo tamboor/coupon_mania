@@ -43,7 +43,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public void deleteCoupon(int couponId) {
+    public void deleteCoupon(long couponId) {
         if (!couponRepo.existsById(couponId)) {
             //:todo throw exp coupon exist
         }
@@ -53,7 +53,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Set<Coupon> getAllCompanyCoupons(int companyId) {
+    public Set<Coupon> getAllCompanyCoupons(long companyId) {
         if (!companyRepo.existsById(companyId)) {
             //todo: throw custom exception
         }
@@ -61,7 +61,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Set<Coupon> getCompanyCouponsByCategory(int companyId, Category category) {
+    public Set<Coupon> getCompanyCouponsByCategory(long companyId, Category category) {
         if (!companyRepo.existsById(companyId)) {
             //todo: throw exp id is not exist
         }
@@ -69,7 +69,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Set<Coupon> getCompanyCouponsByMaxPrice(int companyId, double maxPrice) {
+    public Set<Coupon> getCompanyCouponsByMaxPrice(long companyId, double maxPrice) {
         if (!companyRepo.existsById(companyId) || maxPrice <= 0) {
             //todo: throw exp id is not exist
         }
@@ -77,7 +77,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Company getCompanyDetails(int companyId) {
+    public Company getCompanyDetails(long companyId) {
         if (!companyRepo.existsById(companyId)) {
             //todo: throw custom exeption
         }

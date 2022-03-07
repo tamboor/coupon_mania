@@ -48,25 +48,25 @@ public class TestMockData implements CommandLineRunner {
         companyRepo.save(new Company("company5" , "email5" , "password5"));
 
 
-        couponRepo.save(new Coupon(companyRepo.getById(1),Category.Cars , "coupon1",
+        couponRepo.save(new Coupon(companyRepo.getById(1L),Category.Cars , "coupon1",
                 "coupon1desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
                 10 , 10 ,"img"));
-        couponRepo.save(new Coupon(companyRepo.getById(1),Category.Tattoos , "coupon2",
+        couponRepo.save(new Coupon(companyRepo.getById(1L),Category.Tattoos , "coupon2",
                 "coupon2desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
                 10 , 15 ,"img"));
-        couponRepo.save(new Coupon(companyRepo.getById(1),Category.Food , "coupon3",
+        couponRepo.save(new Coupon(companyRepo.getById(1L),Category.Food , "coupon3",
                 "coupon3desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
                 10 , 20 ,"img"));
-        couponRepo.save(new Coupon(companyRepo.getById(2),Category.Xtreme , "coupon4",
+        couponRepo.save(new Coupon(companyRepo.getById(2L),Category.Xtreme , "coupon4",
                 "coupon4desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
                 10 , 25 ,"img"));
-        couponRepo.save(new Coupon(companyRepo.getById(2),Category.Vacation , "coupon5",
+        couponRepo.save(new Coupon(companyRepo.getById(2L),Category.Vacation , "coupon5",
                 "coupon5desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
                 10 , 30 ,"img"));
-        couponRepo.save(new Coupon(companyRepo.getById(3),Category.Food , "coupon6",
+        couponRepo.save(new Coupon(companyRepo.getById(3L),Category.Food , "coupon6",
                 "coupon6desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
                 10 , 45 ,"img"));
-        couponRepo.save(new Coupon(companyRepo.getById(3),Category.Vacation , "coupon7",
+        couponRepo.save(new Coupon(companyRepo.getById(3L),Category.Vacation , "coupon7",
                 "coupon7desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
                 10 , 50 ,"img"));
 
@@ -76,12 +76,12 @@ public class TestMockData implements CommandLineRunner {
         customerRepo.save(new Customer("ran" , "manor" , "mail3" , "pass"));
 
 
-        purchaseRepo.save(new Purchase(customerRepo.getById(1) , couponRepo.getById(3)));
-        purchaseRepo.save(new Purchase(customerRepo.getById(1) , couponRepo.getById(4)));
-        purchaseRepo.save(new Purchase(customerRepo.getById(2) , couponRepo.getById(5)));
-        purchaseRepo.save(new Purchase(customerRepo.getById(2) , couponRepo.getById(6)));
-        purchaseRepo.save(new Purchase(customerRepo.getById(3) , couponRepo.getById(3)));
-        purchaseRepo.save(new Purchase(customerRepo.getById(3) , couponRepo.getById(5)));
+        purchaseRepo.save(new Purchase(customerRepo.getById(1L) , couponRepo.getById(3L)));
+        purchaseRepo.save(new Purchase(customerRepo.getById(1L) , couponRepo.getById(4L)));
+        purchaseRepo.save(new Purchase(customerRepo.getById(2L) , couponRepo.getById(5L)));
+        purchaseRepo.save(new Purchase(customerRepo.getById(2L) , couponRepo.getById(6L)));
+        purchaseRepo.save(new Purchase(customerRepo.getById(3L) , couponRepo.getById(3L)));
+        purchaseRepo.save(new Purchase(customerRepo.getById(3L) , couponRepo.getById(5L)));
 //        customerRepo.deleteById(1);
 //        couponRepo.deleteById(5);
 //        companyRepo.deleteById(3);
@@ -108,7 +108,7 @@ public class TestMockData implements CommandLineRunner {
      //   customerFacade.getCustomerCoupons(1);
       //  System.out.println(purchaseRepo.getCouponsOfCustomerByMaxPrice(customerRepo.getById(3),21));
 
-companyRepo.deleteById(1);
+companyRepo.deleteById(1L);
 
 
 //        System.out.println(companyRepo.existsByEmailOrName("asdasd" , "company10"));

@@ -11,9 +11,9 @@ import java.util.Set;
 public interface CustomerService {
 
     void purchaseCoupon(Coupon coupon , Customer customer);
-    void purchaseCoupon(int couponId , int customerId) ;
-    Set<Coupon> getCustomerCoupons(int customerId);
-    Set<Coupon> getCustomerCouponsByCategory(int customerId, Category category);
-    Set<Coupon> getCustomerCouponsByMaxPrice(int customerId, double maxPrice);
-    Customer getCustomerDetails(int customerId);
+    void purchaseCoupon(long couponId , long customerId) ;
+    Set<Coupon> getCustomerCoupons(long customerId);
+    Set<Coupon> getCustomerCouponsByCategory(long customerId, Category category);
+    Set<Coupon> getCustomerCouponsByMaxPrice(long customerId, double maxPrice);
+    Customer getCustomerDetails(long customerId);
 }

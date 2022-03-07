@@ -18,7 +18,7 @@ public class Coupon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false)
-    private int id;
+    private long id;
 
     @ManyToOne
     private Company company;
@@ -82,11 +82,11 @@ public class Coupon {
         this.purchases = purchases;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    private void setId(int id) {
+    private void setId(long id) {
         this.id = id;
     }
 

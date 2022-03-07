@@ -67,7 +67,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void deleteCompany(int companyID) throws AppTargetNotFoundException {
+    public void deleteCompany(long companyID) throws AppTargetNotFoundException {
         if (!companyRepo.existsById(companyID)) {
             throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);
         }
@@ -75,7 +75,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void deleteCustomer(int customerID) throws AppTargetNotFoundException {
+    public void deleteCustomer(long customerID) throws AppTargetNotFoundException {
         if (!customerRepo.existsById(customerID)) {
             throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
         }
@@ -93,7 +93,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Company getOneCompany(int companyID) throws AppTargetNotFoundException {
+    public Company getOneCompany(long companyID) throws AppTargetNotFoundException {
         Optional<Company> companyOptional = companyRepo.findById(companyID);
         if (companyOptional.isEmpty()) {
             throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);
@@ -102,7 +102,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Optional<Customer> getOneCustomer(int customerID) throws AppTargetNotFoundException {
+    public Optional<Customer> getOneCustomer(long customerID) throws AppTargetNotFoundException {
         if (customerRepo.findById(customerID).isEmpty()) {
             throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
         }
