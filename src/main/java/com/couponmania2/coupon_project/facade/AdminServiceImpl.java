@@ -2,12 +2,10 @@ package com.couponmania2.coupon_project.facade;
 
 import com.couponmania2.coupon_project.beans.Company;
 import com.couponmania2.coupon_project.beans.Customer;
-import com.couponmania2.coupon_project.exceptions.AppTargetExistsException;
-import com.couponmania2.coupon_project.exceptions.AppTargetExistsMessage;
-import com.couponmania2.coupon_project.exceptions.AppTargetNotFoundException;
-import com.couponmania2.coupon_project.exceptions.AppTargetNotFoundMessage;
+import com.couponmania2.coupon_project.exceptions.*;
 import com.couponmania2.coupon_project.repositories.CompanyRepo;
 import com.couponmania2.coupon_project.repositories.CustomerRepo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +14,25 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
+@RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
-    @Autowired
+
     CompanyRepo companyRepo;
     @Autowired
     CustomerRepo customerRepo;
+    private final String ADMIN_EMAIL = "admin@admin.com";
+    private final String AMDIN_PASSWORD = "admin";
+
 
     //todo: check if update checks can be handled in restcontroller
+
+    @Override
+    public long checkCredentials(String email, String password) throws AppUnauthorizedRequestException {
+        if (!(email.equals(ADMIN_EMAIL) && password.equals(AMDIN_PASSWORD))) {
+            throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS.getMessage());
+        }
+        return 0;
+    }
 
     @Override
     public void addCompany(Company company) throws AppTargetExistsException {

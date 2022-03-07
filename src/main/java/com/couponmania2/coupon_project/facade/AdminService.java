@@ -3,11 +3,13 @@ package com.couponmania2.coupon_project.facade;
 import com.couponmania2.coupon_project.beans.Company;
 import com.couponmania2.coupon_project.beans.Customer;
 import com.couponmania2.coupon_project.exceptions.AppTargetNotFoundException;
+import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestException;
 
 import java.util.Optional;
 import java.util.Set;
 
 public interface    AdminService {
+    long checkCredentials(String email, String password) throws AppUnauthorizedRequestException;
     void addCompany (Company company) throws Exception;
     void addCustomer(Customer customer) throws Exception;
     void updateCompany(Company company) throws AppTargetNotFoundException;
