@@ -53,7 +53,9 @@ public ResponseEntity<?> login(@RequestParam String userName, @RequestParam Stri
     @ResponseStatus(HttpStatus.CREATED)
     public void addCompany(@RequestHeader(name = "Authorization") String token, @RequestBody Company company) throws Exception {
         UserDetails user = jwtUtils.validateToken(token);
-       adminService.addCompany(company);
+        if (user.getRole().equals(ClientType.Admin.getName())){
+            adminService.addCompany(company);
+        }
     }
 
     @PutMapping("/updateCompany")
