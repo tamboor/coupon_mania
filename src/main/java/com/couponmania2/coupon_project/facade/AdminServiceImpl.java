@@ -27,8 +27,8 @@ public class AdminServiceImpl implements AdminService {
     //todo: check if update checks can be handled in restcontroller
 
     @Override
-    public long checkCredentials(String email, String password) throws AppUnauthorizedRequestException {
-        if (!(email.equals(ADMIN_EMAIL) && password.equals(AMDIN_PASSWORD))) {
+    public long checkCredentials(String email, String password, ClientType clientType) throws AppUnauthorizedRequestException {
+        if (!(email.equals(ADMIN_EMAIL) && password.equals(AMDIN_PASSWORD) && clientType.equals(ClientType.Admin))) {
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS.getMessage());
         }
         return 0;
