@@ -39,9 +39,9 @@ public class CustomerController extends ClientController {
 
     @PostMapping("/newPurchase")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void purchaseCoupon(@RequestHeader(name = "Authorization") String token, @RequestBody Coupon coupon) throws AppUnauthorizedRequestException, AppTargetExistsException {
+    public void purchaseCoupon(@RequestHeader(name = "Authorization") String token, @RequestParam long couponId) throws AppUnauthorizedRequestException, AppTargetExistsException {
         long customerId = validate(token);
-        customerService.purchaseCoupon(customerId, coupon.getId());
+        customerService.purchaseCoupon(customerId, couponId);
     }
 
     //

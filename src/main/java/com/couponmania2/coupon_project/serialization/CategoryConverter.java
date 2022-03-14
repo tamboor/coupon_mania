@@ -1,4 +1,6 @@
-package com.couponmania2.coupon_project.beans;
+package com.couponmania2.coupon_project.serialization;
+
+import com.couponmania2.coupon_project.beans.Category;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

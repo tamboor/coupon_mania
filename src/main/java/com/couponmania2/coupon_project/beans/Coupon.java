@@ -1,8 +1,7 @@
 package com.couponmania2.coupon_project.beans;
 
-import com.couponmania2.coupon_project.serialization.CouponDeserializer;
+import com.couponmania2.coupon_project.serialization.CouponForm;
 import com.couponmania2.coupon_project.serialization.CouponSerializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.persistence.*;

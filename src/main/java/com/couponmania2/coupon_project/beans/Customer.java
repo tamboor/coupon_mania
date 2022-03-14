@@ -1,6 +1,7 @@
 package com.couponmania2.coupon_project.beans;
 
 import com.couponmania2.coupon_project.serialization.CouponSerializer;
+import com.couponmania2.coupon_project.serialization.CustomerForm;
 import com.couponmania2.coupon_project.serialization.CustomerSerializer;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -20,7 +21,6 @@ import java.util.Set;
 @Entity
 @Table(name= "customers")
 @JsonSerialize(using = CustomerSerializer.class)
-
 public class Customer {
 
     @Id
@@ -39,6 +39,14 @@ public class Customer {
     @JsonManagedReference
     @OneToMany(mappedBy = "customer",orphanRemoval = true , cascade = CascadeType.PERSIST , fetch = FetchType.LAZY)
     Set<Purchase> purchases = new HashSet<>();
+
+    public Customer(CustomerForm customerForm){
+        this(customerForm.getFirstName(),
+                customerForm.getLastName(),
+                customerForm.getEmail(),
+                customerForm.getLastName(),
+                new HashSet<>());
+    }
 
     protected Customer(){}
 

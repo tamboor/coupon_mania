@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 public class CustomerSerializer extends JsonSerializer<Customer> {
     @Override
@@ -16,6 +17,11 @@ public class CustomerSerializer extends JsonSerializer<Customer> {
         jsonGenerator.writeStringField("lastName" , customer.getLastName());
         jsonGenerator.writeStringField("email" , customer.getEmail());
         jsonGenerator.writeStringField("password" , customer.getPassword());
+
+        jsonGenerator.writeStringField("coupons" ,
+                customer.getPurchases().stream().map(p -> p.getCoupon().getId()).collect(Collectors.toList())
+                        .toString());
+
         jsonGenerator.writeEndObject();
     }
 }

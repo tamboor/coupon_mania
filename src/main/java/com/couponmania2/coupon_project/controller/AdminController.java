@@ -10,6 +10,8 @@ import com.couponmania2.coupon_project.exceptions.AppTargetNotFoundException;
 import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestException;
 import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestMessage;
 import com.couponmania2.coupon_project.facade.AdminServiceImpl;
+import com.couponmania2.coupon_project.serialization.CompanyForm;
+import com.couponmania2.coupon_project.serialization.CustomerForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController extends ClientController {
     private final AdminServiceImpl adminService;
     private final JwtUtils jwtUtils;
-
 
 
     @Override
@@ -40,16 +41,20 @@ public class AdminController extends ClientController {
 
     @PostMapping("/addCompany")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addCompany(@RequestHeader(name = "Authorization") String token, @RequestBody Company company) throws AppUnauthorizedRequestException, AppTargetExistsException {
+    public void addCompany(@RequestHeader(name = "Authorization") String token, @RequestBody CompanyForm companyForm) throws AppUnauthorizedRequestException, AppTargetExistsException {
         validate(token);
-        adminService.addCompany(company);
+        adminService.addCompany(new Company(companyForm));
 
     }
 
     @PutMapping("/updateCompany")
     @ResponseStatus(HttpStatus.OK)
-    public void updateCompany(@RequestHeader(name = "Authorization") String token, @RequestBody Company company) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
+    public void updateCompany(@RequestHeader(name = "Authorization") String token, @RequestParam long id, @RequestBody CompanyForm companyForm) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
         validate(token);
+        Company company = adminService.getOneCompany(id);
+        company.setName(companyForm.getName());
+        company.setEmail(companyForm.getEmail());
+        company.setPassword(company.getPassword());
         adminService.updateCompany(company);
     }
 
@@ -75,15 +80,22 @@ public class AdminController extends ClientController {
 
     @PostMapping("/addCustomer")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addCustomer(@RequestHeader(name = "Authorization") String token, @RequestBody Customer customer) throws AppUnauthorizedRequestException, AppTargetExistsException {
+    public void addCustomer(@RequestHeader(name = "Authorization") String token, @RequestBody CustomerForm customerForm) throws AppUnauthorizedRequestException, AppTargetExistsException {
         validate(token);
-        adminService.addCustomer(customer);
+        adminService.addCustomer(new Customer(customerForm));
     }
 
     @PutMapping("/updateCustomer")
-    public void updateCustomer(@RequestHeader(name = "Authorization") String token, @RequestBody Customer customer) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
+    public void updateCustomer(@RequestHeader(name = "Authorization") String token, @RequestParam long id, @RequestBody CustomerForm customerForm) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
         validate(token);
-        adminService.updateCustomer(customer);
+
+        Customer customerToUpdate = adminService.getOneCustomer(id);
+        customerToUpdate.setFirstName(customerForm.getFirstName());
+        customerToUpdate.setLastName(customerForm.getLastName());
+        customerToUpdate.setEmail(customerForm.getEmail());
+        customerToUpdate.setPassword(customerForm.getPassword());
+
+        adminService.updateCustomer(customerToUpdate);
     }
 
     @DeleteMapping("/deleteCustomer/{customerId}")

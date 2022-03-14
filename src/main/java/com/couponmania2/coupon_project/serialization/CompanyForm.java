@@ -1,4 +1,4 @@
-package com.couponmania2.coupon_project.beans;
+package com.couponmania2.coupon_project.serialization;
 
 public class CompanyForm {
     private String name;

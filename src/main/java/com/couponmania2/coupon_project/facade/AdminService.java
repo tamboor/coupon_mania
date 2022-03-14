@@ -20,5 +20,5 @@ public interface    AdminService {
     Set<Company> getAllComapnies();
     Set<Customer> getAllCustomers();
     Company getOneCompany(long companyID) throws AppTargetNotFoundException;
-    Optional<Customer> getOneCustomer(long customerID) throws AppTargetNotFoundException;
+    Customer getOneCustomer(long customerID) throws AppTargetNotFoundException;
 }

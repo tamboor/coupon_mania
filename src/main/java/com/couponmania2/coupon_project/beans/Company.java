@@ -1,5 +1,6 @@
 package com.couponmania2.coupon_project.beans;
 
+import com.couponmania2.coupon_project.serialization.CompanyForm;
 import com.couponmania2.coupon_project.serialization.CompanySerializer;
 import com.couponmania2.coupon_project.serialization.CustomerSerializer;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -40,6 +41,11 @@ public class Company {
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY , mappedBy = "company" , orphanRemoval = true)
     private Set<Coupon> coupons = new HashSet<>();
+
+    public Company(CompanyForm companyForm){
+        this(companyForm.getName() , companyForm.getEmail() ,companyForm.getPassword(), new HashSet<>());
+    }
+
 
     protected Company() {
     }

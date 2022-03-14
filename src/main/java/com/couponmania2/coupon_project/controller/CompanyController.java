@@ -6,7 +6,7 @@ import com.couponmania2.coupon_project.auth.UserDetails;
 import com.couponmania2.coupon_project.beans.Category;
 import com.couponmania2.coupon_project.beans.Company;
 import com.couponmania2.coupon_project.beans.Coupon;
-import com.couponmania2.coupon_project.beans.CouponForm;
+import com.couponmania2.coupon_project.serialization.CouponForm;
 import com.couponmania2.coupon_project.exceptions.*;
 import com.couponmania2.coupon_project.facade.CompanyServiceImpl;
 import lombok.RequiredArgsConstructor;
