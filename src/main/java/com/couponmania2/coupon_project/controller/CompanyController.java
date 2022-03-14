@@ -41,24 +41,24 @@ public class CompanyController extends ClientController {
     @PostMapping("/addCoupon")
     @ResponseStatus(HttpStatus.CREATED)
     public void addCoupon(@RequestHeader(name = "Authorization") String token , @RequestBody CouponForm couponForm) throws AppUnauthorizedRequestException, AppTargetExistsException {
-        long id = validate(token);
+//        long id = validate(token);
+//
+//        Company company = null;
+//
+//        try {
+//             company = companyService.getCompanyDetails(id);
+//        } catch (AppTargetNotFoundException e) {
+//            throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.NO_LOGIN);
+//        }
 
-        Company company = null;
-
-        try {
-             company = companyService.getCompanyDetails(id);
-        } catch (AppTargetNotFoundException e) {
-            throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.NO_LOGIN);
-        }
-
-        companyService.addCoupon(new Coupon(couponForm , company));
+        companyService.addCoupon(new Coupon(couponForm , validateForObject(token)));
     }
 
     @PutMapping("/updateCoupon")
     @ResponseStatus(HttpStatus.OK)
-    private void updateCoupon(@RequestHeader(name = "Authorization") String token ,@RequestBody Coupon coupon) throws AppUnauthorizedRequestException, AppInvalidInputException {
-        validate(token);
-        companyService.updateCoupon(coupon);
+    private void updateCoupon(@RequestHeader(name = "Authorization") String token ,@RequestBody CouponForm couponForm) throws AppUnauthorizedRequestException, AppInvalidInputException {
+//        validate(token);
+        companyService.updateCoupon(new Coupon(couponForm , validateForObject(token)));
     }
 
     @DeleteMapping("/deleteCoupon/{couponId}")
@@ -91,13 +91,21 @@ public class CompanyController extends ClientController {
         long id = validate(token);
         return new ResponseEntity<>(companyService.getCompanyDetails(id),HttpStatus.OK);
     }
-
+    //TODO: put in abstract father
     private long validate(String token) throws AppUnauthorizedRequestException {
         UserDetails user = jwtUtils.validateToken(token);
         if (!(user.getRole().equals(ClientType.COMPANY.getName()))) {
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS);
         }
         return user.getId();
+    }
+
+    private Company validateForObject(String token) throws AppUnauthorizedRequestException {
+        try {
+            return companyService.getCompanyDetails(validate(token));
+        } catch (AppTargetNotFoundException err) {
+            throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS);
+        }
     }
 
 
