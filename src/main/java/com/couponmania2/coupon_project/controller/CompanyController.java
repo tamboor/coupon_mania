@@ -5,8 +5,7 @@ import com.couponmania2.coupon_project.auth.JwtUtils;
 import com.couponmania2.coupon_project.auth.UserDetails;
 import com.couponmania2.coupon_project.beans.Category;
 import com.couponmania2.coupon_project.beans.Coupon;
-import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestException;
-import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestMessage;
+import com.couponmania2.coupon_project.exceptions.*;
 import com.couponmania2.coupon_project.facade.CompanyServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,7 +31,7 @@ public class CompanyController extends ClientController {
                 .userName(userName)
                 .userPass(userPass)
                 .role(clientType.getName())
-                .id(companyService.findByLoginCredentials(userName , userPass , clientType).getId())
+                .id(companyService.checkCredentials(userName , userPass , clientType).getId())
                 .build();
 
         return new ResponseEntity<>(jwtUtils.generateToken(user), HttpStatus.OK);
@@ -40,45 +39,45 @@ public class CompanyController extends ClientController {
 
     @PostMapping("/addCoupon")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addCoupon(@RequestHeader(name = "Authorization") String token , @RequestBody Coupon coupon) throws AppUnauthorizedRequestException {
+    public void addCoupon(@RequestHeader(name = "Authorization") String token , @RequestBody Coupon coupon) throws AppUnauthorizedRequestException, AppTargetExistsException {
         validate(token);
         companyService.addCoupon(coupon);
     }
 
     @PutMapping("/updateCoupon")
     @ResponseStatus(HttpStatus.OK)
-    private void updateCoupon(@RequestHeader(name = "Authorization") String token ,@RequestBody Coupon coupon) throws AppUnauthorizedRequestException {
+    private void updateCoupon(@RequestHeader(name = "Authorization") String token ,@RequestBody Coupon coupon) throws AppUnauthorizedRequestException, AppInvalidInputException {
         validate(token);
         companyService.updateCoupon(coupon);
     }
 
     @DeleteMapping("/deleteCoupon/{couponId}")
     @ResponseStatus(HttpStatus.OK)
-    private void deleteCoupon (@RequestHeader(name = "Authorization") String token, @PathVariable long couponId) throws AppUnauthorizedRequestException {
+    private void deleteCoupon (@RequestHeader(name = "Authorization") String token, @PathVariable long couponId) throws AppUnauthorizedRequestException, AppTargetNotFoundException, AppInvalidInputException {
         long id = validate(token);
         companyService.deleteCoupon(couponId , id);
     }
 
     @GetMapping("/getCompanyCoupons")
-    private ResponseEntity<?> getAllCoupons (@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException {
+    private ResponseEntity<?> getAllCoupons (@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
         long id = validate(token);
         return new ResponseEntity<>(companyService.getAllCompanyCoupons(id),HttpStatus.OK);
     }
 
     @GetMapping("/getCompanyCoupons/category")
-    private ResponseEntity<?> getCouponsByCategory (@RequestHeader(name = "Authorization") String token , @PathVariable Category category) throws AppUnauthorizedRequestException {
+    private ResponseEntity<?> getCouponsByCategory (@RequestHeader(name = "Authorization") String token , @PathVariable Category category) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
         long id = validate(token);
         return new ResponseEntity<>(companyService.getCompanyCouponsByCategory(id, category),HttpStatus.OK);
     }
 
     @GetMapping("/getCompanyCoupons/maxPrice")
-    private ResponseEntity<?> getCouponsByMaxPrice (@RequestHeader(name = "Authorization") String token ,@PathVariable double maxPrice) throws AppUnauthorizedRequestException {
+    private ResponseEntity<?> getCouponsByMaxPrice (@RequestHeader(name = "Authorization") String token ,@PathVariable double maxPrice) throws AppUnauthorizedRequestException, AppTargetNotFoundException, AppInvalidInputException {
         long id = validate(token);
         return new ResponseEntity<>(companyService.getCompanyCouponsByMaxPrice(id, maxPrice),HttpStatus.OK);
     }
 
     @GetMapping("/getCompanyDetails")
-    private ResponseEntity<?> getCompanyDetails (@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException {
+    private ResponseEntity<?> getCompanyDetails (@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
         long id = validate(token);
         return new ResponseEntity<>(companyService.getCompanyDetails(id),HttpStatus.OK);
     }
