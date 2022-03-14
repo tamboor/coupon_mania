@@ -1,11 +1,13 @@
 package com.couponmania2.coupon_project.controller;
 
 import com.couponmania2.coupon_project.auth.ClientType;
+import com.couponmania2.coupon_project.auth.JwtUtils;
 import com.couponmania2.coupon_project.auth.UserDetails;
 import com.couponmania2.coupon_project.beans.Category;
 import com.couponmania2.coupon_project.beans.Coupon;
 import com.couponmania2.coupon_project.beans.Customer;
 import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestException;
+import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestMessage;
 import com.couponmania2.coupon_project.facade.AdminServiceImpl;
 import com.couponmania2.coupon_project.facade.CustomerServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -21,48 +23,58 @@ import org.springframework.web.bind.annotation.*;
 //todo: add jwt and update methods accordingly.
 public class CustomerController extends ClientController {
     private final CustomerServiceImpl customerService;
-//    private final int customerId;
-    //todo: check what to do about customer id
-//    @Autowired
-//    UserDetails userCustomerDetails;
+    private final JwtUtils jwtUtils;
 
-
-    //    @Override
-//    public ResponseEntity<?> login(@RequestBody UserDetails userDetails) {
-//        return null;
-//    }
     @Override
     public ResponseEntity<?> login(@RequestParam String userName, @RequestParam String userPass, @RequestParam ClientType clientType)
             throws AppUnauthorizedRequestException {
-        return null;
+        UserDetails user = UserDetails.builder()
+                .userName(userName)
+                .userPass(userPass)
+                .role(clientType.getName())
+                .id(customerService.checkCredentials(userName, userPass, clientType))
+                .build();
+        return new ResponseEntity<>(jwtUtils.generateToken(user), HttpStatus.OK);
     }
 
 
     @PostMapping("/newPurchase")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void purchaseCoupon(@RequestBody Coupon coupon) {
-        //  customerService.purchaseCoupon(customerService.getCustomerDetails(userCustomerDetails.getId()),coupon.getId());
-    }
-//
-//    @GetMapping("/getCustomerCoupons")
-//    public ResponseEntity<?> getCustomerCoupons(){
-//      return new ResponseEntity<>(customerService.getCustomerCoupons(customerId),HttpStatus.OK)  ;
-//    }
-//
-//    @GetMapping("/getCustomerCoupons/category")
-//    public ResponseEntity<?> getCustomerCouponsByCategory(@RequestBody Category category){
-//        return new ResponseEntity<>(customerService.getCustomerCouponsByCategory(customerId,category),HttpStatus.OK);
-//    }
-//
-//    @GetMapping("/getCustomerCoupons/maxPrice")
-//    public ResponseEntity<?> getCustomerCouponsByMaxPrice(@PathVariable double maxPrice){
-//        return new ResponseEntity<>(customerService.getCustomerCouponsByMaxPrice(customerId,maxPrice),HttpStatus.OK);
-//    }
-
-    @GetMapping("/getCustomerDetails/?")//:todo check this Get
-    public ResponseEntity<?> getCustomerDetails(@RequestBody Customer customer) {
-        return new ResponseEntity<>(customerService.getCustomerDetails(customer.getId()), HttpStatus.OK);
+    public void purchaseCoupon(@RequestHeader(name = "Authorization") String token, @RequestBody Coupon coupon) throws AppUnauthorizedRequestException {
+        long customerId = validate(token);
+        customerService.purchaseCoupon(customerId, coupon.getId());
     }
 
+    //
+    @GetMapping("/getCustomerCoupons")
+    public ResponseEntity<?> getCustomerCoupons(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException {
+        long customerId = validate(token);
+        return new ResponseEntity<>(customerService.getCustomerCoupons(customerId), HttpStatus.OK);
+    }
 
+    @GetMapping("/getCustomerCoupons/category")
+    public ResponseEntity<?> getCustomerCouponsByCategory(@RequestHeader(name = "Authorization") String token, @RequestBody Category category) throws AppUnauthorizedRequestException {
+        long customerId = validate(token);
+        return new ResponseEntity<>(customerService.getCustomerCouponsByCategory(customerId, category), HttpStatus.OK);
+    }
+
+    @GetMapping("/getCustomerCoupons/maxPrice")
+    public ResponseEntity<?> getCustomerCouponsByMaxPrice(@RequestHeader(name = "Authorization") String token, @PathVariable double maxPrice) throws AppUnauthorizedRequestException {
+        long customerId = validate(token);
+        return new ResponseEntity<>(customerService.getCustomerCouponsByMaxPrice(customerId, maxPrice), HttpStatus.OK);
+    }
+
+    @GetMapping("/getCustomerDetails/?")
+    public ResponseEntity<?> getCustomerDetails(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException {
+        long customerId = validate(token);
+        return new ResponseEntity<>(customerService.getCustomerDetails(customerId), HttpStatus.OK);
+    }
+
+    private long validate(String token) throws AppUnauthorizedRequestException {
+        UserDetails user = jwtUtils.validateToken(token);
+        if (!(user.getRole().equals(ClientType.Customer.getName()))) {
+            throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS.getMessage());
+        }
+        return user.getId();
+    }
 }

@@ -4,7 +4,9 @@ import com.couponmania2.coupon_project.beans.Company;
 import com.couponmania2.coupon_project.beans.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface CustomerRepo extends JpaRepository<Customer,Long> {
-    Customer findByEmailAndPassword(String email , String password);
+    Optional<Customer> findByEmailAndPassword(String email , String password);
     boolean existsByEmail(String email);
 }
