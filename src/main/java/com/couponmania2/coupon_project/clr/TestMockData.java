@@ -1,5 +1,6 @@
 package com.couponmania2.coupon_project.clr;
 
+import com.couponmania2.coupon_project.auth.ClientType;
 import com.couponmania2.coupon_project.beans.*;
 import com.couponmania2.coupon_project.controller.AdminController;
 import com.couponmania2.coupon_project.facade.AdminServiceImpl;
@@ -34,6 +35,9 @@ public class TestMockData implements CommandLineRunner {
 
     @Autowired
     AdminServiceImpl adminService;
+
+    @Autowired
+    CustomerServiceImpl customerService;
 
 
     @Override
@@ -125,7 +129,7 @@ companyRepo.deleteById(1L);
 //        System.out.println(companyRepo.findById(10));
 //        System.out.println(couponRepo.existsByCompanyAndTitle(companyRepo.getById(4),"coupon4"));
 
-
+customerService.checkCredentials("mail1", "pass", ClientType.Customer);
 
 
 

@@ -1,9 +1,12 @@
 package com.couponmania2.coupon_project.facade;
 
+import com.couponmania2.coupon_project.auth.ClientType;
 import com.couponmania2.coupon_project.beans.Category;
 import com.couponmania2.coupon_project.beans.Coupon;
 import com.couponmania2.coupon_project.beans.Customer;
 import com.couponmania2.coupon_project.beans.Purchase;
+import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestException;
+import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestMessage;
 import com.couponmania2.coupon_project.repositories.CompanyRepo;
 import com.couponmania2.coupon_project.repositories.CouponRepo;
 import com.couponmania2.coupon_project.repositories.CustomerRepo;
@@ -12,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,6 +30,14 @@ public class CustomerServiceImpl implements CustomerService {
     protected CouponRepo couponRepo;
     @Autowired
     protected PurchaseRepo purchaseRepo;
+
+    @Override
+    public long checkCredentials(String userName, String userPass, ClientType clientType) throws AppUnauthorizedRequestException {
+        if (customerRepo.findByEmailAndPassword(userName,userPass).isEmpty() || !(clientType.equals(ClientType.Customer))){
+            throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS.getMessage());
+        }
+        return customerRepo.findByEmailAndPassword(userName,userPass).get().getId();
+    }
 
     //todo: add validation
     @Override
