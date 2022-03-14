@@ -4,7 +4,8 @@ import java.lang.reflect.Constructor;
 
 public enum AppTargetExistsMessage {
     COMPANY_EXISTS("Can't complete action - Company already exists."),
-    CUSTOMER_EXISTS("Can't complete action - Customer already exists.");
+    CUSTOMER_EXISTS("Can't complete action - Customer already exists."),
+    COUPON_EXISTS ("Can't complete action - Coupon already exists.");
 
     private String message;
 
