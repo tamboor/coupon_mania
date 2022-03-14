@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 @Service
 //todo: change to required args c'tor
 public class CustomerServiceImpl implements CustomerService {
+    //todo: delete if redundant.
     @Autowired
     protected CompanyRepo companyRepo;
     @Autowired
@@ -32,11 +33,11 @@ public class CustomerServiceImpl implements CustomerService {
     protected PurchaseRepo purchaseRepo;
 
     @Override
-    public long checkCredentials(String userName, String userPass, ClientType clientType) throws AppUnauthorizedRequestException {
+    public Customer checkCredentials(String userName, String userPass, ClientType clientType) throws AppUnauthorizedRequestException {
         if (customerRepo.findByEmailAndPassword(userName,userPass).isEmpty() || !(clientType.equals(ClientType.CUSTOMER))){
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS.getMessage());
         }
-        return customerRepo.findByEmailAndPassword(userName,userPass).get().getId();
+        return customerRepo.findByEmailAndPassword(userName,userPass).get();
     }
 
     //todo: add validation

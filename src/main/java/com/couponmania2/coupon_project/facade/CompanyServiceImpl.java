@@ -19,10 +19,12 @@ import java.util.Set;
 public class CompanyServiceImpl implements CompanyService {
     @Autowired
     protected CompanyRepo companyRepo;
+    //todo: delete if redundant.
     @Autowired
     protected CustomerRepo customerRepo;
     @Autowired
     protected CouponRepo couponRepo;
+    //todo: delete if redundant.
     @Autowired
     protected PurchaseRepo purchaseRepo;
 

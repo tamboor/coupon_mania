@@ -26,13 +26,14 @@ public class CustomerController extends ClientController {
     private final JwtUtils jwtUtils;
 
     @Override
+    @PostMapping("login")
     public ResponseEntity<?> login(@RequestParam String userName, @RequestParam String userPass, @RequestParam ClientType clientType)
             throws AppUnauthorizedRequestException {
         UserDetails user = UserDetails.builder()
                 .userName(userName)
                 .userPass(userPass)
                 .role(clientType.getName())
-                .id(customerService.checkCredentials(userName, userPass, clientType))
+                .id(customerService.checkCredentials(userName, userPass, clientType).getId())
                 .build();
         return new ResponseEntity<>(jwtUtils.generateToken(user), HttpStatus.OK);
     }
