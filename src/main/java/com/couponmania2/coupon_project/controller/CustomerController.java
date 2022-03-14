@@ -72,7 +72,7 @@ public class CustomerController extends ClientController {
 
     private long validate(String token) throws AppUnauthorizedRequestException {
         UserDetails user = jwtUtils.validateToken(token);
-        if (!(user.getRole().equals(ClientType.Customer.getName()))) {
+        if (!(user.getRole().equals(ClientType.CUSTOMER.getName()))) {
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS.getMessage());
         }
         return user.getId();
