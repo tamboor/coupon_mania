@@ -1,5 +1,6 @@
 package com.couponmania2.coupon_project.facade;
 
+import com.couponmania2.coupon_project.auth.ClientType;
 import com.couponmania2.coupon_project.beans.Category;
 import com.couponmania2.coupon_project.beans.Company;
 import com.couponmania2.coupon_project.beans.Coupon;
@@ -10,6 +11,7 @@ import com.couponmania2.coupon_project.repositories.PurchaseRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -25,15 +27,27 @@ public class CompanyServiceImpl implements CompanyService {
     protected PurchaseRepo purchaseRepo;
 
     @Override
+    public Company findByLoginCredentials(String email, String password, ClientType clientType) {
+        if (!clientType.equals(ClientType.Company)){
+            //TODO: throw login exception
+        }
+        Optional<Company> companyOptional = companyRepo.findByEmailAndPassword(email , password);
+        if (companyOptional.isEmpty()){
+            //TODO: throw not found exception
+        }
+        return companyOptional.get();
+    }
+
+    @Override
     public void addCoupon(Coupon coupon) {
         if (couponRepo.existsByCompanyAndTitle(coupon.getCompany(), coupon.getTitle())) {
-            //todo: throw add custom  exp
+            //TODO: throw add custom  exp
         }
         couponRepo.save(coupon);
     }
 
-    //todo: check if company verification can be implemented in REST
-    //todo: change to custom exception
+    //TODO: check if company verification can be implemented in REST
+    //TODO: change to custom exception
     @Override
     public void updateCoupon(Coupon coupon) throws Exception {
         if (couponRepo.getById(coupon.getId()).getCompany() != coupon.getCompany()) {
@@ -43,19 +57,23 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public void deleteCoupon(long couponId) {
-        if (!couponRepo.existsById(couponId)) {
-            //:todo throw exp coupon exist
+    public void deleteCoupon(long couponId , long companyId) {
+        Optional<Coupon> couponOptional = couponRepo.findById(couponId);
+        if (couponOptional.isEmpty()) {
+            //TODO: throw not found
         }
+        Coupon coupon = couponOptional.get();
+        if (coupon.getId() != companyId){
+            //TODO: throw unauthorized
+        }
+
         couponRepo.deleteById(couponId);
-
-
     }
 
     @Override
     public Set<Coupon> getAllCompanyCoupons(long companyId) {
         if (!companyRepo.existsById(companyId)) {
-            //todo: throw custom exception
+            //TODO: throw custom exception
         }
         return couponRepo.findByCompany(companyRepo.getById(companyId));
     }
@@ -63,7 +81,7 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public Set<Coupon> getCompanyCouponsByCategory(long companyId, Category category) {
         if (!companyRepo.existsById(companyId)) {
-            //todo: throw exp id is not exist
+            //TODO: throw exp id is not exist
         }
         return couponRepo.findByCompanyAndCategory(companyRepo.getById(companyId), category);
     }
@@ -71,7 +89,7 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public Set<Coupon> getCompanyCouponsByMaxPrice(long companyId, double maxPrice) {
         if (!companyRepo.existsById(companyId) || maxPrice <= 0) {
-            //todo: throw exp id is not exist
+            //TODO: throw exp id is not exist
         }
         return couponRepo.findByCompanyAndPrice(companyRepo.getById(companyId), maxPrice);
     }
@@ -79,7 +97,7 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public Company getCompanyDetails(long companyId) {
         if (!companyRepo.existsById(companyId)) {
-            //todo: throw custom exeption
+            //TODO: throw custom exeption
         }
         return companyRepo.getById(companyId);
     }

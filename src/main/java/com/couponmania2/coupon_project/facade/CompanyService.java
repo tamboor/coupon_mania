@@ -1,5 +1,6 @@
 package com.couponmania2.coupon_project.facade;
 
+import com.couponmania2.coupon_project.auth.ClientType;
 import com.couponmania2.coupon_project.beans.Category;
 import com.couponmania2.coupon_project.beans.Company;
 import com.couponmania2.coupon_project.beans.Coupon;
@@ -7,9 +8,10 @@ import com.couponmania2.coupon_project.beans.Coupon;
 import java.util.Set;
 
 public interface CompanyService {
+    Company findByLoginCredentials(String email, String password, ClientType clientType);
      void addCoupon(Coupon coupon);
      void updateCoupon(Coupon coupon) throws Exception;
-     void deleteCoupon(long couponId);
+     void deleteCoupon(long couponId , long companyId);
      Set<Coupon>getAllCompanyCoupons(long companyId);
      Set<Coupon>getCompanyCouponsByCategory(long companyId,Category category);
     Set<Coupon>getCompanyCouponsByMaxPrice(long companyId,double maxPrice);
