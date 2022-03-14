@@ -5,7 +5,7 @@ public enum AppUnauthorizedRequestMessage {
     LOGIN_EXPIRED("your login time limit has expired. please login again"),
     NO_LOGIN("Unauthorized request - please login to an authorized account.");
 
-    private String message;
+    private final String message;
 
     AppUnauthorizedRequestMessage(String message){
         this.message = message;

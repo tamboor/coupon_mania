@@ -5,7 +5,7 @@ public enum AppTargetNotFoundMessage {
     CUSTOMER_NOT_FOUND("Can't do action - customer was not found."),
     COUPON_NOT_FOUND ("Can't complete action - Coupon was not found.");
 
-     private String message;
+     private final String message;
 
     AppTargetNotFoundMessage(String message){
         this.message = message;

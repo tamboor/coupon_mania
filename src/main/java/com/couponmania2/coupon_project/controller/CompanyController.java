@@ -4,7 +4,9 @@ import com.couponmania2.coupon_project.auth.ClientType;
 import com.couponmania2.coupon_project.auth.JwtUtils;
 import com.couponmania2.coupon_project.auth.UserDetails;
 import com.couponmania2.coupon_project.beans.Category;
+import com.couponmania2.coupon_project.beans.Company;
 import com.couponmania2.coupon_project.beans.Coupon;
+import com.couponmania2.coupon_project.beans.CouponForm;
 import com.couponmania2.coupon_project.exceptions.*;
 import com.couponmania2.coupon_project.facade.CompanyServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -38,9 +40,18 @@ public class CompanyController extends ClientController {
 
     @PostMapping("/addCoupon")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addCoupon(@RequestHeader(name = "Authorization") String token , @RequestBody Coupon coupon) throws AppUnauthorizedRequestException, AppTargetExistsException {
-        validate(token);
-        companyService.addCoupon(coupon);
+    public void addCoupon(@RequestHeader(name = "Authorization") String token , @RequestBody CouponForm couponForm) throws AppUnauthorizedRequestException, AppTargetExistsException {
+        long id = validate(token);
+
+        Company company = null;
+
+        try {
+             company = companyService.getCompanyDetails(id);
+        } catch (AppTargetNotFoundException e) {
+            throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.NO_LOGIN);
+        }
+
+        companyService.addCoupon(new Coupon(couponForm , company));
     }
 
     @PutMapping("/updateCoupon")

@@ -1,7 +1,9 @@
 package com.couponmania2.coupon_project.beans;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.couponmania2.coupon_project.serialization.CouponDeserializer;
+import com.couponmania2.coupon_project.serialization.CouponSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -11,14 +13,15 @@ import java.util.Set;
 //@Data
 @Entity
 @Table(name = "coupons")
-
+@JsonSerialize(using = CouponSerializer.class)
+//@JsonDeserialize(using = CouponDeserializer.class)
 public class Coupon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false)
     private long id;
 
-    @JsonBackReference
+    //    @JsonBackReference
     @ManyToOne
     private Company company;
 
@@ -47,12 +50,24 @@ public class Coupon {
     @Column
     private String image;
 
-    @JsonManagedReference
+    //    @JsonManagedReference
     @OneToMany(mappedBy = "coupon", orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Set<Purchase> purchases = new HashSet<>();
 
 
     protected Coupon() {
+    }
+
+    public Coupon(CouponForm form, Company company) {
+        this(company
+                , form.getCategory(),
+                form.getTitle(),
+                form.getDescription(),
+                form.getStartDate(),
+                form.getEndDate(),
+                form.getAmount(),
+                form.getPrice(),
+                form.getImage());
     }
 
     public Coupon(Coupon coupon) {
@@ -78,6 +93,10 @@ public class Coupon {
         this.purchases = purchases;
     }
 
+    public Coupon(Category category, String title, String description, Date startDate, Date endDate, int amount, double price, String image) {
+        this(null, category, title, description, startDate, endDate, amount, price, image, new HashSet<>());
+    }
+
     public long getId() {
         return id;
     }
@@ -90,7 +109,7 @@ public class Coupon {
         return company;
     }
 
-    private void setCompany(Company company) {
+    public void setCompany(Company company) {
         this.company = company;
     }
 

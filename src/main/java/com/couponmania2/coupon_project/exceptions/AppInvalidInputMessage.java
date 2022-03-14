@@ -5,7 +5,7 @@ public enum AppInvalidInputMessage {
     NEGATIVE_PRICE("Can't insert a negative price"),
     UNMATCHING_COUPON ("Can't complete action - This coupon is owned by another company");
 
-    private String message;
+    private final String message;
 
     AppInvalidInputMessage(String message){
         this.message = message;

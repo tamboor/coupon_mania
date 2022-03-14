@@ -14,9 +14,9 @@ public enum Category {
     Tattoos ("tattoos");
 
     //@Id
-    private String name;
+    private final String name;
 
-    private Category (String name){
+    Category(String name){
         this.name = name;
     }
 

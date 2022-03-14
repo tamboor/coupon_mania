@@ -5,7 +5,7 @@ public enum ClientType {
     COMPANY("company"),
     CUSTOMER("customer");
 
-    private String name;
+    private final String name;
 
     ClientType(String name){
         this.name = name;

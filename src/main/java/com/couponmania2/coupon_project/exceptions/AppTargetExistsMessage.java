@@ -7,7 +7,7 @@ public enum AppTargetExistsMessage {
     CUSTOMER_EXISTS("Can't complete action - Customer already exists."),
     COUPON_EXISTS ("Can't complete action - Coupon already exists.");
 
-    private String message;
+    private final String message;
 
     AppTargetExistsMessage(String message){
         this.message = message;
