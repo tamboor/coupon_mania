@@ -28,11 +28,9 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public Company findByLoginCredentials(String email, String password, ClientType clientType) {
-        if (!clientType.equals(ClientType.Company)){
-            //TODO: throw login exception
-        }
+
         Optional<Company> companyOptional = companyRepo.findByEmailAndPassword(email , password);
-        if (companyOptional.isEmpty()){
+        if (companyOptional.isEmpty() || !clientType.equals(ClientType.COMPANY)){
             //TODO: throw not found exception
         }
         return companyOptional.get();
@@ -49,9 +47,9 @@ public class CompanyServiceImpl implements CompanyService {
     //TODO: check if company verification can be implemented in REST
     //TODO: change to custom exception
     @Override
-    public void updateCoupon(Coupon coupon) throws Exception {
+    public void updateCoupon(Coupon coupon)  {
         if (couponRepo.getById(coupon.getId()).getCompany() != coupon.getCompany()) {
-            throw new Exception("CCCCCCCCC");
+            //TODO:throw exception
         }
         couponRepo.save(coupon);
     }

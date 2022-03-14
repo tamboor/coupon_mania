@@ -15,10 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.util.Set;
-
-
 
 @RestController
 @RequestMapping("admin")
@@ -111,7 +107,7 @@ public class AdminController extends ClientController {
 
     private void validate(String token) throws AppUnauthorizedRequestException {
         UserDetails user = jwtUtils.validateToken(token);
-        if (!(user.getRole().equals(ClientType.Admin.getName()))) {
+        if (!(user.getRole().equals(ClientType.ADMIN.getName()))) {
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS.getMessage());
         }
     }

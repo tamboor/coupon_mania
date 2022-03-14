@@ -7,7 +7,6 @@ import com.couponmania2.coupon_project.exceptions.*;
 import com.couponmania2.coupon_project.repositories.CompanyRepo;
 import com.couponmania2.coupon_project.repositories.CustomerRepo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -28,7 +27,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public long checkCredentials(String email, String password, ClientType clientType) throws AppUnauthorizedRequestException {
-        if (!(email.equals(ADMIN_EMAIL) && password.equals(AMDIN_PASSWORD) && clientType.equals(ClientType.Admin))) {
+        if (!(email.equals(ADMIN_EMAIL) && password.equals(AMDIN_PASSWORD) && clientType.equals(ClientType.ADMIN))) {
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS.getMessage());
         }
         return 0;

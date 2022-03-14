@@ -39,13 +39,15 @@ public class CompanyController extends ClientController {
 
     @PostMapping("/addCoupon")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addCoupon(@RequestBody Coupon coupon) {
+    public void addCoupon(@RequestHeader(name = "Authorization") String token , @RequestBody Coupon coupon) throws AppUnauthorizedRequestException {
+        validate(token);
         companyService.addCoupon(coupon);
     }
 
     @PutMapping("/updateCoupon")
     @ResponseStatus(HttpStatus.OK)
-    private void updateCoupon(@RequestBody Coupon coupon) throws Exception {
+    private void updateCoupon(@RequestHeader(name = "Authorization") String token ,@RequestBody Coupon coupon) throws AppUnauthorizedRequestException {
+        validate(token);
         companyService.updateCoupon(coupon);
     }
 
@@ -82,7 +84,7 @@ public class CompanyController extends ClientController {
 
     private long validate(String token) throws AppUnauthorizedRequestException {
         UserDetails user = jwtUtils.validateToken(token);
-        if (!(user.getRole().equals(ClientType.Company.getName()))) {
+        if (!(user.getRole().equals(ClientType.COMPANY.getName()))) {
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS.getMessage());
         }
         return user.getId();
