@@ -25,6 +25,7 @@ public class CompanyController extends ClientController {
 
     //TODO: try to put in abstract class (remove duplicate code)
     @Override
+    @PostMapping("login")
     public ResponseEntity<?> login(@RequestParam String userName, @RequestParam String userPass, @RequestParam ClientType clientType)
             throws AppUnauthorizedRequestException {
         UserDetails user = UserDetails.builder()
