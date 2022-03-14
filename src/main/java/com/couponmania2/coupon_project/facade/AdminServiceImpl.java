@@ -23,7 +23,6 @@ public class AdminServiceImpl implements AdminService {
     private final String AMDIN_PASSWORD = "admin";
 
 
-    //todo: check if update checks can be handled in restcontroller
 
     @Override
     public long checkCredentials(String email, String password, ClientType clientType) throws AppUnauthorizedRequestException {

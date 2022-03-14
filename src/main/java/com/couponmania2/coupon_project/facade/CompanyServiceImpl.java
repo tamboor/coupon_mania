@@ -8,6 +8,7 @@ import com.couponmania2.coupon_project.repositories.CompanyRepo;
 import com.couponmania2.coupon_project.repositories.CouponRepo;
 import com.couponmania2.coupon_project.repositories.CustomerRepo;
 import com.couponmania2.coupon_project.repositories.PurchaseRepo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,22 +16,19 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-//todo: change to required args c'tor
+@RequiredArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
-    @Autowired
-    protected CompanyRepo companyRepo;
-    @Autowired
-    protected CustomerRepo customerRepo;
-    @Autowired
-    protected CouponRepo couponRepo;
-    @Autowired
-    protected PurchaseRepo purchaseRepo;
+    //TODO: change to private
+    protected final CompanyRepo companyRepo;
+    protected final CustomerRepo customerRepo;
+    protected final CouponRepo couponRepo;
+    protected final PurchaseRepo purchaseRepo;
 
     @Override
     public Company findByLoginCredentials(String email, String password, ClientType clientType) {
 
-        Optional<Company> companyOptional = companyRepo.findByEmailAndPassword(email , password);
-        if (companyOptional.isEmpty() || !clientType.equals(ClientType.COMPANY)){
+        Optional<Company> companyOptional = companyRepo.findByEmailAndPassword(email, password);
+        if (companyOptional.isEmpty() || !clientType.equals(ClientType.COMPANY)) {
             //TODO: throw not found exception
         }
         return companyOptional.get();
@@ -44,10 +42,8 @@ public class CompanyServiceImpl implements CompanyService {
         couponRepo.save(coupon);
     }
 
-    //TODO: check if company verification can be implemented in REST
-    //TODO: change to custom exception
     @Override
-    public void updateCoupon(Coupon coupon)  {
+    public void updateCoupon(Coupon coupon) {
         if (couponRepo.getById(coupon.getId()).getCompany() != coupon.getCompany()) {
             //TODO:throw exception
         }
@@ -55,13 +51,13 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public void deleteCoupon(long couponId , long companyId) {
+    public void deleteCoupon(long couponId, long companyId) {
         Optional<Coupon> couponOptional = couponRepo.findById(couponId);
         if (couponOptional.isEmpty()) {
             //TODO: throw not found
         }
         Coupon coupon = couponOptional.get();
-        if (coupon.getId() != companyId){
+        if (coupon.getId() != companyId) {
             //TODO: throw unauthorized
         }
 

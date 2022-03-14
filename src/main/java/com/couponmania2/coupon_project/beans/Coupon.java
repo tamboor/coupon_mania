@@ -2,12 +2,8 @@ package com.couponmania2.coupon_project.beans;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.*;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import javax.validation.constraints.Positive;
-import java.io.Serializable;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -43,14 +39,10 @@ public class Coupon {
     private java.sql.Date endDate;
 
     @Column(nullable = false)
-    @Positive
-    //TODO: create an annotation that deals with insertion of a negative number
     private int amount;
 
 
     @Column(nullable = false)
-    @Positive
-    //TODO: create an annotation that deals with insertion of a negative number
     private double price;
     @Column
     private String image;

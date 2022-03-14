@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("customer")
 @RequiredArgsConstructor
 
-//todo: add jwt and update methods accordingly.
 public class CustomerController extends ClientController {
     private final CustomerServiceImpl customerService;
     private final JwtUtils jwtUtils;

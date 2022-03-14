@@ -21,7 +21,6 @@ public class JwtUtils {
 
 
     public String generateToken(UserDetails userDetails) {
-        //TODO: create jwt key
         try {
             //TODO: change to application properties+ check if needs to be final
             Algorithm algorithmHS = Algorithm.HMAC256("alon_nir_ran_the_kings_of_the_valley".getBytes());
@@ -39,7 +38,6 @@ public class JwtUtils {
                     .sign(algorithmHS);
 
             return token;
-            //TODO: read about refresh token
 
         } catch (JWTCreationException err) {
             //TODO: handle exception
@@ -52,25 +50,18 @@ public class JwtUtils {
         try{
             DecodedJWT jwt = JWT.decode(token);
             JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256("alon_nir_ran_the_kings_of_the_valley".getBytes()))
-               //     .acceptExpiresAt(1)
                     .build();
             DecodedJWT decodedJWT = jwtVerifier.verify(jwt.getToken());
             UserDetails user = new UserDetails();
             user.setUserName(decodedJWT.getSubject());
             user.setId(decodedJWT.getClaim(idClaimKey).asLong());
             user.setRole(decodedJWT.getClaim(roleClaimKey).asString());
-//            switch ()
             return user;
         } catch (TokenExpiredException err){
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.LOGIN_EXPIRED.getMessage());
-
         }
         catch (Exception err){
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.NO_LOGIN.getMessage());
         }
-
-
-//        return (userMail.equals(user.getUserName()) &&
-//                !isTokenExpired(token));
     }
 }
