@@ -9,6 +9,7 @@ import com.couponmania2.coupon_project.repositories.CompanyRepo;
 import com.couponmania2.coupon_project.repositories.CouponRepo;
 import com.couponmania2.coupon_project.repositories.CustomerRepo;
 import com.couponmania2.coupon_project.repositories.PurchaseRepo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,18 +17,10 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-//todo: change to required args c'tor
+@RequiredArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
-    @Autowired
-    protected CompanyRepo companyRepo;
-    //todo: delete if redundant.
-    @Autowired
-    protected CustomerRepo customerRepo;
-    @Autowired
-    protected CouponRepo couponRepo;
-    //todo: delete if redundant.
-    @Autowired
-    protected PurchaseRepo purchaseRepo;
+    private final CompanyRepo companyRepo;
+    private final CouponRepo couponRepo;
 
     @Override
     public Company checkCredentials(String email, String password, ClientType clientType) throws AppUnauthorizedRequestException {
@@ -92,7 +85,7 @@ public class CompanyServiceImpl implements CompanyService {
         if (!companyRepo.existsById(companyId)) {
             throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);
         }
-        if (maxPrice <= 0){
+        if (maxPrice <= 0) {
             throw new AppInvalidInputException(AppInvalidInputMessage.NEGATIVE_PRICE);
         }
         return couponRepo.findByCompanyAndPrice(companyRepo.getById(companyId), maxPrice);
@@ -101,7 +94,8 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public Company getCompanyDetails(long companyId) throws AppTargetNotFoundException {
         if (!companyRepo.existsById(companyId)) {
-            throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);        }
+            throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);
+        }
         return companyRepo.getById(companyId);
     }
 }
