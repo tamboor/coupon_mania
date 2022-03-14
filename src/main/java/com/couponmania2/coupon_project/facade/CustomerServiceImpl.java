@@ -33,7 +33,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public long checkCredentials(String userName, String userPass, ClientType clientType) throws AppUnauthorizedRequestException {
-        if (customerRepo.findByEmailAndPassword(userName,userPass).isEmpty() || !(clientType.equals(ClientType.Customer))){
+        if (customerRepo.findByEmailAndPassword(userName,userPass).isEmpty() || !(clientType.equals(ClientType.CUSTOMER))){
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS.getMessage());
         }
         return customerRepo.findByEmailAndPassword(userName,userPass).get().getId();

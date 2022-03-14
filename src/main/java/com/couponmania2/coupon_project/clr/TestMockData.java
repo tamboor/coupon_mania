@@ -129,7 +129,6 @@ companyRepo.deleteById(1L);
 //        System.out.println(companyRepo.findById(10));
 //        System.out.println(couponRepo.existsByCompanyAndTitle(companyRepo.getById(4),"coupon4"));
 
-customerService.checkCredentials("mail1", "pass", ClientType.Customer);
 
 
 
