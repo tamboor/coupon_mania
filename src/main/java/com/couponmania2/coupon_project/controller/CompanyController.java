@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("company")
 @RequiredArgsConstructor
-
+//
 //todo: add jwt and update methods accordingly.
 public class CompanyController extends ClientController {
 
