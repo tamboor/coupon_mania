@@ -12,16 +12,6 @@ import java.io.IOException;
 
 @JsonComponent
 public class CouponSerializer extends JsonSerializer<Coupon> {
-//
-//    public CouponSerializer(){
-//        this(null);
-//    }
-//
-//    public CouponSerializer(Class<Coupon> t){
-//        super(t);
-//
-//    }
-
 
     @Override
     public void serialize(Coupon coupon, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {

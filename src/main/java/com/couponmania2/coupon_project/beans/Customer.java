@@ -1,6 +1,9 @@
 package com.couponmania2.coupon_project.beans;
 
+import com.couponmania2.coupon_project.serialization.CouponSerializer;
+import com.couponmania2.coupon_project.serialization.CustomerSerializer;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.batch.BatchDataSource;
@@ -16,11 +19,9 @@ import java.util.Set;
 //@NoArgsConstructor
 @Entity
 @Table(name= "customers")
+@JsonSerialize(using = CustomerSerializer.class)
 
 public class Customer {
-    public long getId() {
-        return id;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,6 +52,10 @@ public class Customer {
 
     public Customer(String firstName, String lastName, String email, String password) {
         this(firstName,lastName,email,password,new HashSet<>());
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getFirstName() {

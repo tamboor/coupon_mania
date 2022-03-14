@@ -1,6 +1,9 @@
 package com.couponmania2.coupon_project.beans;
 
+import com.couponmania2.coupon_project.serialization.CompanySerializer;
+import com.couponmania2.coupon_project.serialization.CustomerSerializer;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -12,6 +15,7 @@ import java.util.Set;
 //@Data
 @Entity
 @Table(name= "companies")
+@JsonSerialize(using = CompanySerializer.class)
 public class Company {
 
 
