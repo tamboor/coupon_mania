@@ -6,8 +6,7 @@ import com.couponmania2.coupon_project.auth.UserDetails;
 import com.couponmania2.coupon_project.beans.Category;
 import com.couponmania2.coupon_project.beans.Coupon;
 import com.couponmania2.coupon_project.beans.Customer;
-import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestException;
-import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestMessage;
+import com.couponmania2.coupon_project.exceptions.*;
 import com.couponmania2.coupon_project.facade.AdminServiceImpl;
 import com.couponmania2.coupon_project.facade.CustomerServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -41,32 +40,32 @@ public class CustomerController extends ClientController {
 
     @PostMapping("/newPurchase")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void purchaseCoupon(@RequestHeader(name = "Authorization") String token, @RequestBody Coupon coupon) throws AppUnauthorizedRequestException {
+    public void purchaseCoupon(@RequestHeader(name = "Authorization") String token, @RequestBody Coupon coupon) throws AppUnauthorizedRequestException, AppTargetExistsException {
         long customerId = validate(token);
         customerService.purchaseCoupon(customerId, coupon.getId());
     }
 
     //
     @GetMapping("/getCustomerCoupons")
-    public ResponseEntity<?> getCustomerCoupons(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException {
+    public ResponseEntity<?> getCustomerCoupons(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
         long customerId = validate(token);
         return new ResponseEntity<>(customerService.getCustomerCoupons(customerId), HttpStatus.OK);
     }
 
     @GetMapping("/getCustomerCoupons/category")
-    public ResponseEntity<?> getCustomerCouponsByCategory(@RequestHeader(name = "Authorization") String token, @RequestBody Category category) throws AppUnauthorizedRequestException {
+    public ResponseEntity<?> getCustomerCouponsByCategory(@RequestHeader(name = "Authorization") String token, @RequestBody Category category) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
         long customerId = validate(token);
         return new ResponseEntity<>(customerService.getCustomerCouponsByCategory(customerId, category), HttpStatus.OK);
     }
 
     @GetMapping("/getCustomerCoupons/maxPrice")
-    public ResponseEntity<?> getCustomerCouponsByMaxPrice(@RequestHeader(name = "Authorization") String token, @PathVariable double maxPrice) throws AppUnauthorizedRequestException {
+    public ResponseEntity<?> getCustomerCouponsByMaxPrice(@RequestHeader(name = "Authorization") String token, @PathVariable double maxPrice) throws AppUnauthorizedRequestException, AppTargetNotFoundException, AppInvalidInputException {
         long customerId = validate(token);
         return new ResponseEntity<>(customerService.getCustomerCouponsByMaxPrice(customerId, maxPrice), HttpStatus.OK);
     }
 
     @GetMapping("/getCustomerDetails/?")
-    public ResponseEntity<?> getCustomerDetails(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException {
+    public ResponseEntity<?> getCustomerDetails(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
         long customerId = validate(token);
         return new ResponseEntity<>(customerService.getCustomerDetails(customerId), HttpStatus.OK);
     }
@@ -74,7 +73,7 @@ public class CustomerController extends ClientController {
     private long validate(String token) throws AppUnauthorizedRequestException {
         UserDetails user = jwtUtils.validateToken(token);
         if (!(user.getRole().equals(ClientType.CUSTOMER.getName()))) {
-            throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS.getMessage());
+            throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS);
         }
         return user.getId();
     }

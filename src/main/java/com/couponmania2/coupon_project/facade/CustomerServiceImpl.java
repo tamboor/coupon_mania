@@ -5,8 +5,7 @@ import com.couponmania2.coupon_project.beans.Category;
 import com.couponmania2.coupon_project.beans.Coupon;
 import com.couponmania2.coupon_project.beans.Customer;
 import com.couponmania2.coupon_project.beans.Purchase;
-import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestException;
-import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestMessage;
+import com.couponmania2.coupon_project.exceptions.*;
 import com.couponmania2.coupon_project.repositories.CompanyRepo;
 import com.couponmania2.coupon_project.repositories.CouponRepo;
 import com.couponmania2.coupon_project.repositories.CustomerRepo;
@@ -34,60 +33,61 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer checkCredentials(String userName, String userPass, ClientType clientType) throws AppUnauthorizedRequestException {
-        if (customerRepo.findByEmailAndPassword(userName,userPass).isEmpty() || !(clientType.equals(ClientType.CUSTOMER))){
+        if (customerRepo.findByEmailAndPassword(userName, userPass).isEmpty() || !(clientType.equals(ClientType.CUSTOMER))) {
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS.getMessage());
         }
-        return customerRepo.findByEmailAndPassword(userName,userPass).get();
+        return customerRepo.findByEmailAndPassword(userName, userPass).get();
     }
 
     //todo: add validation
     @Override
-    public void purchaseCoupon(Coupon coupon, Customer customer) {
+    public void purchaseCoupon(Coupon coupon, Customer customer) throws AppTargetExistsException {
+        //todo: check if needed to change to Optional
         if (purchaseRepo.findByCustomerAndCoupon(customer, coupon) != null) {
-            //todo: add custom exception.
+            throw new AppTargetExistsException(AppTargetExistsMessage.COUPON_EXISTS);
         }
         purchaseRepo.save(new Purchase(customer, coupon));
     }
 
     @Override
-    public void purchaseCoupon(long couponId, long customerId) {
+    public void purchaseCoupon(long couponId, long customerId) throws AppTargetExistsException {
         if (purchaseRepo.findByCustomerAndCoupon(customerRepo.getById(customerId), couponRepo.getById(couponId)) != null) {
-            //todo: add custom exception.
+            throw new AppTargetExistsException(AppTargetExistsMessage.COUPON_EXISTS);
         }
         purchaseRepo.save(new Purchase(customerRepo.getById(customerId), couponRepo.getById(couponId)));
     }
 
     @Override
-    public Set<Coupon> getCustomerCoupons(long customerId) {
+    public Set<Coupon> getCustomerCoupons(long customerId) throws AppTargetNotFoundException {
         if (customerRepo.findById(customerId).isEmpty()) {
-            //todo: add custom exception if customer doesn't exist.
+            throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
         }
         return purchaseRepo.getAllCouponsOfCustomer(customerRepo.getById(customerId));
     }
 
     @Override
-    public Set<Coupon> getCustomerCouponsByCategory(long customerId, Category category) {
-        if (!customerRepo.existsById(customerId)){
-            //todo: add custom exception
+    public Set<Coupon> getCustomerCouponsByCategory(long customerId, Category category) throws AppTargetNotFoundException {
+        if (!customerRepo.existsById(customerId)) {
+            throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
         }
         return purchaseRepo.getCouponsOfCustomerByCategory(customerRepo.getById(customerId), category);
     }
 
     @Override
-    public Set<Coupon> getCustomerCouponsByMaxPrice(long customerId, double maxPrice) {
-        if (!customerRepo.existsById(customerId)){
-            //todo: add custom exception
+    public Set<Coupon> getCustomerCouponsByMaxPrice(long customerId, double maxPrice) throws AppTargetNotFoundException, AppInvalidInputException {
+        if (!customerRepo.existsById(customerId)) {
+            throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
         }
         if (maxPrice <= 0) {
-            //todo: add custom exception: price cannot be below 0.
+            throw new AppInvalidInputException(AppInvalidInputMessage.NEGATIVE_PRICE);
         }
         return purchaseRepo.getCouponsOfCustomerByMaxPrice(customerRepo.getById(customerId), maxPrice);
     }
 
     @Override
-    public Customer getCustomerDetails(long customerId) {
+    public Customer getCustomerDetails(long customerId) throws AppTargetNotFoundException {
         if (customerRepo.findById(customerId).isEmpty()) {
-            //todo: add custom exception if customer doesn't exist.
+            throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
         }
         return customerRepo.getById(customerId);
     }
