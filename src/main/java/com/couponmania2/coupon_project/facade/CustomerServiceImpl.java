@@ -11,7 +11,6 @@ import com.couponmania2.coupon_project.repositories.CompanyRepo;
 import com.couponmania2.coupon_project.repositories.CouponRepo;
 import com.couponmania2.coupon_project.repositories.CustomerRepo;
 import com.couponmania2.coupon_project.repositories.PurchaseRepo;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,19 +20,24 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
+//todo: change to required args c'tor
 public class CustomerServiceImpl implements CustomerService {
-    protected final CompanyRepo companyRepo;
-    protected final CustomerRepo customerRepo;
-    protected final CouponRepo couponRepo;
-    protected final PurchaseRepo purchaseRepo;
+    //todo: delete if redundant.
+    @Autowired
+    protected CompanyRepo companyRepo;
+    @Autowired
+    protected CustomerRepo customerRepo;
+    @Autowired
+    protected CouponRepo couponRepo;
+    @Autowired
+    protected PurchaseRepo purchaseRepo;
 
     @Override
-    public long checkCredentials(String userName, String userPass, ClientType clientType) throws AppUnauthorizedRequestException {
+    public Customer checkCredentials(String userName, String userPass, ClientType clientType) throws AppUnauthorizedRequestException {
         if (customerRepo.findByEmailAndPassword(userName,userPass).isEmpty() || !(clientType.equals(ClientType.CUSTOMER))){
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS.getMessage());
         }
-        return customerRepo.findByEmailAndPassword(userName,userPass).get().getId();
+        return customerRepo.findByEmailAndPassword(userName,userPass).get();
     }
 
     //todo: add validation

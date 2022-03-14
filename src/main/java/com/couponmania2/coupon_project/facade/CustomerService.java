@@ -12,7 +12,7 @@ import java.util.Set;
 
 public interface CustomerService {
 
-    long checkCredentials(String userName, String userPass, ClientType clientType) throws AppUnauthorizedRequestException;
+    Customer checkCredentials(String userName, String userPass, ClientType clientType) throws AppUnauthorizedRequestException;
     void purchaseCoupon(Coupon coupon , Customer customer);
     void purchaseCoupon(long couponId , long customerId) ;
     Set<Coupon> getCustomerCoupons(long customerId);
