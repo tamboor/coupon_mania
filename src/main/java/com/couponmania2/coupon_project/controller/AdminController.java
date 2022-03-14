@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Set;
 
-//todo: check how verify token by params and not only by token signature.(user name, role, exp. date etc.)
 
 
 @RestController
@@ -29,18 +28,11 @@ public class AdminController extends ClientController {
     private final JwtUtils jwtUtils;
 
 
-    //    @Override
-//    @PostMapping("login")
-//    //todo: check if we can use @RequestParam instead of @RequestBody
-//    public ResponseEntity<?> login(@RequestBody UserDetails userDetails) throws AppUnauthorizedRequestException {
-//        userDetails.setId(adminService.checkCredentials(userDetails.getUserName(), userDetails.getUserPass()));
-//        return new ResponseEntity<>(jwtUtils.generateToken(userDetails), HttpStatus.OK);
-//    }
+
     @Override
     @PostMapping("login")
     public ResponseEntity<?> login(@RequestParam String userName, @RequestParam String userPass, @RequestParam ClientType clientType)
             throws AppUnauthorizedRequestException {
-//    userDetails.setId(adminService.checkCredentials(userDetails.getUserName(), userDetails.getUserPass()));
         UserDetails user = UserDetails.builder()
                 .userName(userName)
                 .userPass(userPass)
@@ -52,7 +44,7 @@ public class AdminController extends ClientController {
 
     @PostMapping("/addCompany")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addCompany(@RequestHeader(name = "Authorization") String token, @RequestBody Company company) throws AppUnauthorizedRequestException,AppTargetExistsException {
+    public void addCompany(@RequestHeader(name = "Authorization") String token, @RequestBody Company company) throws AppUnauthorizedRequestException, AppTargetExistsException {
         validate(token);
         adminService.addCompany(company);
 
@@ -115,9 +107,6 @@ public class AdminController extends ClientController {
     public ResponseEntity<?> getOneCustomer(@RequestHeader(name = "Authorization") String token, @PathVariable long customerId) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
         validate(token);
         return new ResponseEntity<>(adminService.getOneCustomer(customerId), HttpStatus.OK);
-//        return ResponseEntity.status(HttpStatus.OK).body(adminService.getOneCustomer(customerId));
-//        return new ResponseEntity<Customer>(HttpStatus.);
-
     }
 
     private void validate(String token) throws AppUnauthorizedRequestException {
