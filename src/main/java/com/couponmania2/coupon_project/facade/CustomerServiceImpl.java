@@ -10,6 +10,7 @@ import com.couponmania2.coupon_project.repositories.CompanyRepo;
 import com.couponmania2.coupon_project.repositories.CouponRepo;
 import com.couponmania2.coupon_project.repositories.CustomerRepo;
 import com.couponmania2.coupon_project.repositories.PurchaseRepo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,17 +20,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-//todo: change to required args c'tor
+@RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
-    //todo: delete if redundant.
-    @Autowired
-    protected CompanyRepo companyRepo;
-    @Autowired
-    protected CustomerRepo customerRepo;
-    @Autowired
-    protected CouponRepo couponRepo;
-    @Autowired
-    protected PurchaseRepo purchaseRepo;
+    private final CustomerRepo customerRepo;
+    private final CouponRepo couponRepo;
+    private final PurchaseRepo purchaseRepo;
 
     @Override
     public Customer checkCredentials(String userName, String userPass, ClientType clientType) throws AppUnauthorizedRequestException {
@@ -39,7 +34,6 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepo.findByEmailAndPassword(userName, userPass).get();
     }
 
-    //todo: add validation
     @Override
     public void purchaseCoupon(Coupon coupon, Customer customer) throws AppTargetExistsException {
         //todo: check if needed to change to Optional
