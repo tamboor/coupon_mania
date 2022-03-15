@@ -5,10 +5,7 @@ import com.couponmania2.coupon_project.auth.JwtUtils;
 import com.couponmania2.coupon_project.auth.UserDetails;
 import com.couponmania2.coupon_project.beans.Company;
 import com.couponmania2.coupon_project.beans.Customer;
-import com.couponmania2.coupon_project.exceptions.AppTargetExistsException;
-import com.couponmania2.coupon_project.exceptions.AppTargetNotFoundException;
-import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestException;
-import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestMessage;
+import com.couponmania2.coupon_project.exceptions.*;
 import com.couponmania2.coupon_project.facade.AdminServiceImpl;
 import com.couponmania2.coupon_project.serialization.CompanyForm;
 import com.couponmania2.coupon_project.serialization.CustomerForm;
@@ -49,7 +46,7 @@ public class AdminController extends ClientController {
 
     @PutMapping("/updateCompany")
     @ResponseStatus(HttpStatus.OK)
-    public void updateCompany(@RequestHeader(name = "Authorization") String token, @RequestParam long id, @RequestBody CompanyForm companyForm) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
+    public void updateCompany(@RequestHeader(name = "Authorization") String token, @RequestParam long id, @RequestBody CompanyForm companyForm) throws AppTargetNotFoundException, AppUnauthorizedRequestException, AppInvalidInputException {
         validate(token);
         Company company = adminService.getOneCompany(id);
         company.setName(companyForm.getName());

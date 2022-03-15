@@ -48,10 +48,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void updateCompany(Company company) throws AppTargetNotFoundException {
+    public void updateCompany(Company company) throws AppInvalidInputException {
 //        companyRepo.existsByIdAndName(company)
         if (!companyRepo.existsByIdAndName(company.getId(), company.getName())) {
-            throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);
+            throw new AppInvalidInputException(AppInvalidInputMessage.COMPANY_NAME_CHANGE);
         }
         companyRepo.save(company);
     }
@@ -95,7 +95,6 @@ public class AdminServiceImpl implements AdminService {
 
         Optional<Company> companyOptional = companyRepo.findById(companyID);
         if (companyOptional.isEmpty()) {
-            System.out.println("HEREEEEEEEEE");
             throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);
         }
         return companyOptional.get();
