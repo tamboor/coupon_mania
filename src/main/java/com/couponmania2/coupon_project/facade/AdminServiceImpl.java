@@ -92,8 +92,10 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Company getOneCompany(long companyID) throws AppTargetNotFoundException {
+
         Optional<Company> companyOptional = companyRepo.findById(companyID);
         if (companyOptional.isEmpty()) {
+            System.out.println("HEREEEEEEEEE");
             throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);
         }
         return companyOptional.get();
