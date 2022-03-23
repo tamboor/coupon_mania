@@ -129,6 +129,9 @@ companyRepo.deleteById(1L);
 //        System.out.println(companyRepo.findById(10));
 //        System.out.println(couponRepo.existsByCompanyAndTitle(companyRepo.getById(4),"coupon4"));
 
+        couponRepo.save(new Coupon(companyRepo.getById(2L),Category.Vacation , "couponDeleteJob",
+                "AAAAAAAAA" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().minusDays(1)) ,
+                10 , 50 ,"img"));
 
 
 
