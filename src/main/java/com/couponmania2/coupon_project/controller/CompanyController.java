@@ -53,7 +53,7 @@ public class CompanyController extends ClientController {
 
         companyService.addCoupon(new Coupon(couponForm , validateForObject(token)));
     }
-
+//todo: make this work!!!
     @PutMapping("/updateCoupon")
     @ResponseStatus(HttpStatus.OK)
     private void updateCoupon(@RequestHeader(name = "Authorization") String token ,@RequestBody CouponForm couponForm) throws AppUnauthorizedRequestException, AppInvalidInputException {

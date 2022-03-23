@@ -1,10 +1,10 @@
 package com.couponmania2.coupon_project.serialization;
 
 public class CustomerForm {
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String password;
+    private String firstName="";
+    private String lastName="";
+    private String email="";
+    private String password="";
 
     public String getFirstName() {
         return firstName;

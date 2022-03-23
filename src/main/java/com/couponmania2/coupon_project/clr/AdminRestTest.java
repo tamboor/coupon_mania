@@ -74,11 +74,11 @@ public class AdminRestTest implements CommandLineRunner {
 
 
         CustomerForm cFORM2 = new CustomerForm();
-        cFORM.setFirstName("notAlon");
-        cFORM.setLastName("notMintz");
-//        cFORM.setEmail("alon222mintz222@mintz");
-        cFORM.setPassword("ggggggggg");
-//        addCustomer(cFORM , token);
+        cFORM2.setFirstName("notAlon");
+        cFORM2.setLastName("notMintz");
+        //cFORM2.setEmail("alon222mintz222@mintz");
+        cFORM2.setPassword("ggggggggg");
+       // addCustomer(cFORM2 , token);
         updateCustomer(cFORM2 , 2L , token);
     }
 

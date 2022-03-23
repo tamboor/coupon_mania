@@ -1,9 +1,9 @@
 package com.couponmania2.coupon_project.serialization;
 
 public class CompanyForm {
-    private String name;
-    private String email;
-    private String password;
+    private String name= "";
+    private String email= "";
+    private String password= "";
 
     public String getName() {
         return name;

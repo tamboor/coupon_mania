@@ -48,11 +48,17 @@ public class AdminController extends ClientController {
     @ResponseStatus(HttpStatus.OK)
     public void updateCompany(@RequestHeader(name = "Authorization") String token, @RequestParam long id, @RequestBody CompanyForm companyForm) throws AppTargetNotFoundException, AppUnauthorizedRequestException, AppInvalidInputException {
         validate(token);
-        Company company = adminService.getOneCompany(id);
-        company.setName(companyForm.getName());
-        company.setEmail(companyForm.getEmail());
-        company.setPassword(company.getPassword());
-        adminService.updateCompany(company);
+        Company companyToUpdate = adminService.getOneCompany(id);
+        if (!companyForm.getName().equals("")){
+            companyToUpdate.setName(companyForm.getName());
+        }
+        if (!companyForm.getEmail().equals("")){
+            companyToUpdate.setEmail(companyForm.getEmail());
+        }
+        if (!companyForm.getPassword().equals("")){
+            companyToUpdate.setPassword(companyToUpdate.getPassword());
+        }
+        adminService.updateCompany(companyToUpdate);
     }
 
     @DeleteMapping("/deleteCompany/{companyId}")
@@ -87,11 +93,18 @@ public class AdminController extends ClientController {
         validate(token);
 
         Customer customerToUpdate = adminService.getOneCustomer(id);
-        customerToUpdate.setFirstName(customerForm.getFirstName());
-        customerToUpdate.setLastName(customerForm.getLastName());
-        customerToUpdate.setEmail(customerForm.getEmail());
-        customerToUpdate.setPassword(customerForm.getPassword());
-
+        if (!customerForm.getFirstName().equals("")) {
+            customerToUpdate.setFirstName(customerForm.getFirstName());
+        }
+        if (!customerForm.getLastName().equals("")) {
+            customerToUpdate.setLastName(customerForm.getLastName());
+        }
+        if (!customerForm.getEmail().equals("")) {
+            customerToUpdate.setEmail(customerForm.getEmail());
+        }
+        if (!customerForm.getPassword().equals("")) {
+            customerToUpdate.setPassword(customerForm.getPassword());
+        }
         adminService.updateCustomer(customerToUpdate);
     }
 
