@@ -9,6 +9,7 @@ import com.couponmania2.coupon_project.repositories.CompanyRepo;
 import com.couponmania2.coupon_project.repositories.CouponRepo;
 import com.couponmania2.coupon_project.repositories.CustomerRepo;
 import com.couponmania2.coupon_project.repositories.PurchaseRepo;
+import com.couponmania2.coupon_project.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
@@ -53,25 +54,25 @@ public class TestMockData implements CommandLineRunner {
 
 
         couponRepo.save(new Coupon(companyRepo.getById(1L),Category.Cars , "coupon1",
-                "coupon1desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
+                "coupon1desc" ,DateUtils.getRandomSqlStartDate(), DateUtils.getRandomSqlEndDate() ,
                 10 , 10 ,"img"));
         couponRepo.save(new Coupon(companyRepo.getById(1L),Category.Tattoos , "coupon2",
-                "coupon2desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
+                "coupon2desc" ,DateUtils.getRandomSqlStartDate(), DateUtils.getRandomSqlEndDate() ,
                 10 , 15 ,"img"));
         couponRepo.save(new Coupon(companyRepo.getById(1L),Category.Food , "coupon3",
-                "coupon3desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
+                "coupon3desc" , DateUtils.getRandomSqlStartDate(), DateUtils.getRandomSqlEndDate() ,
                 10 , 20 ,"img"));
         couponRepo.save(new Coupon(companyRepo.getById(2L),Category.Xtreme , "coupon4",
-                "coupon4desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
+                "coupon4desc" ,DateUtils.getRandomSqlStartDate(), DateUtils.getRandomSqlEndDate() ,
                 10 , 25 ,"img"));
         couponRepo.save(new Coupon(companyRepo.getById(2L),Category.Vacation , "coupon5",
-                "coupon5desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
+                "coupon5desc" ,DateUtils.getRandomSqlStartDate(), DateUtils.getRandomSqlEndDate() ,
                 10 , 30 ,"img"));
         couponRepo.save(new Coupon(companyRepo.getById(3L),Category.Food , "coupon6",
-                "coupon6desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
+                "coupon6desc" ,DateUtils.getRandomSqlStartDate(), DateUtils.getRandomSqlEndDate() ,
                 10 , 45 ,"img"));
         couponRepo.save(new Coupon(companyRepo.getById(3L),Category.Vacation , "coupon7",
-                "coupon7desc" ,Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)) ,
+                "coupon7desc" ,DateUtils.getRandomSqlStartDate(), DateUtils.getRandomSqlEndDate() ,
                 10 , 50 ,"img"));
 
 //todo: find out what happens if you insert purchases in a new customer that doesn't has an id yet
@@ -93,15 +94,15 @@ public class TestMockData implements CommandLineRunner {
 
                 insertCompany.setCoupons(new HashSet<Coupon>(Arrays.asList(
                 new Coupon(insertCompany , Category.Cars , "cool title1" ,
-                        "desccccc1" , Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)),
+                        "desccccc1" , DateUtils.getRandomSqlStartDate(), DateUtils.getRandomSqlEndDate(),
                         10 , 10 ,"img"
                         ),
                 new Coupon(insertCompany , Category.Vacation , "cool title2" ,
-                        "desccccc2" , Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)),
+                        "desccccc2" , DateUtils.getRandomSqlStartDate(), DateUtils.getRandomSqlEndDate(),
                         10 , 10 ,"img"
                 ),
                 new Coupon(insertCompany , Category.Cars , "cool title3" ,
-                        "desccccc3" , Date.valueOf(LocalDate.now()) , Date.valueOf(LocalDate.now().plusDays(14)),
+                        "desccccc3" , DateUtils.getRandomSqlStartDate(), DateUtils.getRandomSqlEndDate(),
                         -1 , 10 ,"img"
                 ))));
         companyRepo.save(insertCompany);

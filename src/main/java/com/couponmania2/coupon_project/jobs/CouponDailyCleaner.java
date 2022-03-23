@@ -1,6 +1,7 @@
 package com.couponmania2.coupon_project.jobs;
 
 import com.couponmania2.coupon_project.repositories.CouponRepo;
+import com.couponmania2.coupon_project.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,8 +18,7 @@ public class CouponDailyCleaner {
 
     @Scheduled(fixedRate = 1000*60*60*24)
     public void cleanExpiredCoupons(){
-        //TODO: date utils
         //TODO: Check if need handling interuptions
-        couponRepo.deleteByEndDateBefore(Date.valueOf(LocalDate.now()));
+        couponRepo.deleteByEndDateBefore(DateUtils.getCurrDate());
     }
 }
