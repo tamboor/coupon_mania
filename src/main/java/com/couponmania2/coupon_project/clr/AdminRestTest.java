@@ -3,6 +3,7 @@ package com.couponmania2.coupon_project.clr;
 import com.couponmania2.coupon_project.auth.ClientType;
 import com.couponmania2.coupon_project.beans.Customer;
 import com.couponmania2.coupon_project.controller.ClientController;
+import com.couponmania2.coupon_project.serialization.CustomerForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -59,6 +60,26 @@ public class AdminRestTest implements CommandLineRunner {
 
         getOneCustomer(1L);
         //getAllCustomers();
+
+        CustomerForm cFORM = new CustomerForm();
+        cFORM.setFirstName("alon2");
+        cFORM.setLastName("mintz2");
+        cFORM.setEmail("alon222mintz222@mintz");
+        cFORM.setPassword("ggggggggg");
+        addCustomer(cFORM , token);
+
+
+
+        deleteCustomer(4L);
+
+
+        CustomerForm cFORM2 = new CustomerForm();
+        cFORM.setFirstName("notAlon");
+        cFORM.setLastName("notMintz");
+//        cFORM.setEmail("alon222mintz222@mintz");
+        cFORM.setPassword("ggggggggg");
+//        addCustomer(cFORM , token);
+        updateCustomer(cFORM2 , 2L , token);
     }
 
     private void getOneCustomer(Long id) {
@@ -79,7 +100,37 @@ public class AdminRestTest implements CommandLineRunner {
         Set<Customer> c = restTemplate.exchange(GET_ALL_CUSTOMER_URL,
                 HttpMethod.GET, httpEntity, Set.class).getBody();
         System.out.println(c);
+    }
 
+    private void addCustomer(CustomerForm customer , String token){
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", token);
+        this.httpEntity = new HttpEntity<>( customer, headers);
+
+        restTemplate.exchange(ADD_CUSTOMER_URL , HttpMethod.POST , httpEntity , Void.class
+                , new HashMap<>()
+                );
+    }
+
+    private void deleteCustomer(Long id){
+        Map<String , Long> params = new HashMap<>();
+        params.put("id" , id);
+
+        restTemplate.exchange(DELETE_CUSTOMER_URL , HttpMethod.DELETE,
+                httpEntity , Void.class , params);
+    }
+
+    private void updateCustomer(CustomerForm customerForm , Long id , String token){
+        Map<String , Long> params = new HashMap<>();
+        params.put("id" , id);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", token);
+        this.httpEntity = new HttpEntity<>( customerForm, headers);
+
+        restTemplate.exchange(UPDATE_CUSTOMER_URL , HttpMethod.PUT,
+                httpEntity, Void.class , params);
 
     }
 }
