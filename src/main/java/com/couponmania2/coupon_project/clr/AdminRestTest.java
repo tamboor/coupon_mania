@@ -286,7 +286,7 @@ public class AdminRestTest implements CommandLineRunner {
                 HttpMethod.GET, httpEntity, Optional.class, params).getBody();
 
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println(c);
+        System.out.println(c.get());
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
     }
