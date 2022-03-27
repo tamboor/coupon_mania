@@ -6,13 +6,13 @@ import java.sql.Date;
 
 public class CouponForm {
     private Category category;
-    private String title;
-    private String description;
+    private String title = "";
+    private String description = "";
     private Date startDate;
     private Date endDate;
-    private int amount;
-    private  double price;
-    private String image;
+    private int amount = -1;
+    private  double price = -1;
+    private String image = "";
 
     public Category getCategory() {
         return category;

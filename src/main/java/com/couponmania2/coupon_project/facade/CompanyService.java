@@ -16,6 +16,7 @@ public interface CompanyService {
      void addCoupon(Coupon coupon) throws AppTargetExistsException;
      void updateCoupon(Coupon coupon) throws Exception;
      void deleteCoupon(long couponId , long companyId) throws AppTargetNotFoundException, AppInvalidInputException;
+     Coupon getCouponByID (long couponId) throws AppTargetNotFoundException;
      Set<Coupon>getAllCompanyCoupons(long companyId) throws AppTargetNotFoundException;
      Set<Coupon>getCompanyCouponsByCategory(long companyId,Category category) throws AppTargetNotFoundException;
     Set<Coupon>getCompanyCouponsByMaxPrice(long companyId,double maxPrice) throws AppTargetNotFoundException, AppInvalidInputException;

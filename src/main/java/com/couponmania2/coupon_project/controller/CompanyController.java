@@ -32,7 +32,7 @@ public class CompanyController extends ClientController {
                 .userName(userName)
                 .userPass(userPass)
                 .role(clientType.getName())
-                .id(companyService.checkCredentials(userName , userPass , clientType).getId())
+                .id(companyService.checkCredentials(userName, userPass, clientType).getId())
                 .build();
 
         return new ResponseEntity<>(jwtUtils.generateToken(user), HttpStatus.OK);
@@ -40,7 +40,7 @@ public class CompanyController extends ClientController {
 
     @PostMapping("/addCoupon")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addCoupon(@RequestHeader(name = "Authorization") String token , @RequestBody CouponForm couponForm) throws AppUnauthorizedRequestException, AppTargetExistsException {
+    public void addCoupon(@RequestHeader(name = "Authorization") String token, @RequestBody CouponForm couponForm) throws AppUnauthorizedRequestException, AppTargetExistsException {
 //        long id = validate(token);
 //
 //        Company company = null;
@@ -51,46 +51,69 @@ public class CompanyController extends ClientController {
 //            throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.NO_LOGIN);
 //        }
 
-        companyService.addCoupon(new Coupon(couponForm , validateForObject(token)));
+        companyService.addCoupon(new Coupon(couponForm, validateForObject(token)));
     }
-//todo: make this work!!!
+
+    //todo: make this work!!!
     @PutMapping("/updateCoupon")
     @ResponseStatus(HttpStatus.OK)
-    private void updateCoupon(@RequestHeader(name = "Authorization") String token ,@RequestBody CouponForm couponForm) throws AppUnauthorizedRequestException, AppInvalidInputException {
-//        validate(token);
-        companyService.updateCoupon(new Coupon(couponForm , validateForObject(token)));
+    private void updateCoupon(@RequestHeader(name = "Authorization") String token, @RequestParam long couponId, @RequestBody CouponForm couponForm) throws AppUnauthorizedRequestException, AppInvalidInputException, AppTargetNotFoundException {
+        validate(token);
+        Coupon couponToUpdate = companyService.getCouponByID(couponId);
+        if (!couponForm.getCategory().getName().equals("")) {
+            couponToUpdate.setCategory(couponForm.getCategory());
+        }
+        if (!couponForm.getTitle().equals("")) {
+            couponToUpdate.setTitle(couponForm.getTitle());
+        }
+        if (!couponForm.getDescription().equals("")) {
+            couponToUpdate.setDescription(couponForm.getDescription());
+        }
+        if (!(couponForm.getAmount() < 0)) {
+            couponToUpdate.setAmount(couponForm.getAmount());
+        }
+        if (!(couponForm.getPrice() < 0)) {
+            couponToUpdate.setPrice(couponForm.getPrice());
+        }
+        if (!couponForm.getImage().equals("")) {
+            couponToUpdate.setImage(couponForm.getImage());
+        }
+        couponToUpdate.setStartDate(couponForm.getStartDate());
+        couponToUpdate.setEndDate(couponForm.getEndDate());
+        companyService.updateCoupon(couponToUpdate);
     }
 
     @DeleteMapping("/deleteCoupon/{couponId}")
     @ResponseStatus(HttpStatus.OK)
-    private void deleteCoupon (@RequestHeader(name = "Authorization") String token, @PathVariable long couponId) throws AppUnauthorizedRequestException, AppTargetNotFoundException, AppInvalidInputException {
+    private void deleteCoupon(@RequestHeader(name = "Authorization") String token, @PathVariable long couponId) throws AppUnauthorizedRequestException, AppTargetNotFoundException, AppInvalidInputException {
         long id = validate(token);
-        companyService.deleteCoupon(couponId , id);
+        companyService.deleteCoupon(couponId, id);
     }
 
     @GetMapping("/getCompanyCoupons")
-    private ResponseEntity<?> getAllCoupons (@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
+    private ResponseEntity<?> getAllCoupons(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
         long id = validate(token);
-        return new ResponseEntity<>(companyService.getAllCompanyCoupons(id),HttpStatus.OK);
+        return new ResponseEntity<>(companyService.getAllCompanyCoupons(id), HttpStatus.OK);
     }
 
     @GetMapping("/getCompanyCoupons/category")
-    private ResponseEntity<?> getCouponsByCategory (@RequestHeader(name = "Authorization") String token , @PathVariable Category category) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
+    private ResponseEntity<?> getCouponsByCategory(@RequestHeader(name = "Authorization") String token, @PathVariable Category category) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
         long id = validate(token);
-        return new ResponseEntity<>(companyService.getCompanyCouponsByCategory(id, category),HttpStatus.OK);
+        return new ResponseEntity<>(companyService.getCompanyCouponsByCategory(id, category), HttpStatus.OK);
     }
 
     @GetMapping("/getCompanyCoupons/maxPrice")
-    private ResponseEntity<?> getCouponsByMaxPrice (@RequestHeader(name = "Authorization") String token ,@PathVariable double maxPrice) throws AppUnauthorizedRequestException, AppTargetNotFoundException, AppInvalidInputException {
+    private ResponseEntity<?> getCouponsByMaxPrice(@RequestHeader(name = "Authorization") String token, @PathVariable double maxPrice) throws AppUnauthorizedRequestException, AppTargetNotFoundException, AppInvalidInputException {
         long id = validate(token);
-        return new ResponseEntity<>(companyService.getCompanyCouponsByMaxPrice(id, maxPrice),HttpStatus.OK);
+        return new ResponseEntity<>(companyService.getCompanyCouponsByMaxPrice(id, maxPrice), HttpStatus.OK);
     }
 
     @GetMapping("/getCompanyDetails")
-    private ResponseEntity<?> getCompanyDetails (@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
+    private ResponseEntity<?> getCompanyDetails(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
         long id = validate(token);
-        return new ResponseEntity<>(companyService.getCompanyDetails(id),HttpStatus.OK);
+        return new ResponseEntity<>(companyService.getCompanyDetails(id), HttpStatus.OK);
     }
+
     //TODO: put in abstract father
     private long validate(String token) throws AppUnauthorizedRequestException {
         UserDetails user = jwtUtils.validateToken(token);

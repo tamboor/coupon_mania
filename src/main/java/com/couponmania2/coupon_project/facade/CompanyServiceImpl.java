@@ -65,6 +65,15 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    public Coupon getCouponByID(long couponId) throws AppTargetNotFoundException {
+        if (!couponRepo.existsById(couponId)){
+            throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COUPON_NOT_FOUND);
+        }
+        Optional<Coupon> optionalCoupon = couponRepo.findById(couponId);
+        return optionalCoupon.get();
+    }
+
+    @Override
     public Set<Coupon> getAllCompanyCoupons(long companyId) throws AppTargetNotFoundException {
         if (!companyRepo.existsById(companyId)) {
             throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);

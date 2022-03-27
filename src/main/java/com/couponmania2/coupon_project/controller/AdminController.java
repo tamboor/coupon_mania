@@ -56,7 +56,7 @@ public class AdminController extends ClientController {
             companyToUpdate.setEmail(companyForm.getEmail());
         }
         if (!companyForm.getPassword().equals("")){
-            companyToUpdate.setPassword(companyToUpdate.getPassword());
+            companyToUpdate.setPassword(companyForm.getPassword());
         }
         adminService.updateCompany(companyToUpdate);
     }
