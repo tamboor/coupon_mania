@@ -6,6 +6,9 @@ import com.couponmania2.coupon_project.beans.Customer;
 import com.couponmania2.coupon_project.exceptions.*;
 import com.couponmania2.coupon_project.serialization.CompanyForm;
 import com.couponmania2.coupon_project.serialization.CustomerForm;
+import com.couponmania2.coupon_project.utils.TablePrinter;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 @Order(2)
@@ -72,7 +76,7 @@ public class AdminRestTest implements CommandLineRunner {
                 System.out.println(err.getMessage());
             }
         }
-
+//
         // data of customer to add:
         try {
             CustomerForm cFORM = new CustomerForm();
@@ -180,7 +184,7 @@ public class AdminRestTest implements CommandLineRunner {
         try {
 
             CompanyForm cFORM2 = new CompanyForm();
-           // cFORM2.setName("restUpdate");
+            // cFORM2.setName("restUpdate");
             cFORM2.setEmail("rest@update.com");
             cFORM2.setPassword("updatePass");
 
@@ -212,16 +216,34 @@ public class AdminRestTest implements CommandLineRunner {
 
         Map<String, Long> params = new HashMap<>();
         params.put("id", id);
-        Optional<Customer> c = restTemplate.exchange(GET_ONE_CUSTOMER_URI,
-                HttpMethod.GET, httpEntity, Optional.class, params).getBody();
-        System.out.println(c.get());
+        String c = restTemplate.exchange(GET_ONE_CUSTOMER_URI,
+                HttpMethod.GET, httpEntity, String.class, params).getBody();
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        Customer customer = objectMapper.readValue(c, Customer.class);
+
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
+        System.out.println(customer);
+
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
     }
 
     private void getAllCustomers() throws Exception {
 
-        Set<Customer> c = restTemplate.exchange(GET_ALL_CUSTOMER_URI,
+        Set c = restTemplate.exchange(GET_ALL_CUSTOMER_URI,
                 HttpMethod.GET, httpEntity, Set.class).getBody();
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+//        List <Customer> customers = c.stream()
+//                .map(customer-> objectMapper.readValue(customer, Customer.class))
+//                .collect(Collectors.toList());
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         System.out.println(c);
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
+
     }
 
     private void addCustomer(CustomerForm customer) throws Exception {
@@ -254,9 +276,19 @@ public class AdminRestTest implements CommandLineRunner {
 
         Map<String, Long> params = new HashMap<>();
         params.put("id", id);
+//        String c = restTemplate.exchange(GET_ONE_COMPANY_URI,
+//                HttpMethod.GET, httpEntity, String.class, params).getBody();
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+//        Company company = objectMapper.readValue(c, Company.class);
+
         Optional<Company> c = restTemplate.exchange(GET_ONE_COMPANY_URI,
                 HttpMethod.GET, httpEntity, Optional.class, params).getBody();
-        System.out.println(c.get());
+
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println(c);
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
     }
 
     private void getAllCompanies() throws Exception {

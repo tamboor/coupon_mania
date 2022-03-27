@@ -14,11 +14,11 @@ public class Purchase {
     @Column(name = "id", nullable = false, updatable = false)
     private long id;
 //
-    @JsonBackReference
+    //@JsonBackReference
     @ManyToOne
     private Customer customer;
 
-    @JsonBackReference
+    //@JsonBackReference
     @ManyToOne
     private Coupon coupon;
 
@@ -28,7 +28,7 @@ public class Purchase {
         this.customer = customer;
         this.coupon = coupon;
     }
-
+//@JsonBackReference(value = "customer-purchase")
     public Customer getCustomer() {
         return customer;
     }
@@ -36,7 +36,7 @@ public class Purchase {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-
+//@JsonBackReference(value = "coupon-purchase")
     public Coupon getCoupon() {
         return coupon;
     }

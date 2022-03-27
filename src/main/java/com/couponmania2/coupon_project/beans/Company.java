@@ -38,7 +38,7 @@ public class Company {
     @Column(nullable = false , length = 30)
     private String password;
 
-    @JsonManagedReference
+//    @JsonManagedReference
     @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY , mappedBy = "company" , orphanRemoval = true)
     private Set<Coupon> coupons = new HashSet<>();
 

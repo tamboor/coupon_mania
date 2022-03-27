@@ -36,7 +36,7 @@ public class Customer {
     @Column(nullable = false,length = 40)
     private String password;
 
-    @JsonManagedReference
+    //@JsonManagedReference
     @OneToMany(mappedBy = "customer",orphanRemoval = true , cascade = CascadeType.PERSIST , fetch = FetchType.LAZY)
     Set<Purchase> purchases = new HashSet<>();
 
@@ -97,12 +97,24 @@ public class Customer {
     public void setPassword(String password) {
         this.password = password;
     }
-
+//@JsonManagedReference (value = "customer-purchase")
     public Set<Purchase> getPurchases() {
         return purchases;
     }
 
     public void setPurchases(Set<Purchase> purchases) {
         this.purchases = purchases;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", purchases=" + purchases +
+                '}';
     }
 }
