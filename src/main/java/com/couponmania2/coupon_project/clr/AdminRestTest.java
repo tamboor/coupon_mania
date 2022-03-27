@@ -1,17 +1,15 @@
 package com.couponmania2.coupon_project.clr;
 
 import com.couponmania2.coupon_project.auth.ClientType;
+import com.couponmania2.coupon_project.beans.Company;
 import com.couponmania2.coupon_project.beans.Customer;
-import com.couponmania2.coupon_project.controller.ClientController;
 import com.couponmania2.coupon_project.exceptions.*;
+import com.couponmania2.coupon_project.serialization.CompanyForm;
 import com.couponmania2.coupon_project.serialization.CustomerForm;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.*;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -25,17 +23,17 @@ public class AdminRestTest implements CommandLineRunner {
 
     private final RestTemplate restTemplate;
 
-    private final String LOGIN_URL = "http://localhost:8080/admin/login?clientType={clientType}&userName={userName}&userPass={userPass}";
-    private final String ADD_COMPANY_URL = "http://localhost:8080/admin/addCompany";
-    private final String DELETE_COMPANY_URL = "http://localhost:8080/admin/deleteCompany/{id}";
-    private final String UPDATE_COMPANY_URL = "http://localhost:8080/admin/updateCompany?id={id}";
-    private final String GET_ALL_COMPANIES_URL = "http://localhost:8080/admin/getAllCompanies";
-    private final String GET_ONE_COMPANY_URL = "http://localhost:8080/admin/getOneCompany/{id}";
-    private final String ADD_CUSTOMER_URL = "http://localhost:8080/admin/addCustomer";
-    private final String DELETE_CUSTOMER_URL = "http://localhost:8080/admin/deleteCustomer/{id}";
-    private final String UPDATE_CUSTOMER_URL = "http://localhost:8080/admin/updateCustomer?id={id}";
-    private final String GET_ALL_CUSTOMER_URL = "http://localhost:8080/admin/getAllCustomers";
-    private final String GET_ONE_CUSTOMER_URL = "http://localhost:8080/admin/getOneCustomer/{id}";
+    private final String LOGIN_URI = "http://localhost:8080/admin/login?clientType={clientType}&userName={userName}&userPass={userPass}";
+    private final String ADD_COMPANY_URI = "http://localhost:8080/admin/addCompany";
+    private final String DELETE_COMPANY_URI = "http://localhost:8080/admin/deleteCompany/{id}";
+    private final String UPDATE_COMPANY_URI = "http://localhost:8080/admin/updateCompany?id={id}";
+    private final String GET_ALL_COMPANIES_URI = "http://localhost:8080/admin/getAllCompanies";
+    private final String GET_ONE_COMPANY_URI = "http://localhost:8080/admin/getOneCompany/{id}";
+    private final String ADD_CUSTOMER_URI = "http://localhost:8080/admin/addCustomer";
+    private final String DELETE_CUSTOMER_URI = "http://localhost:8080/admin/deleteCustomer/{id}";
+    private final String UPDATE_CUSTOMER_URI = "http://localhost:8080/admin/updateCustomer?id={id}";
+    private final String GET_ALL_CUSTOMER_URI = "http://localhost:8080/admin/getAllCustomers";
+    private final String GET_ONE_CUSTOMER_URI = "http://localhost:8080/admin/getOneCustomer/{id}";
 
     private HttpEntity<?> httpEntity;
     private HttpHeaders headers;
@@ -46,30 +44,31 @@ public class AdminRestTest implements CommandLineRunner {
 
         try {
             login();
-        } catch (Exception e){
+        } catch (Exception e) {
             try {
                 throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.NO_LOGIN);
-            }catch (AppUnauthorizedRequestException err){
+            } catch (AppUnauthorizedRequestException err) {
                 System.out.println(err.getMessage());
             }
         }
 
+        //region rest template tests for customer
         try {
             getOneCustomer(1L);
-        } catch (Exception e){
+        } catch (Exception e) {
             try {
                 throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
-            }catch (AppTargetNotFoundException err){
+            } catch (AppTargetNotFoundException err) {
                 System.out.println(err.getMessage());
             }
         }
 
         try {
             getAllCustomers();
-        } catch (Exception e){
+        } catch (Exception e) {
             try {
                 throw new AppTargetNotFoundException("This is a restTemplate exception");
-            }catch (AppTargetNotFoundException err){
+            } catch (AppTargetNotFoundException err) {
                 System.out.println(err.getMessage());
             }
         }
@@ -83,29 +82,31 @@ public class AdminRestTest implements CommandLineRunner {
             cFORM.setPassword("ggggggggg");
 
             addCustomer(cFORM);
-        } catch (Exception e){
+        } catch (Exception e) {
             try {
                 throw new AppTargetExistsException(AppTargetExistsMessage.CUSTOMER_EXISTS);
-            }catch (AppTargetExistsException err){
+            } catch (AppTargetExistsException err) {
                 System.out.println(err.getMessage());
             }
         }
 
         //delete customer:
         try {
-            deleteCustomer(4L);        } catch (Exception e){
+            deleteCustomer(4L);
+        } catch (Exception e) {
             try {
                 throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
-            }catch (AppTargetNotFoundException err){
+            } catch (AppTargetNotFoundException err) {
                 System.out.println(err.getMessage());
             }
         }
 
         try {
-            deleteCustomer(4L);        } catch (Exception e){
+            deleteCustomer(4L);
+        } catch (Exception e) {
             try {
                 throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
-            }catch (AppTargetNotFoundException err){
+            } catch (AppTargetNotFoundException err) {
                 System.out.println(err.getMessage());
             }
         }
@@ -119,21 +120,79 @@ public class AdminRestTest implements CommandLineRunner {
             cFORM2.setEmail("alon222mintz222@mintz");
             cFORM2.setPassword("ggggggggg");
 
-            updateCustomer(cFORM2, 2L);        }
-        catch (Exception e){
+            updateCustomer(cFORM2, 2L);
+        } catch (Exception e) {
             try {
                 throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
-            }catch (AppTargetNotFoundException err){
+            } catch (AppTargetNotFoundException err) {
+                System.out.println(err.getMessage());
+            }
+        }
+        //endregion
+
+
+        //region rest template tests for company
+        try {
+            getOneCompany(2L);
+        } catch (Exception e) {
+            try {
+                throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);
+            } catch (AppTargetNotFoundException err) {
                 System.out.println(err.getMessage());
             }
         }
 
+        try {
+            getAllCompanies();
+        } catch (Exception e) {
+            try {
+                throw new AppTargetNotFoundException("This is a restTemplate exception");
+            } catch (AppTargetNotFoundException err) {
+                System.out.println(err.getMessage());
+            }
+        }
 
+        try {
+            CompanyForm cFORM = new CompanyForm();
+            cFORM.setName("restCompany");
+            cFORM.setEmail("rest@company.com");
+            cFORM.setPassword("password22022");
 
+            addCompany(cFORM);
+        } catch (Exception e) {
+            try {
+                throw new AppTargetExistsException(AppTargetExistsMessage.COMPANY_EXISTS);
+            } catch (AppTargetExistsException err) {
+                System.out.println(err.getMessage());
+            }
+        }
 
+        try {
+            deleteCompany(4L);
+        } catch (Exception e) {
+            try {
+                throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);
+            } catch (AppTargetNotFoundException err) {
+                System.out.println(err.getMessage());
+            }
+        }
 
+        try {
 
+            CompanyForm cFORM2 = new CompanyForm();
+           // cFORM2.setName("restUpdate");
+            cFORM2.setEmail("rest@update.com");
+            cFORM2.setPassword("updatePass");
 
+            updateCompany(cFORM2, 2L);
+        } catch (Exception e) {
+            try {
+                throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);
+            } catch (AppTargetNotFoundException err) {
+                System.out.println(err.getMessage());
+            }
+        }
+        //endregion
     }
 
     private void login() throws Exception {
@@ -142,7 +201,7 @@ public class AdminRestTest implements CommandLineRunner {
         params.put("userName", "admin@admin.com");
         params.put("userPass", "admin");
         params.put("clientType", ClientType.ADMIN);
-        this.token = restTemplate.postForObject(LOGIN_URL, HttpMethod.POST, String.class, params);
+        this.token = restTemplate.postForObject(LOGIN_URI, HttpMethod.POST, String.class, params);
         this.headers = new HttpHeaders();
         headers.set("Authorization", token);
         this.httpEntity = new HttpEntity<>(headers);
@@ -153,14 +212,14 @@ public class AdminRestTest implements CommandLineRunner {
 
         Map<String, Long> params = new HashMap<>();
         params.put("id", id);
-        Optional<Customer> c = restTemplate.exchange(GET_ONE_CUSTOMER_URL,
+        Optional<Customer> c = restTemplate.exchange(GET_ONE_CUSTOMER_URI,
                 HttpMethod.GET, httpEntity, Optional.class, params).getBody();
         System.out.println(c.get());
     }
 
-    private void getAllCustomers() throws Exception{
+    private void getAllCustomers() throws Exception {
 
-        Set<Customer> c = restTemplate.exchange(GET_ALL_CUSTOMER_URL,
+        Set<Customer> c = restTemplate.exchange(GET_ALL_CUSTOMER_URI,
                 HttpMethod.GET, httpEntity, Set.class).getBody();
         System.out.println(c);
     }
@@ -168,7 +227,7 @@ public class AdminRestTest implements CommandLineRunner {
     private void addCustomer(CustomerForm customer) throws Exception {
 
         this.httpEntity = new HttpEntity<>(customer, headers);
-        restTemplate.exchange(ADD_CUSTOMER_URL, HttpMethod.POST, httpEntity, Void.class
+        restTemplate.exchange(ADD_CUSTOMER_URI, HttpMethod.POST, httpEntity, Void.class
                 , new HashMap<>()
         );
     }
@@ -177,7 +236,7 @@ public class AdminRestTest implements CommandLineRunner {
 
         Map<String, Long> params = new HashMap<>();
         params.put("id", id);
-        restTemplate.exchange(DELETE_CUSTOMER_URL, HttpMethod.DELETE,
+        restTemplate.exchange(DELETE_CUSTOMER_URI, HttpMethod.DELETE,
                 httpEntity, Void.class, params);
     }
 
@@ -186,7 +245,49 @@ public class AdminRestTest implements CommandLineRunner {
         Map<String, Long> params = new HashMap<>();
         params.put("id", id);
         this.httpEntity = new HttpEntity<>(customerForm, headers);
-        restTemplate.exchange(UPDATE_CUSTOMER_URL, HttpMethod.PUT,
+        restTemplate.exchange(UPDATE_CUSTOMER_URI, HttpMethod.PUT,
+                httpEntity, Void.class, params);
+
+    }
+
+    private void getOneCompany(Long id) throws Exception {
+
+        Map<String, Long> params = new HashMap<>();
+        params.put("id", id);
+        Optional<Company> c = restTemplate.exchange(GET_ONE_COMPANY_URI,
+                HttpMethod.GET, httpEntity, Optional.class, params).getBody();
+        System.out.println(c.get());
+    }
+
+    private void getAllCompanies() throws Exception {
+
+        Set<Company> c = restTemplate.exchange(GET_ALL_COMPANIES_URI,
+                HttpMethod.GET, httpEntity, Set.class).getBody();
+        System.out.println(c);
+    }
+
+    private void addCompany(CompanyForm companyForm) throws Exception {
+
+        this.httpEntity = new HttpEntity<>(companyForm, headers);
+        restTemplate.exchange(ADD_COMPANY_URI, HttpMethod.POST, httpEntity, Void.class
+                , new HashMap<>()
+        );
+    }
+
+    private void deleteCompany(Long id) throws Exception {
+
+        Map<String, Long> params = new HashMap<>();
+        params.put("id", id);
+        restTemplate.exchange(DELETE_COMPANY_URI, HttpMethod.DELETE,
+                httpEntity, Void.class, params);
+    }
+
+    private void updateCompany(CompanyForm companyForm, Long id) throws Exception {
+
+        Map<String, Long> params = new HashMap<>();
+        params.put("id", id);
+        this.httpEntity = new HttpEntity<>(companyForm, headers);
+        restTemplate.exchange(UPDATE_COMPANY_URI, HttpMethod.PUT,
                 httpEntity, Void.class, params);
 
     }
