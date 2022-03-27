@@ -83,6 +83,7 @@ public class CustomerServiceImpl implements CustomerService {
         if (customerRepo.findById(customerId).isEmpty()) {
             throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
         }
+        System.out.println("HEREEEEE"+ customerRepo.getById(customerId));
         return customerRepo.getById(customerId);
     }
 }
