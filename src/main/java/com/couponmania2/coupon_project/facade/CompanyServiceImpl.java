@@ -7,10 +7,7 @@ import com.couponmania2.coupon_project.beans.Coupon;
 import com.couponmania2.coupon_project.exceptions.*;
 import com.couponmania2.coupon_project.repositories.CompanyRepo;
 import com.couponmania2.coupon_project.repositories.CouponRepo;
-import com.couponmania2.coupon_project.repositories.CustomerRepo;
-import com.couponmania2.coupon_project.repositories.PurchaseRepo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -97,7 +94,7 @@ public class CompanyServiceImpl implements CompanyService {
         if (maxPrice <= 0) {
             throw new AppInvalidInputException(AppInvalidInputMessage.NEGATIVE_PRICE);
         }
-        return couponRepo.findByCompanyAndPrice(companyRepo.getById(companyId), maxPrice);
+        return couponRepo.findByCompanyAndPriceLessThanEqual(companyRepo.getById(companyId), maxPrice);
     }
 
     @Override
