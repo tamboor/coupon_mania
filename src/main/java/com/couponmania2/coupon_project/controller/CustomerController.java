@@ -36,12 +36,12 @@ public class CustomerController extends ClientController {
         return new ResponseEntity<>(jwtUtils.generateToken(user), HttpStatus.OK);
     }
 
-
+//todo: find out why it's mixing the ID numbers
     @PostMapping("/newPurchase")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void purchaseCoupon(@RequestHeader(name = "Authorization") String token, @RequestParam long couponId) throws AppUnauthorizedRequestException, AppTargetExistsException {
         long customerId = validate(token);
-        customerService.purchaseCoupon(customerId, couponId);
+        customerService.purchaseCoupon(couponId, customerId );
     }
 
     //
@@ -63,7 +63,7 @@ public class CustomerController extends ClientController {
         return new ResponseEntity<>(customerService.getCustomerCouponsByMaxPrice(customerId, maxPrice), HttpStatus.OK);
     }
 //todo: find why not working
-    @GetMapping("/getCustomerDetails/?")
+    @GetMapping("/getCustomerDetails")
     public ResponseEntity<?> getCustomerDetails(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
         long customerId = validate(token);
         return new ResponseEntity<>(customerService.getCustomerDetails(customerId), HttpStatus.OK);
