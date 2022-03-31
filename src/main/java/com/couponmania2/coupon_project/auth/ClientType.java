@@ -1,9 +1,9 @@
 package com.couponmania2.coupon_project.auth;
 
 public enum ClientType {
-    ADMIN("admin"),
-    COMPANY("company"),
-    CUSTOMER("customer");
+    admin("admin"),
+    company("company"),
+    customer("customer");
 
     private final String name;
 

@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("company")
 @RequiredArgsConstructor
-//
+//todo: check all jwt shit
+//todo: update login method,, replace ReaquestParams to PathVariables (change mapping too)
+//todo: update POST methods (forms-IDs)
+//todo:replace ReaquestParams to PathVariables (change mapping too)
 public class CompanyController extends ClientController {
 
     private final CompanyServiceImpl companyService;
@@ -26,16 +29,21 @@ public class CompanyController extends ClientController {
     //TODO: try to put in abstract class (remove duplicate code)
     @Override
     @PostMapping("login")
-    public ResponseEntity<?> login(@RequestParam String userName, @RequestParam String userPass, @RequestParam ClientType clientType)
+    public ResponseEntity<?> login(@RequestBody UserDetails userDetails)
             throws AppUnauthorizedRequestException {
-        UserDetails user = UserDetails.builder()
-                .userName(userName)
-                .userPass(userPass)
-                .role(clientType.getName())
-                .id(companyService.checkCredentials(userName, userPass, clientType).getId())
-                .build();
-
-        return new ResponseEntity<>(jwtUtils.generateToken(user), HttpStatus.OK);
+//        UserDetails user = UserDetails.builder()
+//                .userName(userName)
+//                .userPass(userPass)
+//                .role(clientType.getName())
+//                .id(companyService.checkCredentials(userName, userPass, clientType).getId())
+//                .build();
+        userDetails.setId(companyService.checkCredentials(
+                userDetails.getUserName(),
+                userDetails.getUserPass(),
+                ClientType.valueOf(userDetails.getRole()))
+                .getId()
+        );
+        return new ResponseEntity<>(jwtUtils.generateToken(userDetails), HttpStatus.OK);
     }
 
     @PostMapping("/addCoupon")
@@ -116,7 +124,7 @@ public class CompanyController extends ClientController {
     //TODO: put in abstract father
     private long validate(String token) throws AppUnauthorizedRequestException {
         UserDetails user = jwtUtils.validateToken(token);
-        if (!(user.getRole().equals(ClientType.COMPANY.getName()))) {
+        if (!(user.getRole().equals(ClientType.company.getName()))) {
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS);
         }
         return user.getId();

@@ -6,7 +6,6 @@ import com.couponmania2.coupon_project.beans.Customer;
 import com.couponmania2.coupon_project.exceptions.*;
 import com.couponmania2.coupon_project.serialization.CompanyForm;
 import com.couponmania2.coupon_project.serialization.CustomerForm;
-import com.couponmania2.coupon_project.utils.TablePrinter;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +16,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
-@Component
+//@Component
 @Order(2)
 @RequiredArgsConstructor
+//todo: change to updated URIs
 public class AdminRestTest implements CommandLineRunner {
 
 
@@ -204,7 +203,7 @@ public class AdminRestTest implements CommandLineRunner {
         Map<String, Object> params = new HashMap<>();
         params.put("userName", "admin@admin.com");
         params.put("userPass", "admin");
-        params.put("clientType", ClientType.ADMIN);
+        params.put("clientType", ClientType.admin);
         this.token = restTemplate.postForObject(LOGIN_URI, HttpMethod.POST, String.class, params);
         this.headers = new HttpHeaders();
         headers.set("Authorization", token);

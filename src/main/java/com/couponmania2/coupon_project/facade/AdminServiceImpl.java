@@ -25,7 +25,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public long checkCredentials(String email, String password, ClientType clientType) throws AppUnauthorizedRequestException {
-        if (!(email.equals(ADMIN_EMAIL) && password.equals(AMDIN_PASSWORD) && clientType.equals(ClientType.ADMIN))) {
+        if (!(email.equals(ADMIN_EMAIL) && password.equals(AMDIN_PASSWORD) && clientType.equals(ClientType.admin))) {
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS.getMessage());
         }
         return 0;

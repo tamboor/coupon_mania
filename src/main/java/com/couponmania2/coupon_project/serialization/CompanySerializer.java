@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 
 import java.io.IOException;
 import java.util.stream.Collectors;
-
+//todo: change to show everything
 public class CompanySerializer extends JsonSerializer<Company> {
     @Override
     public void serialize(Company company, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {

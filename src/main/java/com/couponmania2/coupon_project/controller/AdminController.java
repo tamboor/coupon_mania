@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("admin")
 @RequiredArgsConstructor
+//todo: check all jwt shit
+
 public class AdminController extends ClientController {
     private final AdminServiceImpl adminService;
     private final JwtUtils jwtUtils;
@@ -25,15 +27,20 @@ public class AdminController extends ClientController {
 
     @Override
     @PostMapping("login")
-    public ResponseEntity<?> login(@RequestParam String userName, @RequestParam String userPass, @RequestParam ClientType clientType)
+    public ResponseEntity<?> login(@RequestBody UserDetails userDetails)
             throws AppUnauthorizedRequestException {
-        UserDetails user = UserDetails.builder()
-                .userName(userName)
-                .userPass(userPass)
-                .role(clientType.getName())
-                .id(adminService.checkCredentials(userName, userPass, clientType))
-                .build();
-        return new ResponseEntity<>(jwtUtils.generateToken(user), HttpStatus.OK);
+//        UserDetails user = UserDetails.builder()
+//                .userName(userName)
+//                .userPass(userPass)
+//                .role(clientType.getName())
+//                .id(adminService.checkCredentials(userName, userPass, clientType))
+//                .build();
+        userDetails.setId(adminService.checkCredentials(
+                userDetails.getUserName(),
+                userDetails.getUserPass(),
+                ClientType.valueOf(userDetails.getRole()))
+        );
+        return new ResponseEntity<>(jwtUtils.generateToken(userDetails), HttpStatus.OK);
     }
 
     @PostMapping("/addCompany")
@@ -46,18 +53,12 @@ public class AdminController extends ClientController {
 
     @PutMapping("/updateCompany")
     @ResponseStatus(HttpStatus.OK)
-    public void updateCompany(@RequestHeader(name = "Authorization") String token, @RequestParam long id, @RequestBody CompanyForm companyForm) throws AppTargetNotFoundException, AppUnauthorizedRequestException, AppInvalidInputException {
+    public void updateCompany(@RequestHeader(name = "Authorization") String token,  @RequestBody CompanyForm companyForm) throws AppTargetNotFoundException, AppUnauthorizedRequestException, AppInvalidInputException {
         validate(token);
-        Company companyToUpdate = adminService.getOneCompany(id);
-        if (!companyForm.getName().equals("")) {
-            companyToUpdate.setName(companyForm.getName());
-        }
-        if (!companyForm.getEmail().equals("")) {
-            companyToUpdate.setEmail(companyForm.getEmail());
-        }
-        if (!companyForm.getPassword().equals("")) {
-            companyToUpdate.setPassword(companyForm.getPassword());
-        }
+        Company companyToUpdate = adminService.getOneCompany(companyForm.getId());
+        companyToUpdate.setEmail(companyForm.getEmail());
+        companyToUpdate.setPassword(companyForm.getPassword());
+        companyToUpdate.setName(companyForm.getName());
         adminService.updateCompany(companyToUpdate);
     }
 
@@ -89,22 +90,13 @@ public class AdminController extends ClientController {
     }
 
     @PutMapping("/updateCustomer")
-    public void updateCustomer(@RequestHeader(name = "Authorization") String token, @RequestParam long id, @RequestBody CustomerForm customerForm) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
+    public void updateCustomer(@RequestHeader(name = "Authorization") String token, @RequestBody CustomerForm customerForm) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
         validate(token);
-
-        Customer customerToUpdate = adminService.getOneCustomer(id);
-        if (!customerForm.getFirstName().equals("")) {
-            customerToUpdate.setFirstName(customerForm.getFirstName());
-        }
-        if (!customerForm.getLastName().equals("")) {
-            customerToUpdate.setLastName(customerForm.getLastName());
-        }
-        if (!customerForm.getEmail().equals("")) {
-            customerToUpdate.setEmail(customerForm.getEmail());
-        }
-        if (!customerForm.getPassword().equals("")) {
-            customerToUpdate.setPassword(customerForm.getPassword());
-        }
+        Customer customerToUpdate = adminService.getOneCustomer(customerForm.getId());
+        customerToUpdate.setEmail(customerForm.getEmail());
+        customerToUpdate.setFirstName(customerForm.getFirstName());
+        customerToUpdate.setLastName(customerForm.getLastName());
+        customerToUpdate.setPassword(customerForm.getPassword());
         adminService.updateCustomer(customerToUpdate);
     }
 
@@ -129,7 +121,7 @@ public class AdminController extends ClientController {
 
     private void validate(String token) throws AppUnauthorizedRequestException {
         UserDetails user = jwtUtils.validateToken(token);
-        if (!(user.getRole().equals(ClientType.ADMIN.getName()))) {
+        if (!(user.getRole().equals(ClientType.admin.getName()))) {
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS.getMessage());
         }
     }

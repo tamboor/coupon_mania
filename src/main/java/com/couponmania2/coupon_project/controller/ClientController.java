@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 public abstract class ClientController {
-    public abstract ResponseEntity<?> login( String userName,  String userPass,  ClientType clientType)
+    public abstract ResponseEntity<?> login( UserDetails userDetails)
             throws AppUnauthorizedRequestException;
 }

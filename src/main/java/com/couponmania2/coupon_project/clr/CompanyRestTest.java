@@ -20,9 +20,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-@Component
+//@Component
 @Order(3)
 @RequiredArgsConstructor
+//todo: change to updated URIs
+
 public class CompanyRestTest implements CommandLineRunner {
     private final RestTemplate restTemplate;
 
@@ -150,7 +152,7 @@ public class CompanyRestTest implements CommandLineRunner {
         Map<String, Object> params = new HashMap<>();
         params.put("userName", "email3");
         params.put("userPass", "password3");
-        params.put("clientType", ClientType.COMPANY);
+        params.put("clientType", ClientType.company);
         this.token = restTemplate.postForObject(LOGIN_URI, HttpMethod.POST, String.class, params);
         this.headers = new HttpHeaders();
         headers.set("Authorization", token);

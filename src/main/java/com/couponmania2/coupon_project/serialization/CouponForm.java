@@ -5,6 +5,7 @@ import com.couponmania2.coupon_project.beans.Category;
 import java.sql.Date;
 
 public class CouponForm {
+    private int id;
     private Category category;
     private String title = "";
     private String description = "";
@@ -13,6 +14,14 @@ public class CouponForm {
     private int amount = -1;
     private  double price = -1;
     private String image = "";
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Category getCategory() {
         return category;

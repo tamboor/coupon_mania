@@ -23,7 +23,7 @@ public class CompanyServiceImpl implements CompanyService {
     public Company checkCredentials(String email, String password, ClientType clientType) throws AppUnauthorizedRequestException {
 
         Optional<Company> companyOptional = companyRepo.findByEmailAndPassword(email, password);
-        if (companyOptional.isEmpty() || !clientType.equals(ClientType.COMPANY)) {
+        if (companyOptional.isEmpty() || !clientType.equals(ClientType.company)) {
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS.getMessage());
         }
         return companyOptional.get();

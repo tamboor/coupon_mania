@@ -6,18 +6,13 @@ import com.couponmania2.coupon_project.beans.Coupon;
 import com.couponmania2.coupon_project.beans.Customer;
 import com.couponmania2.coupon_project.beans.Purchase;
 import com.couponmania2.coupon_project.exceptions.*;
-import com.couponmania2.coupon_project.repositories.CompanyRepo;
 import com.couponmania2.coupon_project.repositories.CouponRepo;
 import com.couponmania2.coupon_project.repositories.CustomerRepo;
 import com.couponmania2.coupon_project.repositories.PurchaseRepo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +23,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer checkCredentials(String userName, String userPass, ClientType clientType) throws AppUnauthorizedRequestException {
-        if (customerRepo.findByEmailAndPassword(userName, userPass).isEmpty() || !(clientType.equals(ClientType.CUSTOMER))) {
+        if (customerRepo.findByEmailAndPassword(userName, userPass).isEmpty() || !(clientType.equals(ClientType.customer))) {
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS.getMessage());
         }
         return customerRepo.findByEmailAndPassword(userName, userPass).get();

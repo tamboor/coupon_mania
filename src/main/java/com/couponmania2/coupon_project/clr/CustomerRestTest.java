@@ -17,10 +17,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-@Component
+//@Component
 @Order(4)
 @RequiredArgsConstructor
 //todo: add get customer details method
+//todo: change to updated URIs
+
 public class CustomerRestTest implements CommandLineRunner {
     private final RestTemplate restTemplate;
     private final String LOGIN_URI = "http://localhost:8080/customer/login?clientType={clientType}&userName={userName}&userPass={userPass}";
@@ -47,7 +49,7 @@ public class CustomerRestTest implements CommandLineRunner {
         Map<String, Object> params = new HashMap<>();
         params.put("userName", "mail1");
         params.put("userPass", "pass");
-        params.put("clientType", ClientType.CUSTOMER);
+        params.put("clientType", ClientType.customer);
         this.token = restTemplate.postForObject(LOGIN_URI, HttpMethod.POST, String.class, params);
         this.headers = new HttpHeaders();
         headers.set("Authorization", token);

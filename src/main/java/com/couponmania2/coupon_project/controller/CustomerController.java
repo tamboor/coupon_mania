@@ -4,13 +4,9 @@ import com.couponmania2.coupon_project.auth.ClientType;
 import com.couponmania2.coupon_project.auth.JwtUtils;
 import com.couponmania2.coupon_project.auth.UserDetails;
 import com.couponmania2.coupon_project.beans.Category;
-import com.couponmania2.coupon_project.beans.Coupon;
-import com.couponmania2.coupon_project.beans.Customer;
 import com.couponmania2.coupon_project.exceptions.*;
-import com.couponmania2.coupon_project.facade.AdminServiceImpl;
 import com.couponmania2.coupon_project.facade.CustomerServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,21 +15,26 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("customer")
 @RequiredArgsConstructor
 //todo: add getAllCoupons
+//todo: check all jwt shit
+//todo: update login method,, replace ReaquestParams to PathVariables (change mapping too)
+//todo: update POST methods (forms-IDs)
+//todo:replace ReaquestParams to PathVariables (change mapping too)
 public class CustomerController extends ClientController {
     private final CustomerServiceImpl customerService;
     private final JwtUtils jwtUtils;
 
     @Override
     @PostMapping("login")
-    public ResponseEntity<?> login(@RequestParam String userName, @RequestParam String userPass, @RequestParam ClientType clientType)
+    public ResponseEntity<?> login(@RequestBody UserDetails userDetails)
             throws AppUnauthorizedRequestException {
-        UserDetails user = UserDetails.builder()
-                .userName(userName)
-                .userPass(userPass)
-                .role(clientType.getName())
-                .id(customerService.checkCredentials(userName, userPass, clientType).getId())
-                .build();
-        return new ResponseEntity<>(jwtUtils.generateToken(user), HttpStatus.OK);
+//
+        userDetails.setId(customerService.checkCredentials(
+                        userDetails.getUserName(),
+                        userDetails.getUserPass(),
+                        ClientType.valueOf(userDetails.getRole()))
+                .getId()
+        );
+        return new ResponseEntity<>(jwtUtils.generateToken(userDetails), HttpStatus.OK);
     }
 
 //todo: find out why it's mixing the ID numbers
@@ -71,7 +72,7 @@ public class CustomerController extends ClientController {
 
     private long validate(String token) throws AppUnauthorizedRequestException {
         UserDetails user = jwtUtils.validateToken(token);
-        if (!(user.getRole().equals(ClientType.CUSTOMER.getName()))) {
+        if (!(user.getRole().equals(ClientType.customer.getName()))) {
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS);
         }
         return user.getId();
