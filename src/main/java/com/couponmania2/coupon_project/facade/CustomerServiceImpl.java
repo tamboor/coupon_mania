@@ -44,9 +44,15 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void purchaseCoupon(long couponId, long customerId) throws AppTargetExistsException {
+    public void purchaseCoupon(long couponId, long customerId) throws AppTargetExistsException, AppTargetNotFoundException {
         if (purchaseRepo.findByCustomerAndCoupon(customerRepo.getById(customerId), couponRepo.getById(couponId)) != null) {
             throw new AppTargetExistsException(AppTargetExistsMessage.COUPON_EXISTS);
+        }
+        if (customerRepo.findById(customerId).isEmpty()) {
+            throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
+        }
+        if (couponRepo.findById(couponId).isEmpty()) {
+            throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COUPON_NOT_FOUND);
         }
         purchaseRepo.save(new Purchase(customerRepo.getById(customerId), couponRepo.getById(couponId)));
     }

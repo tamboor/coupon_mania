@@ -49,13 +49,13 @@ public class AdminController extends ClientController {
     public void updateCompany(@RequestHeader(name = "Authorization") String token, @RequestParam long id, @RequestBody CompanyForm companyForm) throws AppTargetNotFoundException, AppUnauthorizedRequestException, AppInvalidInputException {
         validate(token);
         Company companyToUpdate = adminService.getOneCompany(id);
-        if (!companyForm.getName().equals("")){
+        if (!companyForm.getName().equals("")) {
             companyToUpdate.setName(companyForm.getName());
         }
-        if (!companyForm.getEmail().equals("")){
+        if (!companyForm.getEmail().equals("")) {
             companyToUpdate.setEmail(companyForm.getEmail());
         }
-        if (!companyForm.getPassword().equals("")){
+        if (!companyForm.getPassword().equals("")) {
             companyToUpdate.setPassword(companyForm.getPassword());
         }
         adminService.updateCompany(companyToUpdate);

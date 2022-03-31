@@ -39,7 +39,7 @@ public class CustomerController extends ClientController {
 //todo: find out why it's mixing the ID numbers
     @PostMapping("/newPurchase")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void purchaseCoupon(@RequestHeader(name = "Authorization") String token, @RequestParam long couponId) throws AppUnauthorizedRequestException, AppTargetExistsException {
+    public void purchaseCoupon(@RequestHeader(name = "Authorization") String token, @RequestParam long couponId) throws AppUnauthorizedRequestException, AppTargetExistsException, AppTargetNotFoundException {
         long customerId = validate(token);
         customerService.purchaseCoupon(couponId, customerId );
     }
