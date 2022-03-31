@@ -2,6 +2,7 @@ package com.couponmania2.coupon_project.clr;
 
 import com.couponmania2.coupon_project.auth.ClientType;
 import com.couponmania2.coupon_project.beans.Category;
+import com.couponmania2.coupon_project.beans.Company;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
@@ -13,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 @Component
@@ -26,7 +28,7 @@ public class CustomerRestTest implements CommandLineRunner {
     private final String GET_ALL_COUPONS_URI = "http://localhost:8080/customer/getCustomerCoupons";
     private final String GET_COUPONS_BY_MAX_PRICE_URI = "http://localhost:8080/customer/getCustomerCoupons/maxPrice?maxPrice={price}";
     private final String GET_COUPONS_BY_CATEGORY_URI = "http://localhost:8080/customer/getCustomerCoupons/category?category={category}";
-    private final String GET_CUSTOMER_DETAILS_URI = "";
+    private final String GET_CUSTOMER_DETAILS_URI = "http://localhost:8080/customer/getCustomerDetails\n";
 
     private HttpEntity<?> httpEntity;
     private HttpHeaders headers;
@@ -83,5 +85,16 @@ public class CustomerRestTest implements CommandLineRunner {
         params.put("id", id);
        restTemplate.exchange(PURCHASE_COUPON_URI,
                 HttpMethod.POST, httpEntity, Set.class, params);
+    }
+
+    private void getCustomerDetails() throws Exception {
+
+        Optional<Company> c = restTemplate.exchange(GET_CUSTOMER_DETAILS_URI,
+                HttpMethod.GET, httpEntity, Optional.class, new HashMap<>()).getBody();
+
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println(c.get());
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
     }
 }
