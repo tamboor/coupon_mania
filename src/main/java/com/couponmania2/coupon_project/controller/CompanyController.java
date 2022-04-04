@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("company")
 @RequiredArgsConstructor
 //todo: check all jwt shit
-//todo: update login method,, replace ReaquestParams to PathVariables (change mapping too)
+//todo: update login method,
+// todo: replace ReaquestParams to PathVariables (change mapping too)
 //todo: update POST methods (forms-IDs)
 //todo:replace ReaquestParams to PathVariables (change mapping too)
 public class CompanyController extends ClientController {

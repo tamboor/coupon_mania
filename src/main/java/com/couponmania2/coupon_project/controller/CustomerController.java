@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 //todo: add getAllCoupons
 //todo: check all jwt shit
-//todo: update login method,, replace ReaquestParams to PathVariables (change mapping too)
+//todo: update login method,
+// todo: replace ReaquestParams to PathVariables (change mapping too)
 //todo: update POST methods (forms-IDs)
 //todo:replace ReaquestParams to PathVariables (change mapping too)
 public class CustomerController extends ClientController {
