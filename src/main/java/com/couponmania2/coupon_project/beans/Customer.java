@@ -36,7 +36,7 @@ public class Customer {
     @Column(nullable = false,length = 40)
     private String password;
 
-    //@JsonManagedReference
+    @JsonManagedReference
     @OneToMany(mappedBy = "customer",orphanRemoval = true , cascade = CascadeType.PERSIST , fetch = FetchType.LAZY)
     Set<Purchase> purchases = new HashSet<>();
 

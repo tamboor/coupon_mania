@@ -1,6 +1,7 @@
 package com.couponmania2.coupon_project.clr;
 
 import com.couponmania2.coupon_project.auth.ClientType;
+import com.couponmania2.coupon_project.auth.UserDetails;
 import com.couponmania2.coupon_project.beans.Company;
 import com.couponmania2.coupon_project.beans.Customer;
 import com.couponmania2.coupon_project.exceptions.*;
@@ -20,7 +21,6 @@ import java.util.*;
 //@Component
 @Order(2)
 @RequiredArgsConstructor
-//todo: change to updated URIs
 public class AdminRestTest implements CommandLineRunner {
 
 
@@ -46,13 +46,11 @@ public class AdminRestTest implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         try {
-            login();
+            login(UserDetails.builder().userName("admin@admin.com").userPass("admin").role("admin").build());
+            System.out.println("admin login was successful via rest template ");
         } catch (Exception e) {
-            try {
-                throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.NO_LOGIN);
-            } catch (AppUnauthorizedRequestException err) {
-                System.out.println(err.getMessage());
-            }
+            System.out.println(e.getMessage());
+            System.out.println(AppUnauthorizedRequestMessage.NO_LOGIN.getMessage());
         }
 
         //region rest template tests for customer
@@ -198,13 +196,19 @@ public class AdminRestTest implements CommandLineRunner {
         //endregion
     }
 
-    private void login() throws Exception {
+    private void login(UserDetails userDetails) throws Exception {
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("userName", "admin@admin.com");
-        params.put("userPass", "admin");
-        params.put("clientType", ClientType.admin);
-        this.token = restTemplate.postForObject(LOGIN_URI, HttpMethod.POST, String.class, params);
+        ResponseEntity<?> responseToken = restTemplate.exchange(LOGIN_URI,
+                HttpMethod.POST,
+                new HttpEntity<>(userDetails),
+                String.class);
+        if (responseToken.getStatusCode().is4xxClientError()){
+            throw new Exception("Client Error: "+ responseToken.getStatusCode().name());
+        }
+        if (responseToken.getStatusCode().is5xxServerError()){
+            throw new Exception("Server Error: "+ responseToken.getStatusCode().name());
+        }
+        this.token = responseToken.getBody().toString();
         this.headers = new HttpHeaders();
         headers.set("Authorization", token);
         this.httpEntity = new HttpEntity<>(headers);

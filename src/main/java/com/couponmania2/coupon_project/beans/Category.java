@@ -1,25 +1,20 @@
 package com.couponmania2.coupon_project.beans;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonValue;
 
-//@Entity
-//@Table (name = "categories")
 public enum Category {
-    Food ("food"),
-    Xtreme ("xterme"),
-    Cars ("cars"),
-    Vacation ("vacation"),
-    Tattoos ("tattoos");
+    food("food"),
+    xtreme("xterme"),
+    cars("cars"),
+    vacation("vacation"),
+    tattoos("tattoos");
 
-    //@Id
     private final String name;
 
     Category(String name){
         this.name = name;
     }
-
+@JsonValue
     public String getName(){
         return this.name;
     }

@@ -26,7 +26,6 @@ import java.util.Set;
 @Component
 @Order(4)
 @RequiredArgsConstructor
-//todo: change to updated URIs
 
 public class CustomerRestTest implements CommandLineRunner {
     private final RestTemplate restTemplate;
@@ -52,6 +51,8 @@ public class CustomerRestTest implements CommandLineRunner {
             System.out.println(e.getMessage());
             System.out.println(AppUnauthorizedRequestMessage.NO_LOGIN.getMessage());
         }
+
+        getAllCoupons();
     }
 
 

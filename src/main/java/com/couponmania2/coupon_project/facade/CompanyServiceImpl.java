@@ -37,8 +37,7 @@ public class CompanyServiceImpl implements CompanyService {
         couponRepo.save(coupon);
     }
 
-    //TODO: check if company verification can be implemented in REST
-    //TODO: change to custom exception
+
     @Override
     public void updateCoupon(Coupon coupon) throws AppInvalidInputException {
         if (couponRepo.getById(coupon.getId()).getCompany() != coupon.getCompany()) {

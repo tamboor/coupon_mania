@@ -33,7 +33,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void purchaseCoupon(Coupon coupon, Customer customer) throws AppTargetExistsException {
-        //todo: check if needed to change to Optional
         if (purchaseRepo.findByCustomerAndCoupon(customer, coupon) != null) {
             throw new AppTargetExistsException(AppTargetExistsMessage.COUPON_EXISTS);
         }
@@ -56,6 +55,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Set<Coupon> getAllCoupons() {
+       // System.out.println("This is the coupons: "+ couponRepo.findAll());
         return new HashSet<>(couponRepo.findAll());
     }
 

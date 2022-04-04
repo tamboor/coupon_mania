@@ -1,6 +1,5 @@
 package com.couponmania2.coupon_project.clr;
 
-import com.couponmania2.coupon_project.auth.ClientType;
 import com.couponmania2.coupon_project.auth.UserDetails;
 import com.couponmania2.coupon_project.beans.Category;
 import com.couponmania2.coupon_project.beans.Company;
@@ -14,7 +13,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
@@ -22,7 +20,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-@Component
+//@Component
 @Order(3)
 @RequiredArgsConstructor
 
@@ -55,7 +53,7 @@ public class CompanyRestTest implements CommandLineRunner {
         try {
             CouponForm couponForm= new CouponForm();
             couponForm.setAmount(10);
-            couponForm.setCategory(Category.Xtreme);
+            couponForm.setCategory(Category.xtreme);
             couponForm.setDescription("rest template coupon");
             couponForm.setPrice(1000);
             couponForm.setImage("img");
@@ -85,7 +83,7 @@ public class CompanyRestTest implements CommandLineRunner {
             CouponForm couponForm= new CouponForm();
             couponForm.setId(6);
             couponForm.setAmount(10);
-            couponForm.setCategory(Category.Xtreme);
+            couponForm.setCategory(Category.xtreme);
             couponForm.setDescription("updated");
             couponForm.setPrice(444);
             couponForm.setImage("img");
@@ -124,7 +122,7 @@ public class CompanyRestTest implements CommandLineRunner {
         }
 
         try {
-            getCouponsByCategory(Category.Xtreme);
+            getCouponsByCategory(Category.xtreme);
         } catch (Exception e) {
             try {
                 throw new AppInvalidInputException("This is a rest template exception");

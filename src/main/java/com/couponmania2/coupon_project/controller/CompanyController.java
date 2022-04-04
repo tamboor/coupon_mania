@@ -23,18 +23,10 @@ public class CompanyController extends ClientController {
     private final CompanyServiceImpl companyService;
     private final JwtUtils jwtUtils;
 
-    //TODO: try to put in abstract class (remove duplicate code)
     @Override
     @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody UserDetails userDetails)
             throws AppUnauthorizedRequestException {
-//        UserDetails user = UserDetails.builder()
-//                .userName(userName)
-//                .userPass(userPass)
-//                .role(clientType.getName())
-//                .id(companyService.checkCredentials(userName, userPass, clientType).getId())
-//                .build();
-        //blabla
         userDetails.setId(companyService.checkCredentials(
                 userDetails.getUserName(),
                 userDetails.getUserPass(),
@@ -107,7 +99,6 @@ public class CompanyController extends ClientController {
         return new ResponseEntity<>(companyService.getCompanyDetails(id), HttpStatus.OK);
     }
 
-    //TODO: put in abstract father
     private long validate(String token) throws AppUnauthorizedRequestException {
         UserDetails user = jwtUtils.validateToken(token);
         if (!(user.getRole().equals(ClientType.company.getName()))) {

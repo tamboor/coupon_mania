@@ -2,6 +2,7 @@ package com.couponmania2.coupon_project.beans;
 
 import com.couponmania2.coupon_project.serialization.CouponForm;
 import com.couponmania2.coupon_project.serialization.CouponSerializer;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -21,7 +22,7 @@ public class Coupon {
     @Column(updatable = false)
     private long id;
 
-    //    @JsonBackReference
+    @JsonBackReference
     @ManyToOne
     private Company company;
 
@@ -49,7 +50,7 @@ public class Coupon {
     @Column
     private String image;
 
-    //@JsonManagedReference
+    @JsonManagedReference
     @OneToMany(mappedBy = "coupon", orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Set<Purchase> purchases = new HashSet<>();
 

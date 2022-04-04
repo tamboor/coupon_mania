@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.springframework.boot.jackson.JsonComponent;
 
 import java.io.IOException;
-
+@JsonSerialize
 public class CouponSerializer extends JsonSerializer<Coupon> {
 
     @Override
@@ -17,7 +17,7 @@ public class CouponSerializer extends JsonSerializer<Coupon> {
 
         jsonGenerator.writeStartObject();
         jsonGenerator.writeNumberField("id" , coupon.getId());
-        jsonGenerator.writeNumberField("companyId" , coupon.getCompany().getId());
+        jsonGenerator.writeNumberField("companyID" , coupon.getCompany().getId());
         jsonGenerator.writeStringField("category" , coupon.getCategory().getName());
         jsonGenerator.writeStringField("title" , coupon.getTitle());
         jsonGenerator.writeStringField("description" , coupon.getDescription());

@@ -46,6 +46,7 @@ public class CustomerController extends ClientController {
     @GetMapping("/getAllCoupons")
     public ResponseEntity<?> getAllCoupons(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException {
         validate(token);
+       // System.out.println("controllerrrr: "+new ResponseEntity<>(customerService.getAllCoupons(), HttpStatus.OK));
         return new ResponseEntity<>(customerService.getAllCoupons(), HttpStatus.OK);
     }
 
@@ -66,7 +67,6 @@ public class CustomerController extends ClientController {
         long customerId = validate(token);
         return new ResponseEntity<>(customerService.getCustomerCouponsByMaxPrice(customerId, maxPrice), HttpStatus.OK);
     }
-//todo: find why not working
     @GetMapping("/getCustomerDetails")
     public ResponseEntity<?> getCustomerDetails(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
         long customerId = validate(token);
