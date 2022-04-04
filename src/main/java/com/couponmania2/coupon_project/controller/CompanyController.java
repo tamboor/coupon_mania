@@ -34,6 +34,7 @@ public class CompanyController extends ClientController {
 //                .role(clientType.getName())
 //                .id(companyService.checkCredentials(userName, userPass, clientType).getId())
 //                .build();
+        //blabla
         userDetails.setId(companyService.checkCredentials(
                 userDetails.getUserName(),
                 userDetails.getUserPass(),
