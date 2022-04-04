@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-//@Component
+@Component
 @Order(3)
 @RequiredArgsConstructor
 //todo: change to updated URIs
@@ -28,13 +28,13 @@ import java.util.Set;
 public class CompanyRestTest implements CommandLineRunner {
     private final RestTemplate restTemplate;
 
-    private final String LOGIN_URI = "http://localhost:8080/company/login?clientType={clientType}&userName={userName}&userPass={userPass}";
+    private final String LOGIN_URI = "http://localhost:8080/company/login";
     private final String ADD_COUPON_URI = "http://localhost:8080/company/addCoupon";
     private final String DELETE_COUPON_URI = "http://localhost:8080/company/deleteCoupon/{id}";
     private final String GET_ALL_COUPONS_URI = "http://localhost:8080/company/getCompanyCoupons";
-    private final String GET_COUPONS_BY_MAX_PRICE_URI = "http://localhost:8080/company/getCompanyCoupons/maxPrice?maxPrice={price}";
-    private final String GET_COUPONS_BY_CATEGORY_URI = "http://localhost:8080/company/getCompanyCoupons/category?category={category}";
-    private final String UPDATE_COUPON_URI = "http://localhost:8080/company/updateCoupon?couponId={id}";
+    private final String GET_COUPONS_BY_MAX_PRICE_URI = "http://localhost:8080/company/couponsMaxPrice/{price}";
+    private final String GET_COUPONS_BY_CATEGORY_URI = "http://localhost:8080/company/couponsCategory/{category}";
+    private final String UPDATE_COUPON_URI = "http://localhost:8080/company/updateCoupon";
     private final String GET_COMPANY_DETAILS_URI = "http://localhost:8080/company/getCompanyDetails";
 
     private HttpEntity<?> httpEntity;
@@ -52,98 +52,99 @@ public class CompanyRestTest implements CommandLineRunner {
                 System.out.println(err.getMessage());
             }
         }
+//
+//        try {
+//            CouponForm couponForm= new CouponForm();
+//            couponForm.setAmount(10);
+//            couponForm.setCategory(Category.Xtreme);
+//            couponForm.setDescription("rest template coupon");
+//            couponForm.setPrice(1000);
+//            couponForm.setImage("img");
+//            couponForm.setTitle("rest test");
+//            couponForm.setStartDate(DateUtils.getRandomSqlStartDate());
+//            couponForm.setEndDate(DateUtils.getRandomSqlEndDate());
+//            addCoupon(couponForm);
+//        } catch (Exception e) {
+//            try {
+//                throw new AppTargetExistsException(AppTargetExistsMessage.COUPON_EXISTS);
+//            } catch (AppTargetExistsException err) {
+//                System.out.println(err.getMessage());
+//            }
+//        }
 
-        try {
-            CouponForm couponForm= new CouponForm();
-            couponForm.setAmount(10);
-            couponForm.setCategory(Category.Xtreme);
-            couponForm.setDescription("rest template coupon");
-            couponForm.setPrice(1000);
-            couponForm.setImage("img");
-            couponForm.setTitle("rest test");
-            couponForm.setStartDate(DateUtils.getRandomSqlStartDate());
-            couponForm.setEndDate(DateUtils.getRandomSqlEndDate());
-            addCoupon(couponForm);
-        } catch (Exception e) {
-            try {
-                throw new AppTargetExistsException(AppTargetExistsMessage.COUPON_EXISTS);
-            } catch (AppTargetExistsException err) {
-                System.out.println(err.getMessage());
-            }
-        }
+//        try {
+//           deleteCoupon(7L);
+//        } catch (Exception e) {
+//            try {
+//                throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COUPON_NOT_FOUND);
+//            } catch (AppTargetNotFoundException err) {
+//                System.out.println(err.getMessage());
+//            }
+//        }
 
-        try {
-           deleteCoupon(7L);
-        } catch (Exception e) {
-            try {
-                throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COUPON_NOT_FOUND);
-            } catch (AppTargetNotFoundException err) {
-                System.out.println(err.getMessage());
-            }
-        }
-
-        try {
-            CouponForm couponForm= new CouponForm();
-            couponForm.setAmount(10);
-            couponForm.setCategory(Category.Xtreme);
-            couponForm.setDescription("updated");
-            couponForm.setPrice(444);
-            couponForm.setImage("img");
-            couponForm.setTitle("update test");
-            couponForm.setStartDate(DateUtils.getRandomSqlStartDate());
-            couponForm.setEndDate(DateUtils.getRandomSqlEndDate());
-            updateCoupon(couponForm,6L);
-        } catch (Exception e) {
-            try {
-                throw new AppInvalidInputException(AppInvalidInputMessage.UNMATCHING_COUPON);
-            } catch (AppInvalidInputException err) {
-                System.out.println(err.getMessage());
-            }
-        }
-
-        try {
-            getAllCoupons();
-        } catch (Exception e) {
-            try {
-                throw new AppInvalidInputException("This is a rest template exception");
-            }
-            catch (AppInvalidInputException err){
-                System.out.println(err.getMessage());
-            }
-        }
-
-        try {
-            getCouponsByMaxPrice(45);
-        } catch (Exception e) {
-            try {
-                throw new AppInvalidInputException(AppInvalidInputMessage.NEGATIVE_PRICE);
-            }
-            catch (AppInvalidInputException err){
-                System.out.println(err.getMessage());
-            }
-        }
-
-        try {
-            getCouponsByCategory(Category.Xtreme);
-        } catch (Exception e) {
-            try {
-                throw new AppInvalidInputException("This is a rest template exception");
-            }
-            catch (AppInvalidInputException err){
-                System.out.println(err.getMessage());
-            }
-        }
-
-        try {
-            getCompanyDetails();
-        } catch (Exception e) {
-            try {
-                throw new AppInvalidInputException("This is a rest template exception");
-            }
-            catch (AppInvalidInputException err){
-                System.out.println(err.getMessage());
-            }
-        }
+//        try {
+//            CouponForm couponForm= new CouponForm();
+//            couponForm.setId(6);
+//            couponForm.setAmount(10);
+//            couponForm.setCategory(Category.Xtreme);
+//            couponForm.setDescription("updated");
+//            couponForm.setPrice(444);
+//            couponForm.setImage("img");
+//            couponForm.setTitle("update test");
+//            couponForm.setStartDate(DateUtils.getRandomSqlStartDate());
+//            couponForm.setEndDate(DateUtils.getRandomSqlEndDate());
+//            updateCoupon(couponForm,6L);
+//        } catch (Exception e) {
+//            try {
+//                throw new AppInvalidInputException(AppInvalidInputMessage.UNMATCHING_COUPON);
+//            } catch (AppInvalidInputException err) {
+//                System.out.println(err.getMessage());
+//            }
+//        }
+//
+//        try {
+//            getAllCoupons();
+//        } catch (Exception e) {
+//            try {
+//                throw new AppInvalidInputException("This is a rest template exception");
+//            }
+//            catch (AppInvalidInputException err){
+//                System.out.println(err.getMessage());
+//            }
+//        }
+//
+//        try {
+//            getCouponsByMaxPrice(45);
+//        } catch (Exception e) {
+//            try {
+//                throw new AppInvalidInputException(AppInvalidInputMessage.NEGATIVE_PRICE);
+//            }
+//            catch (AppInvalidInputException err){
+//                System.out.println(err.getMessage());
+//            }
+//        }
+//
+//        try {
+//            getCouponsByCategory(Category.Xtreme);
+//        } catch (Exception e) {
+//            try {
+//                throw new AppInvalidInputException("This is a rest template exception");
+//            }
+//            catch (AppInvalidInputException err){
+//                System.out.println(err.getMessage());
+//            }
+//        }
+//
+//        try {
+//            getCompanyDetails();
+//        } catch (Exception e) {
+//            try {
+//                throw new AppInvalidInputException("This is a rest template exception");
+//            }
+//            catch (AppInvalidInputException err){
+//                System.out.println(err.getMessage());
+//            }
+//        }
 
     }
 

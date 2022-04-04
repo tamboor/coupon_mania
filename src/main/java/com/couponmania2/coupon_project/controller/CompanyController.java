@@ -18,10 +18,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("company")
 @RequiredArgsConstructor
 //todo: check all jwt shit
-//todo: update login method,
-// todo: replace ReaquestParams to PathVariables (change mapping too)
-//todo: update POST methods (forms-IDs)
-//todo:replace ReaquestParams to PathVariables (change mapping too)
 public class CompanyController extends ClientController {
 
     private final CompanyServiceImpl companyService;
@@ -65,27 +61,15 @@ public class CompanyController extends ClientController {
 
     @PutMapping("/updateCoupon")
     @ResponseStatus(HttpStatus.OK)
-    private void updateCoupon(@RequestHeader(name = "Authorization") String token, @RequestParam long couponId, @RequestBody CouponForm couponForm) throws AppUnauthorizedRequestException, AppInvalidInputException, AppTargetNotFoundException {
+    private void updateCoupon(@RequestHeader(name = "Authorization") String token, @RequestBody CouponForm couponForm) throws AppUnauthorizedRequestException, AppInvalidInputException, AppTargetNotFoundException {
         validate(token);
-        Coupon couponToUpdate = companyService.getCouponByID(couponId);
-        if (!couponForm.getCategory().getName().equals("")) {
+        Coupon couponToUpdate = companyService.getCouponByID(couponForm.getId());
             couponToUpdate.setCategory(couponForm.getCategory());
-        }
-        if (!couponForm.getTitle().equals("")) {
             couponToUpdate.setTitle(couponForm.getTitle());
-        }
-        if (!couponForm.getDescription().equals("")) {
             couponToUpdate.setDescription(couponForm.getDescription());
-        }
-        if (!(couponForm.getAmount() < 0)) {
             couponToUpdate.setAmount(couponForm.getAmount());
-        }
-        if (!(couponForm.getPrice() < 0)) {
             couponToUpdate.setPrice(couponForm.getPrice());
-        }
-        if (!couponForm.getImage().equals("")) {
             couponToUpdate.setImage(couponForm.getImage());
-        }
         couponToUpdate.setStartDate(couponForm.getStartDate());
         couponToUpdate.setEndDate(couponForm.getEndDate());
         companyService.updateCoupon(couponToUpdate);
@@ -104,14 +88,14 @@ public class CompanyController extends ClientController {
         return new ResponseEntity<>(companyService.getAllCompanyCoupons(id), HttpStatus.OK);
     }
 
-    @GetMapping("/getCompanyCoupons/category")
-    private ResponseEntity<?> getCouponsByCategory(@RequestHeader(name = "Authorization") String token, @RequestParam Category category) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
+    @GetMapping("/couponsCategory/{category}")
+    private ResponseEntity<?> getCouponsByCategory(@RequestHeader(name = "Authorization") String token, @PathVariable Category category) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
         long id = validate(token);
         return new ResponseEntity<>(companyService.getCompanyCouponsByCategory(id, category), HttpStatus.OK);
     }
 
-    @GetMapping("/getCompanyCoupons/maxPrice")
-    private ResponseEntity<?> getCouponsByMaxPrice(@RequestHeader(name = "Authorization") String token, @RequestParam double maxPrice) throws AppUnauthorizedRequestException, AppTargetNotFoundException, AppInvalidInputException {
+    @GetMapping("/couponsMaxPrice/{maxPrice}")
+    private ResponseEntity<?> getCouponsByMaxPrice(@RequestHeader(name = "Authorization") String token, @PathVariable double maxPrice) throws AppUnauthorizedRequestException, AppTargetNotFoundException, AppInvalidInputException {
         long id = validate(token);
         return new ResponseEntity<>(companyService.getCompanyCouponsByMaxPrice(id, maxPrice), HttpStatus.OK);
     }
