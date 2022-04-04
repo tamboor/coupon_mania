@@ -12,7 +12,9 @@ import com.couponmania2.coupon_project.repositories.PurchaseRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -50,6 +52,11 @@ public class CustomerServiceImpl implements CustomerService {
             throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COUPON_NOT_FOUND);
         }
         purchaseRepo.save(new Purchase(customerRepo.getById(customerId), couponRepo.getById(couponId)));
+    }
+
+    @Override
+    public Set<Coupon> getAllCoupons() {
+        return new HashSet<>(couponRepo.findAll());
     }
 
     @Override
