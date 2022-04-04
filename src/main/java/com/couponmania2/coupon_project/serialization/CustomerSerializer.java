@@ -1,13 +1,13 @@
 package com.couponmania2.coupon_project.serialization;
 
 import com.couponmania2.coupon_project.beans.Customer;
+import com.couponmania2.coupon_project.beans.Purchase;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
 import java.io.IOException;
 import java.util.stream.Collectors;
-//todo: change to show everything
 
 public class CustomerSerializer extends JsonSerializer<Customer> {
     @Override
@@ -20,8 +20,9 @@ public class CustomerSerializer extends JsonSerializer<Customer> {
         jsonGenerator.writeStringField("password" , customer.getPassword());
 
         jsonGenerator.writeStringField("coupons" ,
-                customer.getPurchases().stream().map(p -> p.getCoupon().getId()).collect(Collectors.toList())
-                        .toString());
+                customer.getPurchases().stream().map(Purchase::getCoupon).collect(Collectors.toSet()).toString()
+                /*customer.getPurchases().stream().map(p -> p.getCoupon().getId()).collect(Collectors.toList())
+                        .toString()*/);
 
         jsonGenerator.writeEndObject();
     }

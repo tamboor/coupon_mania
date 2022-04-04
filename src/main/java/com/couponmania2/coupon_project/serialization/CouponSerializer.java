@@ -11,7 +11,6 @@ import org.springframework.boot.jackson.JsonComponent;
 import java.io.IOException;
 //todo: what is this annotation?
 @JsonComponent
-//todo: change to show everything
 
 public class CouponSerializer extends JsonSerializer<Coupon> {
 
@@ -32,4 +31,5 @@ public class CouponSerializer extends JsonSerializer<Coupon> {
         jsonGenerator.writeStringField("image" , coupon.getImage());
         jsonGenerator.writeEndObject();
     }
+
 }
