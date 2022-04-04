@@ -26,22 +26,16 @@ public class JwtUtils {
             Algorithm algorithmHS = Algorithm.HMAC256("alon_nir_ran_the_kings_of_the_valley".getBytes());
             String token = JWT.create()
                     .withSubject(userDetails.getUserName())
-                    //todo: create dateUtils
                     .withIssuedAt(java.sql.Date.valueOf(LocalDate.now()))
                     .withExpiresAt(Date.from(Instant.now().plusSeconds(60*30)))
                     .withClaim(idClaimKey, userDetails.getId())
                     .withClaim(roleClaimKey, userDetails.getRole())
-//                    .withClaim("authorities" ,
-//                            authResult.getAuthorities()
-//                                    .stream().map(auth -> new SimpleGrantedAuthority(auth.getAuthority()))
-//                                    .collect(Collectors.toList()))
                     .sign(algorithmHS);
 
             return token;
 
         } catch (JWTCreationException err) {
-            //TODO: handle exception
-            err.printStackTrace();
+            System.out.println(err.getMessage());
         }
         return null;
     }

@@ -34,7 +34,6 @@ public class Coupon {
     @Column(nullable = false, length = 256)
     private String description;
 
-    //TODO: check what date type needed
     @Column(nullable = false)
     private java.sql.Date startDate;
 
