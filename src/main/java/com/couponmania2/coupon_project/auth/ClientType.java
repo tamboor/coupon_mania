@@ -7,10 +7,18 @@ public enum ClientType {
 
     private final String name;
 
+    /**
+     * c'tor that applies a given string name to enum's value name
+     * @param name name
+     */
     ClientType(String name){
         this.name = name;
     }
 
+    /**
+     * getter for the name
+     * @return enum's value name
+     */
     public String getName(){
         return this.name;
     }

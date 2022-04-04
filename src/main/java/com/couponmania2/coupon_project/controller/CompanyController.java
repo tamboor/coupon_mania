@@ -22,7 +22,12 @@ public class CompanyController extends ClientController {
 
     private final CompanyServiceImpl companyService;
     private final JwtUtils jwtUtils;
-
+    /**
+     * tries to login an admin user.
+     * @param userDetails the details of the user.
+     * @return response entity that holds a token and a response status.
+     * @throws AppUnauthorizedRequestException if the token has expired or if the user is un-authorized.
+     */
     @Override
     @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody UserDetails userDetails)

@@ -10,6 +10,11 @@ import java.time.Duration;
 
 @Configuration
 public class RestTemplateConfig {
+    /**
+     * configuring the rest template that is used to test the app
+     * @param builder RestTemplateBuilder
+     * @return the rest template.
+     */
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder

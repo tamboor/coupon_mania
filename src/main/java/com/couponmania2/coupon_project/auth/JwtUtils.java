@@ -19,7 +19,11 @@ public class JwtUtils {
     private final String idClaimKey = "id";
     private final String roleClaimKey = "role";
 
-
+    /**
+     * method that generates a token for the user to use.
+     * @param userDetails details of the logged-in user
+     * @return the token.
+     */
     public String generateToken(UserDetails userDetails) {
         try {
             //TODO: change to application properties+ check if needs to be final
@@ -40,6 +44,13 @@ public class JwtUtils {
         return null;
     }
 
+    /**
+     * decodes the token by the algorithm
+     * validates it's expiration time
+     * @param token the token
+     * @return the user details that are encoded it the token
+     * @throws AppUnauthorizedRequestException if the token has expired or if the user is un-authorized.
+     */
     public UserDetails validateToken(String token) throws AppUnauthorizedRequestException {
         try{
             DecodedJWT jwt = JWT.decode(token);
