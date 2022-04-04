@@ -9,7 +9,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
@@ -20,17 +19,17 @@ import java.util.Set;
 //@Component
 @Order(4)
 @RequiredArgsConstructor
-//todo: add get customer details method
 //todo: change to updated URIs
 
 public class CustomerRestTest implements CommandLineRunner {
     private final RestTemplate restTemplate;
     private final String LOGIN_URI = "http://localhost:8080/customer/login?clientType={clientType}&userName={userName}&userPass={userPass}";
     private final String PURCHASE_COUPON_URI = "http://localhost:8080/customer/newPurchase?couponId={id}";
-    private final String GET_ALL_COUPONS_URI = "http://localhost:8080/customer/getCustomerCoupons";
-    private final String GET_COUPONS_BY_MAX_PRICE_URI = "http://localhost:8080/customer/getCustomerCoupons/maxPrice?maxPrice={price}";
-    private final String GET_COUPONS_BY_CATEGORY_URI = "http://localhost:8080/customer/getCustomerCoupons/category?category={category}";
-    private final String GET_CUSTOMER_DETAILS_URI = "http://localhost:8080/customer/getCustomerDetails\n";
+    private final String GET_ALL_COUPONS_URI = "http://localhost:8080/customer/getAllCoupons";
+    private final String GET_CUSTOMER_COUPONS_URI = "http://localhost:8080/customer/getCustomerCoupons";
+    private final String GET_COUPONS_BY_MAX_PRICE_URI = "http://localhost:8080/customer/getCouponsByMaxPrice/{maxPrice}";
+    private final String GET_COUPONS_BY_CATEGORY_URI = "http://localhost:8080/customer/getCouponsByCategory/{category}";
+    private final String GET_CUSTOMER_DETAILS_URI = "http://localhost:8080/customer/getCustomerDetails";
 
     private HttpEntity<?> httpEntity;
     private HttpHeaders headers;
@@ -60,6 +59,13 @@ public class CustomerRestTest implements CommandLineRunner {
     private void getAllCoupons() throws Exception {
 
         Set c = restTemplate.exchange(GET_ALL_COUPONS_URI,
+                HttpMethod.GET, httpEntity, Set.class).getBody();
+        System.out.println(c);
+    }
+
+    private void getCustomerCoupons() throws Exception {
+
+        Set c = restTemplate.exchange(GET_CUSTOMER_COUPONS_URI,
                 HttpMethod.GET, httpEntity, Set.class).getBody();
         System.out.println(c);
     }

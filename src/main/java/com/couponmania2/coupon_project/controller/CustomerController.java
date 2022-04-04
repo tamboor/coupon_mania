@@ -14,12 +14,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("customer")
 @RequiredArgsConstructor
-//todo: add getAllCoupons
+
 //todo: check all jwt shit
-//todo: update login method,
-// todo: replace ReaquestParams to PathVariables (change mapping too)
-//todo: update POST methods (forms-IDs)
-//todo:replace ReaquestParams to PathVariables (change mapping too)
+
 public class CustomerController extends ClientController {
     private final CustomerServiceImpl customerService;
     private final JwtUtils jwtUtils;
@@ -38,7 +35,7 @@ public class CustomerController extends ClientController {
         return new ResponseEntity<>(jwtUtils.generateToken(userDetails), HttpStatus.OK);
     }
 
-//todo: find out why it's mixing the ID numbers
+
     @PostMapping("/newPurchase")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void purchaseCoupon(@RequestHeader(name = "Authorization") String token, @RequestParam long couponId) throws AppUnauthorizedRequestException, AppTargetExistsException, AppTargetNotFoundException {
@@ -46,21 +43,26 @@ public class CustomerController extends ClientController {
         customerService.purchaseCoupon(couponId, customerId );
     }
 
-    //
+    @GetMapping("/getAllCoupons")
+    public ResponseEntity<?> getAllCoupons(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException {
+        validate(token);
+        return new ResponseEntity<>(customerService.getAllCoupons(), HttpStatus.OK);
+    }
+
     @GetMapping("/getCustomerCoupons")
     public ResponseEntity<?> getCustomerCoupons(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
         long customerId = validate(token);
         return new ResponseEntity<>(customerService.getCustomerCoupons(customerId), HttpStatus.OK);
     }
 
-    @GetMapping("/getCustomerCoupons/category")
-    public ResponseEntity<?> getCustomerCouponsByCategory(@RequestHeader(name = "Authorization") String token, @RequestParam Category category) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
+    @GetMapping("/getCouponsByCategory/{category}")
+    public ResponseEntity<?> getCustomerCouponsByCategory(@RequestHeader(name = "Authorization") String token, @PathVariable Category category) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
         long customerId = validate(token);
         return new ResponseEntity<>(customerService.getCustomerCouponsByCategory(customerId, category), HttpStatus.OK);
     }
 
-    @GetMapping("/getCustomerCoupons/maxPrice")
-    public ResponseEntity<?> getCustomerCouponsByMaxPrice(@RequestHeader(name = "Authorization") String token, @RequestParam double maxPrice) throws AppUnauthorizedRequestException, AppTargetNotFoundException, AppInvalidInputException {
+    @GetMapping("/getCouponsByMaxPrice/{maxPrice}")
+    public ResponseEntity<?> getCustomerCouponsByMaxPrice(@RequestHeader(name = "Authorization") String token, @PathVariable double maxPrice) throws AppUnauthorizedRequestException, AppTargetNotFoundException, AppInvalidInputException {
         long customerId = validate(token);
         return new ResponseEntity<>(customerService.getCustomerCouponsByMaxPrice(customerId, maxPrice), HttpStatus.OK);
     }
