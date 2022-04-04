@@ -47,7 +47,7 @@ public class AdminServiceImpl implements AdminService {
         customerRepo.save(customer);
     }
 
-    //todo: check if this is the right terms in "if"
+    //todo: check if this is the right terms in "ifh"
     @Override
     public void updateCompany(Company company) throws AppInvalidInputException {
 //        companyRepo.existsByIdAndName(company)
