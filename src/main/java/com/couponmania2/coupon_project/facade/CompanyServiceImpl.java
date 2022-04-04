@@ -19,6 +19,14 @@ public class CompanyServiceImpl implements CompanyService {
     private final CompanyRepo companyRepo;
     private final CouponRepo couponRepo;
 
+    /**
+     * Checks if given credentials match company login credentials.
+     * @param email user email.
+     * @param password user password.
+     * @param clientType the type of the client.
+     * @return returns found company if credentials match a company in the database.
+     * @throws AppUnauthorizedRequestException if credentials dont match any company in the database.
+     */
     @Override
     public Company checkCredentials(String email, String password, ClientType clientType) throws AppUnauthorizedRequestException {
 
@@ -29,6 +37,11 @@ public class CompanyServiceImpl implements CompanyService {
         return companyOptional.get();
     }
 
+    /**
+     * adds a coupon to the database.
+     * @param coupon, the coupon to add.
+     * @throws AppTargetExistsException if coupon with matching name and company exists in the database.
+     */
     @Override
     public void addCoupon(Coupon coupon) throws AppTargetExistsException {
         if (couponRepo.existsByCompanyAndTitle(coupon.getCompany(), coupon.getTitle())) {
@@ -37,7 +50,11 @@ public class CompanyServiceImpl implements CompanyService {
         couponRepo.save(coupon);
     }
 
-
+    /**
+     * updates a coupon in the database.
+     * @param coupon the coupon to update.
+     * @throws AppInvalidInputException if coupon is of other company.
+     */
     @Override
     public void updateCoupon(Coupon coupon) throws AppInvalidInputException {
         if (couponRepo.getById(coupon.getId()).getCompany() != coupon.getCompany()) {
@@ -46,6 +63,13 @@ public class CompanyServiceImpl implements CompanyService {
         couponRepo.save(coupon);
     }
 
+    /**
+     *  deletes a coupon from the database.
+     * @param couponId coupon to delete
+     * @param companyId company that wishes to delete the coupon
+     * @throws AppTargetNotFoundException if the coupon was not found
+     * @throws AppInvalidInputException if the coupon is not of given company
+     */
     @Override
     public void deleteCoupon(long couponId, long companyId) throws AppTargetNotFoundException, AppInvalidInputException {
         Optional<Coupon> couponOptional = couponRepo.findById(couponId);
@@ -60,6 +84,12 @@ public class CompanyServiceImpl implements CompanyService {
         couponRepo.deleteById(couponId);
     }
 
+    /**
+     * retrieves a company by id.
+     * @param couponId company to retrieve.
+     * @return the coupon found.
+     * @throws AppTargetNotFoundException coupon was not found.
+     */
     @Override
     public Coupon getCouponByID(long couponId) throws AppTargetNotFoundException {
         if (!couponRepo.existsById(couponId)){
@@ -69,6 +99,12 @@ public class CompanyServiceImpl implements CompanyService {
         return optionalCoupon.get();
     }
 
+    /**
+     * gets all coupons of given company.
+     * @param companyId the company to find the coupons of.
+     * @return the set of all coupons.
+     * @throws AppTargetNotFoundException if company dont exist in the database.
+     */
     @Override
     public Set<Coupon> getAllCompanyCoupons(long companyId) throws AppTargetNotFoundException {
         if (!companyRepo.existsById(companyId)) {
@@ -77,6 +113,13 @@ public class CompanyServiceImpl implements CompanyService {
         return couponRepo.findByCompany(companyRepo.getById(companyId));
     }
 
+    /**
+     * gets all coupons of given company and category.
+     * @param companyId the company to find the coupons of.
+     * @param category the category to filter by.
+     * @return the set of all coupons.
+     * @throws AppTargetNotFoundException if company dont exist in the database.
+     */
     @Override
     public Set<Coupon> getCompanyCouponsByCategory(long companyId, Category category) throws AppTargetNotFoundException {
         if (!companyRepo.existsById(companyId)) {
@@ -85,6 +128,13 @@ public class CompanyServiceImpl implements CompanyService {
         return couponRepo.findByCompanyAndCategory(companyRepo.getById(companyId), category);
     }
 
+    /**
+     * gets all coupons of given company and max price.
+     * @param companyId the company to find the coupons of.
+     * @param maxPrice the max price to filter by.
+     * @return the set of all coupons.
+     * @throws AppTargetNotFoundException if company dont exist in the database or the max price given is a negative number.
+     */
     @Override
     public Set<Coupon> getCompanyCouponsByMaxPrice(long companyId, double maxPrice) throws AppTargetNotFoundException, AppInvalidInputException {
         if (!companyRepo.existsById(companyId)) {
@@ -96,6 +146,12 @@ public class CompanyServiceImpl implements CompanyService {
         return couponRepo.findByCompanyAndPriceLessThanEqual(companyRepo.getById(companyId), maxPrice);
     }
 
+    /**
+     * retrieves a company from the database.
+     * @param companyId the id of the company to find.
+     * @return the company found.
+     * @throws AppTargetNotFoundException if company was not found in the database.
+     */
     @Override
     public Company getCompanyDetails(long companyId) throws AppTargetNotFoundException {
         if (!companyRepo.existsById(companyId)) {

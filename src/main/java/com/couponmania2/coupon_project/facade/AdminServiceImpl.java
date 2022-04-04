@@ -22,7 +22,14 @@ public class AdminServiceImpl implements AdminService {
     private final String ADMIN_EMAIL = "admin@admin.com";
     private final String AMDIN_PASSWORD = "admin";
 
-
+    /**
+     * Checks if given credentials match admin login credentials.
+     * @param email user email.
+     * @param password user password.
+     * @param clientType the type of the client.
+     * @return returns 0 if credentials amtch admin credentials.
+     * @throws AppUnauthorizedRequestException if credentials dont match admin credentials..
+     */
     @Override
     public long checkCredentials(String email, String password, ClientType clientType) throws AppUnauthorizedRequestException {
         if (!(email.equals(ADMIN_EMAIL) && password.equals(AMDIN_PASSWORD) && clientType.equals(ClientType.admin))) {
@@ -31,6 +38,11 @@ public class AdminServiceImpl implements AdminService {
         return 0;
     }
 
+    /**
+     * adds a company to the database.
+     * @param company the company to add.
+     * @throws AppTargetExistsException if company name or email already exists in database.
+     */
     @Override
     public void addCompany(Company company) throws AppTargetExistsException {
         if (companyRepo.existsByEmailOrName(company.getEmail(), company.getName())) {
@@ -39,6 +51,11 @@ public class AdminServiceImpl implements AdminService {
         companyRepo.save(company);
     }
 
+    /**
+     * adds a customer to the database.
+     * @param customer the company to add.
+     * @throws AppTargetExistsException if customer email already exists in database.
+     */
     @Override
     public void addCustomer(Customer customer) throws AppTargetExistsException {
         if (customerRepo.existsByEmail(customer.getEmail())) {
@@ -47,6 +64,11 @@ public class AdminServiceImpl implements AdminService {
         customerRepo.save(customer);
     }
 
+    /**
+     * updates a company in the database.
+     * @param company the company to update.
+     * @throws AppTargetExistsException if company with given id and name doesnt exist in the database.
+     */
     @Override
     public void updateCompany(Company company) throws AppInvalidInputException {
         if (!companyRepo.existsByIdAndName(company.getId(), company.getName())) {
@@ -55,6 +77,11 @@ public class AdminServiceImpl implements AdminService {
         companyRepo.save(company);
     }
 
+    /**
+     * updates a customer in the database.
+     * @param customer the company to update.
+     * @throws AppTargetExistsException if customer with given id doesnt exist in the database.
+     */
     @Override
     public void updateCustomer(Customer customer) throws AppTargetNotFoundException {
         if (!customerRepo.existsById(customer.getId())) {
@@ -63,6 +90,11 @@ public class AdminServiceImpl implements AdminService {
         customerRepo.save(customer);
     }
 
+    /**
+     * deletes a company from the database.
+     * @param companyID id of the company to delete.
+     * @throws AppTargetNotFoundException if the company wasnt found in the database.
+     */
     @Override
     public void deleteCompany(long companyID) throws AppTargetNotFoundException {
         if (!companyRepo.existsById(companyID)) {
@@ -71,6 +103,11 @@ public class AdminServiceImpl implements AdminService {
         companyRepo.deleteById(companyID);
     }
 
+    /**
+     * deletes a customer from the database.
+     * @param customerID id of the company to delete.
+     * @throws AppTargetNotFoundException if the customer wasnt found in the database.
+     */
     @Override
     public void deleteCustomer(long customerID) throws AppTargetNotFoundException {
         if (!customerRepo.existsById(customerID)) {
@@ -79,16 +116,30 @@ public class AdminServiceImpl implements AdminService {
         customerRepo.deleteById(customerID);
     }
 
+    /**
+     * gets all the companies registered in the database.
+     * @return all the companies in the database.
+     */
     @Override
     public Set<Company> getAllComapnies() {
         return new HashSet<>(companyRepo.findAll());
     }
 
+    /**
+     * gets all the customers registered in the database.
+     * @return all the customers in the database.
+     */
     @Override
     public Set<Customer> getAllCustomers() {
         return new HashSet<>(customerRepo.findAll());
     }
 
+    /**
+     * gets one company from the database.
+     * @param companyID the id of the company to get.
+     * @return the company found.
+     * @throws AppTargetNotFoundException if company with given id wasnt found in teh database.
+     */
     @Override
     public Company getOneCompany(long companyID) throws AppTargetNotFoundException {
 
@@ -99,6 +150,12 @@ public class AdminServiceImpl implements AdminService {
         return companyOptional.get();
     }
 
+    /**
+     * gets one customer from the database.
+     * @param customerID the id of the customer to get.
+     * @return the customer found.
+     * @throws AppTargetNotFoundException if customer with given id wasnt found in teh database.
+     */
     @Override
     public Customer getOneCustomer(long customerID) throws AppTargetNotFoundException {
         Optional<Customer> customerOptional = customerRepo.findById(customerID);
