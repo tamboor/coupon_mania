@@ -26,7 +26,7 @@ public class AdminRestTest implements CommandLineRunner {
 
     private final RestTemplate restTemplate;
 
-    private final String LOGIN_URI = "http://localhost:8080/admin/login?clientType={clientType}&userName={userName}&userPass={userPass}";
+    private final String LOGIN_URI = "http://localhost:8080/admin/login";
     private final String ADD_COMPANY_URI = "http://localhost:8080/admin/addCompany";
     private final String DELETE_COMPANY_URI = "http://localhost:8080/admin/deleteCompany/{id}";
     private final String UPDATE_COMPANY_URI = "http://localhost:8080/admin/updateCompany?id={id}";
