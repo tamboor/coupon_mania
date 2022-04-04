@@ -29,12 +29,6 @@ public class AdminController extends ClientController {
     @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody UserDetails userDetails)
             throws AppUnauthorizedRequestException {
-//        UserDetails user = UserDetails.builder()
-//                .userName(userName)
-//                .userPass(userPass)
-//                .role(clientType.getName())
-//                .id(adminService.checkCredentials(userName, userPass, clientType))
-//                .build();
         userDetails.setId(adminService.checkCredentials(
                 userDetails.getUserName(),
                 userDetails.getUserPass(),

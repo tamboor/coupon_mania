@@ -29,12 +29,12 @@ public class AdminRestTest implements CommandLineRunner {
     private final String LOGIN_URI = "http://localhost:8080/admin/login";
     private final String ADD_COMPANY_URI = "http://localhost:8080/admin/addCompany";
     private final String DELETE_COMPANY_URI = "http://localhost:8080/admin/deleteCompany/{id}";
-    private final String UPDATE_COMPANY_URI = "http://localhost:8080/admin/updateCompany?id={id}";
+    private final String UPDATE_COMPANY_URI = "http://localhost:8080/admin/updateCompany";
     private final String GET_ALL_COMPANIES_URI = "http://localhost:8080/admin/getAllCompanies";
     private final String GET_ONE_COMPANY_URI = "http://localhost:8080/admin/getOneCompany/{id}";
     private final String ADD_CUSTOMER_URI = "http://localhost:8080/admin/addCustomer";
     private final String DELETE_CUSTOMER_URI = "http://localhost:8080/admin/deleteCustomer/{id}";
-    private final String UPDATE_CUSTOMER_URI = "http://localhost:8080/admin/updateCustomer?id={id}";
+    private final String UPDATE_CUSTOMER_URI = "http://localhost:8080/admin/updateCustomer";
     private final String GET_ALL_CUSTOMER_URI = "http://localhost:8080/admin/getAllCustomers";
     private final String GET_ONE_CUSTOMER_URI = "http://localhost:8080/admin/getOneCustomer/{id}";
 

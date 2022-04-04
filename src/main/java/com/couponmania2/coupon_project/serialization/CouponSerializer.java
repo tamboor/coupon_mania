@@ -9,8 +9,6 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.springframework.boot.jackson.JsonComponent;
 
 import java.io.IOException;
-//todo: what is this annotation?
-@JsonComponent
 
 public class CouponSerializer extends JsonSerializer<Coupon> {
 
@@ -23,7 +21,6 @@ public class CouponSerializer extends JsonSerializer<Coupon> {
         jsonGenerator.writeStringField("category" , coupon.getCategory().getName());
         jsonGenerator.writeStringField("title" , coupon.getTitle());
         jsonGenerator.writeStringField("description" , coupon.getDescription());
-        //todo: check if tostring works
         jsonGenerator.writeStringField("startDate" , coupon.getStartDate().toString());
         jsonGenerator.writeStringField("endDate" , coupon.getEndDate().toString());
         jsonGenerator.writeNumberField("amount" , coupon.getAmount());

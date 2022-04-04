@@ -1,6 +1,7 @@
 package com.couponmania2.coupon_project.serialization;
 
 import com.couponmania2.coupon_project.beans.Category;
+import com.couponmania2.coupon_project.exceptions.AppInvalidInputException;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
@@ -15,7 +16,6 @@ public class CategoryConverter implements AttributeConverter<Category,String> {
         }
        return category.getName();
     }
-//TODO: change to custom exeption
     @Override
     public Category convertToEntityAttribute(String name) {
         if (name==null){
@@ -25,5 +25,6 @@ public class CategoryConverter implements AttributeConverter<Category,String> {
                 .filter(category -> category.getName().equals(name))
                 .findFirst()
                 .orElseThrow(IllegalArgumentException::new);
+
     }
 }
