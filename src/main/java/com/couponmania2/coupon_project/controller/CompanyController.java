@@ -31,11 +31,15 @@ public class CompanyController extends ClientController {
     @Override
     @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody UserDetails userDetails)
-            throws AppUnauthorizedRequestException {
+            throws AppUnauthorizedRequestException, AppInvalidInputException {
+        if (!userDetails.getRole().equals(ClientType.company.getName())){
+            throw new AppInvalidInputException("Bad role input.");
+        }
+
         userDetails.setId(companyService.checkCredentials(
                 userDetails.getUserName(),
                 userDetails.getUserPass(),
-                ClientType.valueOf(userDetails.getRole()))
+                  ClientType.valueOf(userDetails.getRole()))
                 .getId()
         );
         return new ResponseEntity<>(jwtUtils.generateToken(userDetails), HttpStatus.OK);

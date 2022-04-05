@@ -17,8 +17,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
-//@Component
+@Component
 @Order(2)
 @RequiredArgsConstructor
 public class AdminRestTest implements CommandLineRunner {
@@ -73,126 +74,126 @@ public class AdminRestTest implements CommandLineRunner {
                 System.out.println(err.getMessage());
             }
         }
+////
+//        // data of customer to add:
+//        try {
+//            CustomerForm cFORM = new CustomerForm();
+//            cFORM.setFirstName("alon2");
+//            cFORM.setLastName("mintz2");
+//            cFORM.setEmail("alon222mintz222@mintz");
+//            cFORM.setPassword("ggggggggg");
 //
-        // data of customer to add:
-        try {
-            CustomerForm cFORM = new CustomerForm();
-            cFORM.setFirstName("alon2");
-            cFORM.setLastName("mintz2");
-            cFORM.setEmail("alon222mintz222@mintz");
-            cFORM.setPassword("ggggggggg");
-
-            addCustomer(cFORM);
-        } catch (Exception e) {
-            try {
-                throw new AppTargetExistsException(AppTargetExistsMessage.CUSTOMER_EXISTS);
-            } catch (AppTargetExistsException err) {
-                System.out.println(err.getMessage());
-            }
-        }
-
-        //delete customer:
-        try {
-            deleteCustomer(4L);
-        } catch (Exception e) {
-            try {
-                throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
-            } catch (AppTargetNotFoundException err) {
-                System.out.println(err.getMessage());
-            }
-        }
-
-        try {
-            deleteCustomer(4L);
-        } catch (Exception e) {
-            try {
-                throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
-            } catch (AppTargetNotFoundException err) {
-                System.out.println(err.getMessage());
-            }
-        }
-
-        //update customer data:
-        try {
-
-            CustomerForm cFORM2 = new CustomerForm();
-            cFORM2.setFirstName("notAlon");
-            cFORM2.setLastName("notMintz");
-            cFORM2.setEmail("alon222mintz222@mintz");
-            cFORM2.setPassword("ggggggggg");
-
-            updateCustomer(cFORM2, 2L);
-        } catch (Exception e) {
-            try {
-                throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
-            } catch (AppTargetNotFoundException err) {
-                System.out.println(err.getMessage());
-            }
-        }
-        //endregion
-
-
-        //region rest template tests for company
-        try {
-            getOneCompany(2L);
-        } catch (Exception e) {
-            try {
-                throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);
-            } catch (AppTargetNotFoundException err) {
-                System.out.println(err.getMessage());
-            }
-        }
-
-        try {
-            getAllCompanies();
-        } catch (Exception e) {
-            try {
-                throw new AppTargetNotFoundException("This is a restTemplate exception");
-            } catch (AppTargetNotFoundException err) {
-                System.out.println(err.getMessage());
-            }
-        }
-
-        try {
-            CompanyForm cFORM = new CompanyForm();
-            cFORM.setName("restCompany");
-            cFORM.setEmail("rest@company.com");
-            cFORM.setPassword("password22022");
-
-            addCompany(cFORM);
-        } catch (Exception e) {
-            try {
-                throw new AppTargetExistsException(AppTargetExistsMessage.COMPANY_EXISTS);
-            } catch (AppTargetExistsException err) {
-                System.out.println(err.getMessage());
-            }
-        }
-
-        try {
-            deleteCompany(4L);
-        } catch (Exception e) {
-            try {
-                throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);
-            } catch (AppTargetNotFoundException err) {
-                System.out.println(err.getMessage());
-            }
-        }
-
-        try {
-
-            CompanyForm cFORM2 = new CompanyForm();
-            // cFORM2.setName("restUpdate");
-            cFORM2.setEmail("rest@update.com");
-            cFORM2.setPassword("updatePass");
-
-            updateCompany(cFORM2, 2L);
-        } catch (Exception e) {
-            try {
-                throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);
-            } catch (AppTargetNotFoundException err) {
-                System.out.println(err.getMessage());
-            }
-        }
+//            addCustomer(cFORM);
+//        } catch (Exception e) {
+//            try {
+//                throw new AppTargetExistsException(AppTargetExistsMessage.CUSTOMER_EXISTS);
+//            } catch (AppTargetExistsException err) {
+//                System.out.println(err.getMessage());
+//            }
+//        }
+//
+//        //delete customer:
+//        try {
+//            deleteCustomer(4L);
+//        } catch (Exception e) {
+//            try {
+//                throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
+//            } catch (AppTargetNotFoundException err) {
+//                System.out.println(err.getMessage());
+//            }
+//        }
+//
+//        try {
+//            deleteCustomer(4L);
+//        } catch (Exception e) {
+//            try {
+//                throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
+//            } catch (AppTargetNotFoundException err) {
+//                System.out.println(err.getMessage());
+//            }
+//        }
+//
+//        //update customer data:
+//        try {
+//
+//            CustomerForm cFORM2 = new CustomerForm();
+//            cFORM2.setFirstName("notAlon");
+//            cFORM2.setLastName("notMintz");
+//            cFORM2.setEmail("alon222mintz222@mintz");
+//            cFORM2.setPassword("ggggggggg");
+//
+//            updateCustomer(cFORM2, 2L);
+//        } catch (Exception e) {
+//            try {
+//                throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
+//            } catch (AppTargetNotFoundException err) {
+//                System.out.println(err.getMessage());
+//            }
+//        }
+//        //endregion
+//
+//
+//        //region rest template tests for company
+//        try {
+//            getOneCompany(2L);
+//        } catch (Exception e) {
+//            try {
+//                throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);
+//            } catch (AppTargetNotFoundException err) {
+//                System.out.println(err.getMessage());
+//            }
+//        }
+//
+//        try {
+//            getAllCompanies();
+//        } catch (Exception e) {
+//            try {
+//                throw new AppTargetNotFoundException("This is a restTemplate exception");
+//            } catch (AppTargetNotFoundException err) {
+//                System.out.println(err.getMessage());
+//            }
+//        }
+//
+//        try {
+//            CompanyForm cFORM = new CompanyForm();
+//            cFORM.setName("restCompany");
+//            cFORM.setEmail("rest@company.com");
+//            cFORM.setPassword("password22022");
+//
+//            addCompany(cFORM);
+//        } catch (Exception e) {
+//            try {
+//                throw new AppTargetExistsException(AppTargetExistsMessage.COMPANY_EXISTS);
+//            } catch (AppTargetExistsException err) {
+//                System.out.println(err.getMessage());
+//            }
+//        }
+//
+//        try {
+//            deleteCompany(4L);
+//        } catch (Exception e) {
+//            try {
+//                throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);
+//            } catch (AppTargetNotFoundException err) {
+//                System.out.println(err.getMessage());
+//            }
+//        }
+//
+//        try {
+//
+//            CompanyForm cFORM2 = new CompanyForm();
+//            // cFORM2.setName("restUpdate");
+//            cFORM2.setEmail("rest@update.com");
+//            cFORM2.setPassword("updatePass");
+//
+//            updateCompany(cFORM2, 2L);
+//        } catch (Exception e) {
+//            try {
+//                throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);
+//            } catch (AppTargetNotFoundException err) {
+//                System.out.println(err.getMessage());
+//            }
+//        }
         //endregion
     }
 
@@ -219,15 +220,15 @@ public class AdminRestTest implements CommandLineRunner {
 
         Map<String, Long> params = new HashMap<>();
         params.put("id", id);
-        String c = restTemplate.exchange(GET_ONE_CUSTOMER_URI,
-                HttpMethod.GET, httpEntity, String.class, params).getBody();
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        Customer customer = objectMapper.readValue(c, Customer.class);
+        Customer c = restTemplate.exchange(GET_ONE_CUSTOMER_URI,
+                HttpMethod.GET, httpEntity, Customer.class, params).getBody();
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+//        Customer customer = objectMapper.readValue(c, Customer.class);
 
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
-        System.out.println(customer);
+        System.out.println(c);
 
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
@@ -235,15 +236,18 @@ public class AdminRestTest implements CommandLineRunner {
 
     private void getAllCustomers() throws Exception {
 
-        Set c = restTemplate.exchange(GET_ALL_CUSTOMER_URI,
-                HttpMethod.GET, httpEntity, Set.class).getBody();
+        Customer[] c = restTemplate.exchange(GET_ALL_CUSTOMER_URI,
+                HttpMethod.GET, httpEntity, Customer[].class).getBody();
 //        ObjectMapper objectMapper = new ObjectMapper();
 //        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        List<Customer> customers = Arrays.stream(c)
+//                .map(customer-> objectMapper.readValue(customer, Customer.class))
+                .collect(Collectors.toList());
 //        List <Customer> customers = c.stream()
 //                .map(customer-> objectMapper.readValue(customer, Customer.class))
 //                .collect(Collectors.toList());
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println(c);
+        customers.stream().forEach(System.out::println);
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
 

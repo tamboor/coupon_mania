@@ -17,7 +17,7 @@ import java.util.Set;
 //@Data
 @Entity
 @Table(name= "companies")
-@JsonSerialize(using = CompanySerializer.class)
+//@JsonSerialize(using = CompanySerializer.class)
 public class Company {
 
     /**

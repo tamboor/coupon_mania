@@ -21,7 +21,7 @@ import java.util.Set;
 //@NoArgsConstructor
 @Entity
 @Table(name= "customers")
-@JsonSerialize(using = CustomerSerializer.class)
+//@JsonSerialize(using = CustomerSerializer.class)
 public class Customer {
 
     @Id

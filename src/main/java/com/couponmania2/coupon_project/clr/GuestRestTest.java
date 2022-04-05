@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Component
+//@Component
 @Order(5)
 @RequiredArgsConstructor
 public class GuestRestTest implements CommandLineRunner {

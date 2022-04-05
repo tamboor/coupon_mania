@@ -26,6 +26,7 @@ public class AdminController extends ClientController {
 
     /**
      * tries to login an admin user.
+     *
      * @param userDetails the details of the user.
      * @return response entity that holds a token and a response status.
      * @throws AppUnauthorizedRequestException if the token has expired or if the user is un-authorized.
@@ -33,12 +34,14 @@ public class AdminController extends ClientController {
     @Override
     @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody UserDetails userDetails)
-            throws AppUnauthorizedRequestException {
+            throws AppUnauthorizedRequestException, AppInvalidInputException {
+        if (!userDetails.getRole().equals(ClientType.admin.getName())) {
+            throw new AppInvalidInputException("Bad role input.");
+        }
         userDetails.setId(adminService.checkCredentials(
-                userDetails.getUserName(),
-                userDetails.getUserPass(),
-                ClientType.valueOf(userDetails.getRole()))
-        );
+                                userDetails.getUserName(),
+                                userDetails.getUserPass(),
+                                ClientType.valueOf(userDetails.getRole())));
         return new ResponseEntity<>(jwtUtils.generateToken(userDetails), HttpStatus.OK);
     }
 
@@ -52,7 +55,7 @@ public class AdminController extends ClientController {
 
     @PutMapping("/updateCompany")
     @ResponseStatus(HttpStatus.OK)
-    public void updateCompany(@RequestHeader(name = "Authorization") String token,  @RequestBody CompanyForm companyForm) throws AppTargetNotFoundException, AppUnauthorizedRequestException, AppInvalidInputException {
+    public void updateCompany(@RequestHeader(name = "Authorization") String token, @RequestBody CompanyForm companyForm) throws AppTargetNotFoundException, AppUnauthorizedRequestException, AppInvalidInputException {
         validate(token);
         Company companyToUpdate = adminService.getOneCompany(companyForm.getId());
         companyToUpdate.setEmail(companyForm.getEmail());

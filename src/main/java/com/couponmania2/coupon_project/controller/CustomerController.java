@@ -23,6 +23,7 @@ public class CustomerController extends ClientController {
 
     /**
      * tries to login an admin user.
+     *
      * @param userDetails the details of the user.
      * @return response entity that holds a token and a response status.
      * @throws AppUnauthorizedRequestException if the token has expired or if the user is un-authorized.
@@ -30,8 +31,11 @@ public class CustomerController extends ClientController {
     @Override
     @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody UserDetails userDetails)
-            throws AppUnauthorizedRequestException {
-//
+            throws AppUnauthorizedRequestException, AppInvalidInputException {
+        if (!userDetails.getRole().equals(ClientType.customer.getName())) {
+            throw new AppInvalidInputException("Bad role input.");
+        }
+
         userDetails.setId(customerService.checkCredentials(
                         userDetails.getUserName(),
                         userDetails.getUserPass(),
@@ -46,13 +50,13 @@ public class CustomerController extends ClientController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void purchaseCoupon(@RequestHeader(name = "Authorization") String token, @RequestParam long couponId) throws AppUnauthorizedRequestException, AppTargetExistsException, AppTargetNotFoundException {
         long customerId = validate(token);
-        customerService.purchaseCoupon(couponId, customerId );
+        customerService.purchaseCoupon(couponId, customerId);
     }
 
     @GetMapping("/getAllCoupons")
     public ResponseEntity<?> getAllCoupons(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException {
         validate(token);
-       // System.out.println("controllerrrr: "+new ResponseEntity<>(customerService.getAllCoupons(), HttpStatus.OK));
+        // System.out.println("controllerrrr: "+new ResponseEntity<>(customerService.getAllCoupons(), HttpStatus.OK));
         return new ResponseEntity<>(customerService.getAllCoupons(), HttpStatus.OK);
     }
 
@@ -73,6 +77,7 @@ public class CustomerController extends ClientController {
         long customerId = validate(token);
         return new ResponseEntity<>(customerService.getCustomerCouponsByMaxPrice(customerId, maxPrice), HttpStatus.OK);
     }
+
     @GetMapping("/getCustomerDetails")
     public ResponseEntity<?> getCustomerDetails(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
         long customerId = validate(token);
