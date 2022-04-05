@@ -2,6 +2,7 @@ package com.couponmania2.coupon_project.facade;
 
 import com.couponmania2.coupon_project.auth.ClientType;
 import com.couponmania2.coupon_project.beans.Company;
+import com.couponmania2.coupon_project.beans.Coupon;
 import com.couponmania2.coupon_project.beans.Customer;
 import com.couponmania2.coupon_project.exceptions.AppInvalidInputException;
 import com.couponmania2.coupon_project.exceptions.AppTargetNotFoundException;
@@ -21,5 +22,7 @@ public interface    AdminService {
     Set<Company> getAllComapnies();
     Set<Customer> getAllCustomers();
     Company getOneCompany(long companyID) throws AppTargetNotFoundException;
+    Set<Coupon> getCompanyCoupons (long companyID) throws AppTargetNotFoundException;
     Customer getOneCustomer(long customerID) throws AppTargetNotFoundException;
+    Set<Coupon> getCustomerCoupons (long customerID) throws AppTargetNotFoundException;
 }

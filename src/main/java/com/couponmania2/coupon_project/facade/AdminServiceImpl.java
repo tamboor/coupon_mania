@@ -2,10 +2,13 @@ package com.couponmania2.coupon_project.facade;
 
 import com.couponmania2.coupon_project.auth.ClientType;
 import com.couponmania2.coupon_project.beans.Company;
+import com.couponmania2.coupon_project.beans.Coupon;
 import com.couponmania2.coupon_project.beans.Customer;
+import com.couponmania2.coupon_project.beans.Purchase;
 import com.couponmania2.coupon_project.exceptions.*;
 import com.couponmania2.coupon_project.repositories.CompanyRepo;
 import com.couponmania2.coupon_project.repositories.CustomerRepo;
+import com.couponmania2.coupon_project.repositories.PurchaseRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +22,7 @@ public class AdminServiceImpl implements AdminService {
 
     private final CompanyRepo companyRepo;
     private final CustomerRepo customerRepo;
+    private final PurchaseRepo purchaseRepo;
     private final String ADMIN_EMAIL = "admin@admin.com";
     private final String AMDIN_PASSWORD = "admin";
 
@@ -150,6 +154,14 @@ public class AdminServiceImpl implements AdminService {
         return companyOptional.get();
     }
 
+    @Override
+    public Set<Coupon> getCompanyCoupons(long companyID) throws AppTargetNotFoundException {
+        if (!companyRepo.existsById(companyID)){
+            throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);
+        }
+        return companyRepo.getById(companyID).getCoupons();
+    }
+
     /**
      * gets one customer from the database.
      * @param customerID the id of the customer to get.
@@ -164,5 +176,13 @@ public class AdminServiceImpl implements AdminService {
         }
         System.out.println(customerOptional.get());
         return customerOptional.get();
+    }
+
+    @Override
+    public Set<Coupon> getCustomerCoupons(long customerID) throws AppTargetNotFoundException {
+        if (!customerRepo.existsById(customerID)){
+            throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
+        }
+       return  purchaseRepo.getAllCouponsOfCustomer(customerRepo.getById(customerID));
     }
 }

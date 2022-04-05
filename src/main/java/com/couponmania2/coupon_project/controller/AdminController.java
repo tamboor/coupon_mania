@@ -84,6 +84,12 @@ public class AdminController extends ClientController {
         return new ResponseEntity<>(adminService.getOneCompany(companyId), HttpStatus.OK);
     }
 
+    @GetMapping("/getCompanyCoupons/{companyId}")
+    public ResponseEntity<?> getCompanyCoupons(@RequestHeader(name = "Authorization") String token, @PathVariable long companyId) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
+        validate(token);
+        return new ResponseEntity<>(adminService.getCompanyCoupons(companyId), HttpStatus.OK);
+    }
+
     @PostMapping("/addCustomer")
     @ResponseStatus(HttpStatus.CREATED)
     public void addCustomer(@RequestHeader(name = "Authorization") String token, @RequestBody CustomerForm customerForm) throws AppUnauthorizedRequestException, AppTargetExistsException {
@@ -119,6 +125,12 @@ public class AdminController extends ClientController {
     public ResponseEntity<?> getOneCustomer(@RequestHeader(name = "Authorization") String token, @PathVariable long customerId) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
         validate(token);
         return new ResponseEntity<>(adminService.getOneCustomer(customerId), HttpStatus.OK);
+    }
+
+    @GetMapping("/getCustomerCoupons/{customerId}")
+    public ResponseEntity<?> getCustomerCoupons(@RequestHeader(name = "Authorization") String token, @PathVariable long customerId) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
+        validate(token);
+        return new ResponseEntity<>(adminService.getCustomerCoupons(customerId), HttpStatus.OK);
     }
 
     private void validate(String token) throws AppUnauthorizedRequestException {
