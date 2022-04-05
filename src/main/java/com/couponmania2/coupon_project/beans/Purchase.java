@@ -14,11 +14,11 @@ public class Purchase {
     @Column(name = "id", nullable = false, updatable = false)
     private long id;
 //
-    @JsonBackReference
+    //@JsonBackReference
     @ManyToOne
     private Customer customer;
 
-    @JsonBackReference
+    //@JsonBackReference
     @ManyToOne
     private Coupon coupon;
 

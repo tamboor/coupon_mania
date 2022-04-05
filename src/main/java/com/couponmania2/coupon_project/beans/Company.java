@@ -3,6 +3,7 @@ package com.couponmania2.coupon_project.beans;
 import com.couponmania2.coupon_project.serialization.CompanyForm;
 import com.couponmania2.coupon_project.serialization.CompanySerializer;
 import com.couponmania2.coupon_project.serialization.CustomerSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
@@ -41,7 +42,8 @@ public class Company {
     @Column(nullable = false , length = 30)
     private String password;
 
-    @JsonManagedReference
+    //@JsonManagedReference
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY , mappedBy = "company" , orphanRemoval = true)
     private Set<Coupon> coupons = new HashSet<>();
 

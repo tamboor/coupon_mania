@@ -3,6 +3,7 @@ package com.couponmania2.coupon_project.beans;
 import com.couponmania2.coupon_project.serialization.CouponForm;
 import com.couponmania2.coupon_project.serialization.CouponSerializer;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -14,7 +15,7 @@ import java.util.Set;
 //@Data
 @Entity
 @Table(name = "coupons")
-@JsonSerialize(using = CouponSerializer.class)
+//@JsonSerialize(using = CouponSerializer.class)
 //@JsonDeserialize(using = CouponDeserializer.class)
 public class Coupon {
     @Id
@@ -22,9 +23,15 @@ public class Coupon {
     @Column(updatable = false)
     private long id;
 
-    @JsonBackReference
+//    @JsonBackReference
     @ManyToOne
+    @JsonIgnore
+//    @OneToOne
+//    @JoinColumn(name = "company_id")
     private Company company;
+//    @OneToOne
+//    @JoinC
+//    private long companyId;
 
     @Column(nullable = false)
     private Category category;
@@ -50,7 +57,8 @@ public class Coupon {
     @Column
     private String image;
 
-    @JsonManagedReference
+    //@JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "coupon", orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Set<Purchase> purchases = new HashSet<>();
 
@@ -304,19 +312,20 @@ public class Coupon {
      * Printing details of the coupon
      * @return Coupon details
      */
-    @Override
-    public String toString() {
-        return "Coupon{" +
-                "id=" + id +
-                ", companyID=" + company.getId() +
-                ", category=" + category +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", amount=" + amount +
-                ", price=" + price +
-                ", image='" + image +
-                '}';
-    }
+//    @Override
+//    @JsonIgnore
+//    public String toString() {
+//        return "Coupon{" +
+//                "id=" + id +
+//                ", company=" + company +
+//                ", category=" + category +
+//                ", title='" + title + '\'' +
+//                ", description='" + description + '\'' +
+//                ", startDate=" + startDate +
+//                ", endDate=" + endDate +
+//                ", amount=" + amount +
+//                ", price=" + price +
+//                ", image='" + image +
+//                '}';
+//    }
 }

@@ -14,7 +14,7 @@ public enum Category {
     Category(String name){
         this.name = name;
     }
-@JsonValue
+//@JsonValue
     public String getName(){
         return this.name;
     }

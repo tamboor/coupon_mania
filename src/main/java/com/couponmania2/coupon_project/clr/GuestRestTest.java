@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-//@Component
+@Component
 @Order(5)
 @RequiredArgsConstructor
 public class GuestRestTest implements CommandLineRunner {
@@ -37,8 +37,7 @@ public class GuestRestTest implements CommandLineRunner {
             getAllCoupons();
             System.out.println("This was guest in rest template");
         } catch (Exception e) {
-            e.printStackTrace();
-        }
+e.printStackTrace();        }
     }
 
 
