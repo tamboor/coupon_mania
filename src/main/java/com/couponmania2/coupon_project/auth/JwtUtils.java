@@ -8,6 +8,8 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestException;
 import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestMessage;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -69,4 +71,12 @@ public class JwtUtils {
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.NO_LOGIN.getMessage());
         }
     }
+
+
+    public static void addJwtToResponse(ResponseEntity<?> response , String token){
+        response.getHeaders().setBearerAuth(token);
+    }
+//    public static void extractJwtFromBearer(){
+//
+//    }
 }

@@ -42,7 +42,13 @@ public class AdminController extends ClientController {
                                 userDetails.getUserName(),
                                 userDetails.getUserPass(),
                                 ClientType.valueOf(userDetails.getRole())));
-        return new ResponseEntity<>(jwtUtils.generateToken(userDetails), HttpStatus.OK);
+
+        ResponseEntity<?> response = new ResponseEntity<>(HttpStatus.OK);
+        String token = jwtUtils.generateToken(userDetails);
+        JwtUtils.addJwtToResponse(response , token);
+        return response;
+//        JwtUtils.
+//        return new ResponseEntity<>(jwtUtils.generateToken(userDetails), HttpStatus.OK);
     }
 
     @PostMapping("/addCompany")
