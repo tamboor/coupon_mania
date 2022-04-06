@@ -54,8 +54,18 @@ public class JwtUtils {
      * @throws AppUnauthorizedRequestException if the token has expired or if the user is un-authorized.
      */
     public UserDetails validateToken(String token) throws AppUnauthorizedRequestException {
+
+//        if (token.isEmpty() || !(token.startsWith("Bearer "))){
+//            throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.INVALID_TOKEN);
+//        }
+        if (!(token.startsWith("Bearer "))){
+            throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.INVALID_TOKEN);
+        }
+
+        String extractedToken = token.substring("Bearer ".length());
+
         try{
-            DecodedJWT jwt = JWT.decode(token);
+            DecodedJWT jwt = JWT.decode(extractedToken);
             JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256("alon_nir_ran_the_kings_of_the_valley".getBytes()))
                     .build();
             DecodedJWT decodedJWT = jwtVerifier.verify(jwt.getToken());
@@ -65,18 +75,30 @@ public class JwtUtils {
             user.setRole(decodedJWT.getClaim(roleClaimKey).asString());
             return user;
         } catch (TokenExpiredException err){
-            throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.LOGIN_EXPIRED.getMessage());
+            throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.LOGIN_EXPIRED);
         }
         catch (Exception err){
-            throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.NO_LOGIN.getMessage());
+            throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.INVALID_TOKEN);
         }
     }
 
-
-    public static void addJwtToResponse(ResponseEntity<?> response , String token){
-        response.getHeaders().setBearerAuth(token);
+    public HttpHeaders getHeaderWithToken(UserDetails userDetails){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(generateToken(userDetails));
+        return headers;
     }
-//    public static void extractJwtFromBearer(){
-//
-//    }
+
+
+
 }
+
+
+
+
+//    public static ResponseEntity<?> getResponseWithToken(String token , Object body){
+////        response.getHeaders().setBearerAuth(token);
+//
+////    public static void extractJwtFromBearer(){
+////
+////    }
+//}

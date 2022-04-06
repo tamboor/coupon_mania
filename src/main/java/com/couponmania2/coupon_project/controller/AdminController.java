@@ -10,6 +10,7 @@ import com.couponmania2.coupon_project.facade.AdminServiceImpl;
 import com.couponmania2.coupon_project.serialization.CompanyForm;
 import com.couponmania2.coupon_project.serialization.CustomerForm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,45 +44,62 @@ public class AdminController extends ClientController {
                                 userDetails.getUserPass(),
                                 ClientType.valueOf(userDetails.getRole())));
 
-        ResponseEntity<?> response = new ResponseEntity<>(HttpStatus.OK);
-        String token = jwtUtils.generateToken(userDetails);
-        JwtUtils.addJwtToResponse(response , token);
-        return response;
-//        JwtUtils.
-//        return new ResponseEntity<>(jwtUtils.generateToken(userDetails), HttpStatus.OK);
+        return ResponseEntity.ok()
+                .headers(jwtUtils.getHeaderWithToken(userDetails))
+                .body(null);
     }
 
     @PostMapping("/addCompany")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void addCompany(@RequestHeader(name = "Authorization") String token, @RequestBody CompanyForm companyForm) throws AppUnauthorizedRequestException, AppTargetExistsException {
-        validate(token);
+//    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<?> addCompany(@RequestHeader(name = "Authorization") String token, @RequestBody CompanyForm companyForm) throws AppUnauthorizedRequestException, AppTargetExistsException {
+        UserDetails userDetails = validate(token);
         adminService.addCompany(new Company(companyForm));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .headers(jwtUtils.getHeaderWithToken(userDetails))
+                .body(null);
+//        return new
 
     }
 
     @PutMapping("/updateCompany")
-    @ResponseStatus(HttpStatus.OK)
-    public void updateCompany(@RequestHeader(name = "Authorization") String token, @RequestBody CompanyForm companyForm) throws AppTargetNotFoundException, AppUnauthorizedRequestException, AppInvalidInputException {
-        validate(token);
+//    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<?> updateCompany(@RequestHeader(name = "Authorization") String token, @RequestBody CompanyForm companyForm) throws AppTargetNotFoundException, AppUnauthorizedRequestException, AppInvalidInputException {
+        UserDetails userDetails = validate(token);
+
         Company companyToUpdate = adminService.getOneCompany(companyForm.getId());
         companyToUpdate.setEmail(companyForm.getEmail());
         companyToUpdate.setPassword(companyForm.getPassword());
         companyToUpdate.setName(companyForm.getName());
+
         adminService.updateCompany(companyToUpdate);
+
+
+        return ResponseEntity
+                .ok()
+                .headers(jwtUtils.getHeaderWithToken(userDetails))
+                .body(null);
     }
 
     @DeleteMapping("/deleteCompany/{companyId}")
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteCompany(@RequestHeader(name = "Authorization") String token, @PathVariable long companyId) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
-        validate(token);
+//    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<?> deleteCompany(@RequestHeader(name = "Authorization") String token, @PathVariable long companyId) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
+        UserDetails userDetails = validate(token);
         adminService.deleteCompany(companyId);
+
+        return ResponseEntity
+                .ok()
+                .headers(jwtUtils.getHeaderWithToken(userDetails))
+                .body(null);
     }
 
 
     @GetMapping("/getAllCompanies")
     public ResponseEntity<?> getAllCompanies(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException {
-        validate(token);
-        return new ResponseEntity<>(adminService.getAllComapnies(), HttpStatus.OK);
+        UserDetails userDetails =validate(token);
+        return ResponseEntity.ok()
+                .headers(jwtUtils.getHeaderWithToken(userDetails))
+                .body(adminService.getAllComapnies());
     }
 
     @GetMapping("/getOneCompany/{companyId}")
@@ -139,11 +157,12 @@ public class AdminController extends ClientController {
         return new ResponseEntity<>(adminService.getCustomerCoupons(customerId), HttpStatus.OK);
     }
 
-    private void validate(String token) throws AppUnauthorizedRequestException {
+    private UserDetails validate(String token) throws AppUnauthorizedRequestException {
         UserDetails user = jwtUtils.validateToken(token);
         if (!(user.getRole().equals(ClientType.admin.getName()))) {
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS.getMessage());
         }
+        return user;
     }
 
 

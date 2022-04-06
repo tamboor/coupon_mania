@@ -48,15 +48,6 @@ public class CompanyController extends ClientController {
     @PostMapping("/addCoupon")
     @ResponseStatus(HttpStatus.CREATED)
     public void addCoupon(@RequestHeader(name = "Authorization") String token, @RequestBody CouponForm couponForm) throws AppUnauthorizedRequestException, AppTargetExistsException {
-//        long id = validate(token);
-//
-//        Company company = null;
-//
-//        try {
-//             company = companyService.getCompanyDetails(id);
-//        } catch (AppTargetNotFoundException e) {
-//            throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.NO_LOGIN);
-//        }
 
         companyService.addCoupon(new Coupon(couponForm, validateForObject(token)));
     }
