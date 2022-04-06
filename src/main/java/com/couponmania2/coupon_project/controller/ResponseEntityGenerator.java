@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ResponseEntityGenerator {
-    private final JwtUtils utils;
+    private final JwtUtils jwtUtils;
 
     public ResponseEntity<?> getResponseEntity(UserDetails userDetails) {
         return getResponseEntity(userDetails , HttpStatus.OK , null);
@@ -22,7 +22,7 @@ public class ResponseEntityGenerator {
 
     //TODO: check change to generic
     public ResponseEntity<?> getResponseEntity(UserDetails userDetails, HttpStatus httpStatus,Object body){
-        return ResponseEntity.status(httpStatus).headers(utils.getHeaderWithToken(userDetails)).body(body);
+        return ResponseEntity.status(httpStatus).headers(jwtUtils.getHeaderWithToken(userDetails)).body(body);
     }
 
     public ResponseEntity<?> getResponseEntity(UserDetails userDetails ,Object body){
