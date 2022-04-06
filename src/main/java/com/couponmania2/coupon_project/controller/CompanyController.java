@@ -47,7 +47,7 @@ public class CompanyController extends ClientController {
     }
 
     @PostMapping("/addCoupon")
-    public ResponseEntity<?> addCoupon(@RequestHeader(name = "Authorization") String token, @RequestBody CouponForm couponForm) throws AppUnauthorizedRequestException, AppTargetExistsException, AppTargetNotFoundException {
+    public ResponseEntity<?> addCoupon(@RequestHeader(name = "Authorization") String token, @RequestBody CouponForm couponForm) throws AppUnauthorizedRequestException, AppTargetExistsException, AppTargetNotFoundException, AppInvalidInputException {
         UserDetails userDetails = validate(token);
         companyService.addCoupon(new Coupon(couponForm, companyService.getCompanyDetails(userDetails.getId())));
         return responseEntityGenerator.getResponseEntity(userDetails , HttpStatus.CREATED);

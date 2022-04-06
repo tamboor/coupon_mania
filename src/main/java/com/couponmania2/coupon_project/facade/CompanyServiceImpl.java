@@ -7,9 +7,13 @@ import com.couponmania2.coupon_project.beans.Coupon;
 import com.couponmania2.coupon_project.exceptions.*;
 import com.couponmania2.coupon_project.repositories.CompanyRepo;
 import com.couponmania2.coupon_project.repositories.CouponRepo;
+import com.couponmania2.coupon_project.utils.DateUtils;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.CloseableThreadContext;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Set;
 
@@ -43,9 +47,25 @@ public class CompanyServiceImpl implements CompanyService {
      * @throws AppTargetExistsException if coupon with matching name and company exists in the database.
      */
     @Override
-    public void addCoupon(Coupon coupon) throws AppTargetExistsException {
+    public void addCoupon(Coupon coupon) throws AppTargetExistsException, AppInvalidInputException {
         if (couponRepo.existsByCompanyAndTitle(coupon.getCompany(), coupon.getTitle())) {
             throw new AppTargetExistsException(AppTargetExistsMessage.COUPON_EXISTS);
+        }
+        if(coupon.getPrice()<0)
+        {
+            throw new AppInvalidInputException(AppInvalidInputMessage.NEGATIVE_PRICE);
+        }
+        if(coupon.getAmount()<0)
+        {
+            throw new AppInvalidInputException(AppInvalidInputMessage.NEGATIVE_AMOUNT);
+        }
+        if(coupon.getEndDate().before(coupon.getStartDate()))
+        {
+            throw new AppInvalidInputException(AppInvalidInputMessage.END_DATE_BEFORE_START_DATE);
+        }
+        if(coupon.getEndDate().before(DateUtils.getCurrDate()))
+        {
+            throw new AppInvalidInputException(AppInvalidInputMessage.END_DATE_BEFORE_CURRENT_DATE);
         }
         couponRepo.save(coupon);
     }

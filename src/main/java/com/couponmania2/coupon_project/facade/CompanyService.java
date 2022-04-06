@@ -13,7 +13,7 @@ import java.util.Set;
 
 public interface CompanyService {
     Company checkCredentials(String email, String password, ClientType clientType) throws AppUnauthorizedRequestException;
-     void addCoupon(Coupon coupon) throws AppTargetExistsException;
+     void addCoupon(Coupon coupon) throws AppTargetExistsException, AppInvalidInputException;
      void updateCoupon(Coupon coupon) throws Exception;
      void deleteCoupon(long couponId , long companyId) throws AppTargetNotFoundException, AppInvalidInputException;
      Coupon getCouponByID (long couponId) throws AppTargetNotFoundException;
