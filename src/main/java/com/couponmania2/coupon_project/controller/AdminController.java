@@ -10,7 +10,6 @@ import com.couponmania2.coupon_project.facade.AdminServiceImpl;
 import com.couponmania2.coupon_project.serialization.CompanyForm;
 import com.couponmania2.coupon_project.serialization.CustomerForm;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController extends ClientController {
     private final AdminServiceImpl adminService;
     private final JwtUtils jwtUtils;
-    private final ResponseEntityGenerator responseEntityGenerator;
+    private final ResponseWithTokenProvider responseEntityGenerator;
 
     /**
      * tries to login an admin user.

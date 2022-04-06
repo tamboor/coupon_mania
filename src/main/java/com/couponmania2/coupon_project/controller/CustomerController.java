@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class CustomerController extends ClientController {
     private final CustomerServiceImpl customerService;
     private final JwtUtils jwtUtils;
+    private final ResponseWithTokenProvider responseEntityGenerator;
 
     /**
      * tries to login an admin user.
@@ -42,10 +43,7 @@ public class CustomerController extends ClientController {
                         ClientType.valueOf(userDetails.getRole()))
                 .getId()
         );
-//        return new ResponseEntity<>(jwtUtils.generateToken(userDetails), HttpStatus.OK);
-        return ResponseEntity.ok()
-                .headers(jwtUtils.getHeaderWithToken(userDetails))
-                .body(null);
+        return responseEntityGenerator.getResponseEntity(userDetails);
     }
 
 
@@ -55,60 +53,46 @@ public class CustomerController extends ClientController {
         UserDetails userDetails = validate(token);
         customerService.purchaseCoupon(couponId, userDetails.getId());
 
-        return ResponseEntity
-                .status(HttpStatus.ACCEPTED)
-                .headers(jwtUtils.getHeaderWithToken(userDetails))
-                .body(null);
+        return responseEntityGenerator.getResponseEntity(userDetails, HttpStatus.CREATED);
     }
 
     @GetMapping("/getAllCoupons")
     public ResponseEntity<?> getAllCoupons(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException {
         UserDetails userDetails = validate(token);
-//        return new ResponseEntity<>(customerService.getAllCoupons(), HttpStatus.OK);
-        return ResponseEntity
-                .status(HttpStatus.ACCEPTED)
-                .headers(jwtUtils.getHeaderWithToken(userDetails))
-                .body(customerService.getAllCoupons());
+
+        return responseEntityGenerator.getResponseEntity(userDetails);
     }
 
     @GetMapping("/getCustomerCoupons")
     public ResponseEntity<?> getCustomerCoupons(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
         UserDetails userDetails = validate(token);
-//        return new ResponseEntity<>(customerService.getCustomerCoupons(customerId), HttpStatus.OK);
-        return ResponseEntity
-                .ok()
-                .headers(jwtUtils.getHeaderWithToken(userDetails))
-                .body(customerService.getCustomerCoupons(userDetails.getId()));
+
+        return responseEntityGenerator
+                .getResponseEntity(userDetails, customerService.getCustomerCoupons(userDetails.getId()));
     }
 
     @GetMapping("/getCouponsByCategory/{category}")
     public ResponseEntity<?> getCustomerCouponsByCategory(@RequestHeader(name = "Authorization") String token, @PathVariable Category category) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
         UserDetails userDetails = validate(token);
-//        return new ResponseEntity<>(customerService.getCustomerCouponsByCategory(userDetails.getId(), category), HttpStatus.OK);
-        return ResponseEntity
-                .ok()
-                .headers(jwtUtils.getHeaderWithToken(userDetails))
-                .body(customerService.getCustomerCouponsByCategory(userDetails.getId(), category));
+
+        return responseEntityGenerator
+                .getResponseEntity(userDetails, customerService.getCustomerCouponsByCategory(userDetails.getId(), category));
     }
 
     @GetMapping("/getCouponsByMaxPrice/{maxPrice}")
     public ResponseEntity<?> getCustomerCouponsByMaxPrice(@RequestHeader(name = "Authorization") String token, @PathVariable double maxPrice) throws AppUnauthorizedRequestException, AppTargetNotFoundException, AppInvalidInputException {
         UserDetails userDetails = validate(token);
-//        return new ResponseEntity<>(customerService.getCustomerCouponsByMaxPrice(userDetails.getId(), maxPrice), HttpStatus.OK);
-        return ResponseEntity
-                .ok()
-                .headers(jwtUtils.getHeaderWithToken(userDetails))
-                .body(customerService.getCustomerCouponsByMaxPrice(userDetails.getId(), maxPrice));
+
+        return responseEntityGenerator
+                .getResponseEntity(userDetails, customerService.getCustomerCouponsByMaxPrice(userDetails.getId(), maxPrice));
     }
 
     @GetMapping("/getCustomerDetails")
     public ResponseEntity<?> getCustomerDetails(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
         UserDetails userDetails = validate(token);
-//        return new ResponseEntity<>(customerService.getCustomerDetails(userDetails.getId()), HttpStatus.OK);
-        return ResponseEntity
-                .ok()
-                .headers(jwtUtils.getHeaderWithToken(userDetails))
-                .body(customerService.getCustomerDetails(userDetails.getId()));
+
+        return responseEntityGenerator
+                .getResponseEntity(userDetails, customerService.getCustomerDetails(userDetails.getId()));
     }
 
     private UserDetails validate(String token) throws AppUnauthorizedRequestException {

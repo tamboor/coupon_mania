@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ResponseEntityGenerator {
+public class ResponseWithTokenProvider {
     private final JwtUtils jwtUtils;
 
     public ResponseEntity<?> getResponseEntity(UserDetails userDetails) {
