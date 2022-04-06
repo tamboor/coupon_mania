@@ -4,10 +4,13 @@ import com.couponmania2.coupon_project.auth.ClientType;
 import com.couponmania2.coupon_project.auth.UserDetails;
 import com.couponmania2.coupon_project.beans.Category;
 import com.couponmania2.coupon_project.beans.Company;
+import com.couponmania2.coupon_project.beans.Coupon;
+import com.couponmania2.coupon_project.beans.Customer;
 import com.couponmania2.coupon_project.exceptions.AppTargetNotFoundException;
 import com.couponmania2.coupon_project.exceptions.AppTargetNotFoundMessage;
 import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestException;
 import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestMessage;
+import com.couponmania2.coupon_project.utils.TablePrinter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
@@ -18,10 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 //@Component
 @Order(4)
@@ -51,42 +51,80 @@ public class CustomerRestTest implements CommandLineRunner {
             System.out.println(e.getMessage());
             System.out.println(AppUnauthorizedRequestMessage.NO_LOGIN.getMessage());
         }
-
-        getAllCoupons();
+//        try {
+//            getAllCoupons();
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+        try {
+            getCustomerCoupons();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
+    private void updateTokenAndHeaders(ResponseEntity<?> response) {
+        this.token = response.getHeaders().getFirst("authorization");
+        this.headers = new HttpHeaders();
+        headers.set("authorization", token);
+    }
+
+    private HttpEntity<?> getHttpEntity(Object data) {
+        if (data != null) {
+            return new HttpEntity<>(data, headers);
+        } else {
+            return new HttpEntity<>(headers);
+        }
+    }
+
+    private void checkResponse(ResponseEntity<?> response) throws Exception {
+        if (response.getStatusCode().is4xxClientError()) {
+            throw new Exception("Client Error: " + response.getStatusCode().name());
+
+        }
+        if (response.getStatusCode().is5xxServerError()) {
+            throw new Exception("Server Error: " + response.getStatusCode().name());
+        }
+    }
 
     private void login(UserDetails userDetails) throws Exception {
 
-        ResponseEntity<?> responseToken = restTemplate.exchange(LOGIN_URI,
+        ResponseEntity<?> response = restTemplate.exchange(LOGIN_URI,
                 HttpMethod.POST,
                 new HttpEntity<>(userDetails),
-                String.class);
-        if (responseToken.getStatusCode().is4xxClientError()){
-            throw new Exception("Client Error: "+ responseToken.getStatusCode().name());
-        }
-        if (responseToken.getStatusCode().is5xxServerError()){
-            throw new Exception("Server Error: "+ responseToken.getStatusCode().name());
-        }
-        this.token = responseToken.getBody().toString();
-        this.headers = new HttpHeaders();
-        headers.set("Authorization", token);
-        this.httpEntity = new HttpEntity<>(headers);
+                Void.class);
+        checkResponse(response);
+        updateTokenAndHeaders(response);
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println("customer login was successful via rest template ");
         System.out.println(token);
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     }
 
     private void getAllCoupons() throws Exception {
 
-        Set c = restTemplate.exchange(GET_ALL_COUPONS_URI,
-                HttpMethod.GET, httpEntity, Set.class).getBody();
-        System.out.println(c);
+        ResponseEntity<Coupon[]> response = restTemplate.exchange(GET_ALL_COUPONS_URI,
+                HttpMethod.GET, getHttpEntity(null), Coupon[].class);
+        checkResponse(response);
+        List<Coupon> coupons = Arrays.asList(response.getBody());
+        updateTokenAndHeaders(response);
+
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        coupons.forEach(System.out::println);
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     }
 
     private void getCustomerCoupons() throws Exception {
 
-        Set c = restTemplate.exchange(GET_CUSTOMER_COUPONS_URI,
-                HttpMethod.GET, httpEntity, Set.class).getBody();
-        System.out.println(c);
+        ResponseEntity<Coupon[]> response = restTemplate.exchange(GET_CUSTOMER_COUPONS_URI,
+                HttpMethod.GET, getHttpEntity(null), Coupon[].class);
+        checkResponse(response);
+        List<Coupon> coupons = Arrays.asList(response.getBody());
+        updateTokenAndHeaders(response);
+
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        TablePrinter.print(coupons);
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     }
 
     private void getCouponsByCategory(Category category) throws Exception {

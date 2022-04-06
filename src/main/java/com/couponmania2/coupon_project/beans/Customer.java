@@ -45,7 +45,7 @@ public class Customer {
     /**
      * Private c'tor to disable instantiating a customer with no data.
      */
-    private Customer() {
+    protected Customer() {
     }
 
     /**
@@ -175,6 +175,7 @@ public class Customer {
     public void setPurchases(Set<Purchase> purchases) {
         this.purchases = purchases;
     }
+
 
     /**
      * Customer toString method.

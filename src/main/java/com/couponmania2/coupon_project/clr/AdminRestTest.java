@@ -6,8 +6,10 @@ import com.couponmania2.coupon_project.beans.Company;
 import com.couponmania2.coupon_project.beans.Coupon;
 import com.couponmania2.coupon_project.beans.Customer;
 import com.couponmania2.coupon_project.exceptions.*;
+import com.couponmania2.coupon_project.repositories.CouponRepo;
 import com.couponmania2.coupon_project.serialization.CompanyForm;
 import com.couponmania2.coupon_project.serialization.CustomerForm;
+import com.couponmania2.coupon_project.utils.TablePrinter;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +28,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AdminRestTest implements CommandLineRunner {
 
-
     private final RestTemplate restTemplate;
 
     private final String LOGIN_URI = "http://localhost:8080/admin/login";
@@ -41,7 +42,7 @@ public class AdminRestTest implements CommandLineRunner {
     private final String UPDATE_CUSTOMER_URI = "http://localhost:8080/admin/updateCustomer";
     private final String GET_ALL_CUSTOMER_URI = "http://localhost:8080/admin/getAllCustomers";
     private final String GET_ONE_CUSTOMER_URI = "http://localhost:8080/admin/getOneCustomer/{id}";
-    private final String GET_CUSTOMER_COUPONS = "http://localhost:8080/admin/getOneCustomer/{id}";
+    private final String GET_CUSTOMER_COUPONS = "http://localhost:8080/admin/getCustomerCoupons/{id}";
 
 
     //private HttpEntity<?> httpEntity;
@@ -53,12 +54,12 @@ public class AdminRestTest implements CommandLineRunner {
 
         try {
             login(UserDetails.builder().userName("admin@admin.com").userPass("admin").role("admin").build());
-            System.out.println("admin login was successful via rest template ");
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
-//            System.out.println(AppUnauthorizedRequestMessage.NO_LOGIN.getMessage());
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.NO_LOGIN);
         }
+
 
         //region rest template tests for customer
         try {
@@ -72,7 +73,7 @@ public class AdminRestTest implements CommandLineRunner {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-////
+
         // data of customer to add:
         try {
             CustomerForm cFORM = new CustomerForm();
@@ -153,7 +154,7 @@ public class AdminRestTest implements CommandLineRunner {
         try {
 
             CompanyForm cFORM2 = new CompanyForm();
-             cFORM2.setName("company2");
+            cFORM2.setName("company2");
             cFORM2.setEmail("rest@update.com");
             cFORM2.setPassword("updatePass");
             cFORM2.setId(2L);
@@ -208,7 +209,11 @@ public class AdminRestTest implements CommandLineRunner {
 //        headers.set("Authorization", token);
         updateTokenAndHeaders(response);
         //       this.httpEntity = new HttpEntity<>(headers);
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println("admin login was successful via rest template ");
         System.out.println(token);
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
     }
 
     private void getOneCustomer(Long id) throws Exception {
@@ -227,7 +232,7 @@ public class AdminRestTest implements CommandLineRunner {
         updateTokenAndHeaders(response);
 
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println(customer);
+        TablePrinter.print(customer);
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
     }
@@ -241,7 +246,7 @@ public class AdminRestTest implements CommandLineRunner {
         updateTokenAndHeaders(response);
 
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        customers.forEach(System.out::println);
+        TablePrinter.print(customers);
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
 
@@ -283,7 +288,8 @@ public class AdminRestTest implements CommandLineRunner {
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
     }
-//todo: find out why doesn't work
+
+    //todo: find out why doesn't work
     private void getCustomerCoupons(long id) throws Exception {
         Map<String, Long> params = new HashMap<>();
         params.put("id", id);
@@ -296,7 +302,7 @@ public class AdminRestTest implements CommandLineRunner {
         updateTokenAndHeaders(response);
 
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        coupons.forEach(System.out::println);
+        TablePrinter.print(coupons);
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     }
 
@@ -316,7 +322,7 @@ public class AdminRestTest implements CommandLineRunner {
         updateTokenAndHeaders(response);
 
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println(company);
+        TablePrinter.print(company);
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
     }
@@ -330,7 +336,7 @@ public class AdminRestTest implements CommandLineRunner {
         updateTokenAndHeaders(response);
 
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        companies.forEach(System.out::println);
+        TablePrinter.print(companies);
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     }
 
@@ -382,18 +388,8 @@ public class AdminRestTest implements CommandLineRunner {
         List<Coupon> coupons = Arrays.asList(response.getBody());
         updateTokenAndHeaders(response);
 
-//        Map<String, Long> params = new HashMap<>();
-//        params.put("id", id);
-//        ResponseEntity<Coupon[]> response = restTemplate.exchange(GET_CUSTOMER_COUPONS,
-//                HttpMethod.GET, getHttpEntity(null), Coupon[].class, params);
-//
-//        checkResponse(response);
-//
-//        List<Coupon> coupons = Arrays.asList(response.getBody());
-//        updateTokenAndHeaders(response);
-
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        coupons.forEach(System.out::println);
+        TablePrinter.print(coupons);
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     }
 }

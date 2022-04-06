@@ -19,7 +19,7 @@ public class Purchase {
     /**
      * Disable instantiating purchases.
      */
-    private Purchase() {
+    protected Purchase() {
     }
 
     /**

@@ -11,14 +11,7 @@ import java.util.Set;
 @Table(name = "companies")
 public class Company {
 
-    /**
-     * Getter for the id
-     *
-     * @return id
-     */
-    public long getId() {
-        return id;
-    }
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,6 +67,15 @@ public class Company {
      */
     public Company(String name, String email, String password) {
         this(name, email, password, new HashSet<>());
+    }
+
+    /**
+     * Getter for the id
+     *
+     * @return id
+     */
+    public long getId() {
+        return id;
     }
 
     /**
