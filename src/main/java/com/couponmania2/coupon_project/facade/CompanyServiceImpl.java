@@ -150,18 +150,13 @@ public class CompanyServiceImpl implements CompanyService {
      * retrieves a company from the database.
      * @param companyId the id of the company to find.
      * @return the company found.
-     * @throws AppTargetNotFoundException if company was not found in the database.
+     * @throws AppTargetNotFoundException if company was not found in the database..
      */
     @Override
     public Company getCompanyDetails(long companyId) throws AppTargetNotFoundException {
-        if (!companyRepo.existsById(companyId)) {
+        if (!companyRepo.existsById(companyId)|| companyRepo.findById(companyId).isEmpty()) {
             throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);
         }
-        //System.out.println(companyRepo.getById(companyId));
-        Optional<Company> optionalCompany = companyRepo.findById(companyId);
-        if(optionalCompany.isEmpty()){
-            throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);
-        }
-        return optionalCompany.get();
+        return companyRepo.getById(companyId);
     }
 }
