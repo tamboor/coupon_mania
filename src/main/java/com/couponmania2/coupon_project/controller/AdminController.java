@@ -56,7 +56,7 @@ public class AdminController extends ClientController {
     }
 
     @PutMapping("/updateCompany")
-    public ResponseEntity<?> updateCompany(@RequestHeader(name = "Authorization") String token, @RequestBody CompanyForm companyForm) throws AppTargetNotFoundException, AppUnauthorizedRequestException, AppInvalidInputException {
+    public ResponseEntity<?> updateCompany(@RequestHeader(name = "Authorization") String token, @RequestBody CompanyForm companyForm) throws AppTargetNotFoundException, AppUnauthorizedRequestException, AppInvalidInputException, AppTargetExistsException {
         UserDetails userDetails = validate(token);
 
         Company companyToUpdate = adminService.getOneCompany(companyForm.getId());
@@ -107,7 +107,7 @@ public class AdminController extends ClientController {
     }
 
     @PutMapping("/updateCustomer")
-    public ResponseEntity<?> updateCustomer(@RequestHeader(name = "Authorization") String token, @RequestBody CustomerForm customerForm) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
+    public ResponseEntity<?> updateCustomer(@RequestHeader(name = "Authorization") String token, @RequestBody CustomerForm customerForm) throws AppTargetNotFoundException, AppUnauthorizedRequestException, AppTargetExistsException {
         UserDetails userDetails = validate(token);
 
         Customer customerToUpdate = adminService.getOneCustomer(customerForm.getId());

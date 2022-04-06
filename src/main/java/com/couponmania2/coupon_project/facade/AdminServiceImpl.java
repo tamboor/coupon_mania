@@ -74,10 +74,18 @@ public class AdminServiceImpl implements AdminService {
      * @throws AppTargetExistsException if company with given id and name doesnt exist in the database.
      */
     @Override
-    public void updateCompany(Company company) throws AppInvalidInputException {
+    public void updateCompany(Company company) throws AppInvalidInputException, AppTargetExistsException {
         if (!companyRepo.existsByIdAndName(company.getId(), company.getName())) {
             throw new AppInvalidInputException(AppInvalidInputMessage.COMPANY_NAME_CHANGE);
         }
+        //TODO: make better(stage 3)
+        Optional<Company> companyOptional= companyRepo.findByEmail(company.getEmail());
+        if (companyOptional.isPresent()){
+            if (companyOptional.get().getId() != company.getId()){
+                throw new AppTargetExistsException(AppTargetExistsMessage.EMAIL_EXISTS);
+            }
+        }
+
         companyRepo.save(company);
     }
 
@@ -87,9 +95,15 @@ public class AdminServiceImpl implements AdminService {
      * @throws AppTargetExistsException if customer with given id doesnt exist in the database.
      */
     @Override
-    public void updateCustomer(Customer customer) throws AppTargetNotFoundException {
+    public void updateCustomer(Customer customer) throws AppTargetNotFoundException, AppTargetExistsException {
         if (!customerRepo.existsById(customer.getId())) {
             throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
+        }
+        Optional<Customer> customerOptional= customerRepo.findByEmail(customer.getEmail());
+        if (customerOptional.isPresent()){
+            if (customerOptional.get().getId() != customer.getId()){
+                throw new AppTargetExistsException(AppTargetExistsMessage.EMAIL_EXISTS);
+            }
         }
         customerRepo.save(customer);
     }

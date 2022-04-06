@@ -5,6 +5,7 @@ import com.couponmania2.coupon_project.beans.Company;
 import com.couponmania2.coupon_project.beans.Coupon;
 import com.couponmania2.coupon_project.beans.Customer;
 import com.couponmania2.coupon_project.exceptions.AppInvalidInputException;
+import com.couponmania2.coupon_project.exceptions.AppTargetExistsException;
 import com.couponmania2.coupon_project.exceptions.AppTargetNotFoundException;
 import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestException;
 
@@ -15,8 +16,8 @@ public interface    AdminService {
     long checkCredentials(String email, String password, ClientType clientType) throws AppUnauthorizedRequestException;
     void addCompany (Company company) throws Exception;
     void addCustomer(Customer customer) throws Exception;
-    void updateCompany(Company company) throws AppTargetNotFoundException, AppInvalidInputException;
-    void updateCustomer(Customer customer) throws AppTargetNotFoundException;
+    void updateCompany(Company company) throws AppTargetNotFoundException, AppInvalidInputException, AppTargetExistsException;
+    void updateCustomer(Customer customer) throws AppTargetNotFoundException, AppTargetExistsException;
     void deleteCompany(long companyID) throws AppTargetNotFoundException;
     void deleteCustomer(long customerID) throws AppTargetNotFoundException;
     Set<Company> getAllComapnies();
