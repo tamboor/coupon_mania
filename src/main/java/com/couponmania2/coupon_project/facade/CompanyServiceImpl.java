@@ -137,7 +137,7 @@ public class CompanyServiceImpl implements CompanyService {
      */
     @Override
     public Set<Coupon> getCompanyCouponsByMaxPrice(long companyId, double maxPrice) throws AppTargetNotFoundException, AppInvalidInputException {
-        if (!companyRepo.existsById(companyId)) {
+        if (companyRepo.findById(companyId).isEmpty() || !companyRepo.existsById(companyId)) {
             throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);
         }
         if (maxPrice <= 0) {

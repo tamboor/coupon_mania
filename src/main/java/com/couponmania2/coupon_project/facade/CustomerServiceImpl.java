@@ -147,10 +147,9 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public Customer getCustomerDetails(long customerId) throws AppTargetNotFoundException {
-        if (customerRepo.findById(customerId).isEmpty()) {
+        if (customerRepo.findById(customerId).isEmpty() || !customerRepo.existsById(customerId)) {
             throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
         }
-        System.out.println("HEREEEEE" + customerRepo.getById(customerId));
         return customerRepo.getById(customerId);
     }
 }

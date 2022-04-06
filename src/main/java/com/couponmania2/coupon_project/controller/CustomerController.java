@@ -60,7 +60,7 @@ public class CustomerController extends ClientController {
     public ResponseEntity<?> getAllCoupons(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException {
         UserDetails userDetails = validate(token);
 
-        return responseEntityGenerator.getResponseEntity(userDetails);
+        return responseEntityGenerator.getResponseEntity(userDetails, customerService.getAllCoupons());
     }
 
     @GetMapping("/getCustomerCoupons")
