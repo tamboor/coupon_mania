@@ -45,7 +45,7 @@ public class AdminController extends ClientController {
                 userDetails.getUserPass(),
                 ClientType.valueOf(userDetails.getRole())));
 
-        return responseEntityGenerator.getResponseEntity(jwtUtils, userDetails);
+        return responseEntityGenerator.getResponseEntity(userDetails);
 
     }
 
@@ -53,7 +53,7 @@ public class AdminController extends ClientController {
     public ResponseEntity<?> addCompany(@RequestHeader(name = "Authorization") String token, @RequestBody CompanyForm companyForm) throws AppUnauthorizedRequestException, AppTargetExistsException {
         UserDetails userDetails = validate(token);
         adminService.addCompany(new Company(companyForm));
-        return responseEntityGenerator.getResponseEntity(jwtUtils, userDetails, HttpStatus.CREATED);
+        return responseEntityGenerator.getResponseEntity(userDetails, HttpStatus.CREATED);
     }
 
     @PutMapping("/updateCompany")
@@ -67,7 +67,7 @@ public class AdminController extends ClientController {
 
         adminService.updateCompany(companyToUpdate);
 
-        return responseEntityGenerator.getResponseEntity(jwtUtils, userDetails);
+        return responseEntityGenerator.getResponseEntity(userDetails);
     }
 
     @DeleteMapping("/deleteCompany/{companyId}")
@@ -75,7 +75,7 @@ public class AdminController extends ClientController {
         UserDetails userDetails = validate(token);
         adminService.deleteCompany(companyId);
 
-        return responseEntityGenerator.getResponseEntity(jwtUtils, userDetails);
+        return responseEntityGenerator.getResponseEntity(userDetails);
     }
 
 
@@ -83,27 +83,27 @@ public class AdminController extends ClientController {
     public ResponseEntity<?> getAllCompanies(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException {
         UserDetails userDetails = validate(token);
 
-        return responseEntityGenerator.getResponseEntity(jwtUtils, userDetails, adminService.getAllComapnies());
+        return responseEntityGenerator.getResponseEntity(userDetails, adminService.getAllComapnies());
 
     }
 
     @GetMapping("/getOneCompany/{companyId}")
     public ResponseEntity<?> getOneCompany(@RequestHeader(name = "Authorization") String token, @PathVariable long companyId) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
         UserDetails userDetails = validate(token);
-        return responseEntityGenerator.getResponseEntity(jwtUtils, userDetails, adminService.getOneCompany(companyId));
+        return responseEntityGenerator.getResponseEntity(userDetails, adminService.getOneCompany(companyId));
     }
 
     @GetMapping("/getCompanyCoupons/{companyId}")
     public ResponseEntity<?> getCompanyCoupons(@RequestHeader(name = "Authorization") String token, @PathVariable long companyId) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
         UserDetails userDetails = validate(token);
-        return responseEntityGenerator.getResponseEntity(jwtUtils, userDetails, adminService.getCompanyCoupons(companyId));
+        return responseEntityGenerator.getResponseEntity(userDetails, adminService.getCompanyCoupons(companyId));
     }
 
     @PostMapping("/addCustomer")
     public ResponseEntity<?> addCustomer(@RequestHeader(name = "Authorization") String token, @RequestBody CustomerForm customerForm) throws AppUnauthorizedRequestException, AppTargetExistsException {
         UserDetails userDetails = validate(token);
         adminService.addCustomer(new Customer(customerForm));
-        return responseEntityGenerator.getResponseEntity(jwtUtils, userDetails);
+        return responseEntityGenerator.getResponseEntity(userDetails);
 
     }
 
@@ -118,32 +118,32 @@ public class AdminController extends ClientController {
         customerToUpdate.setPassword(customerForm.getPassword());
         adminService.updateCustomer(customerToUpdate);
 
-        return responseEntityGenerator.getResponseEntity(jwtUtils, userDetails);
+        return responseEntityGenerator.getResponseEntity(userDetails);
     }
 
     @DeleteMapping("/deleteCustomer/{customerId}")
     public ResponseEntity<?> deleteCustomer(@RequestHeader(name = "Authorization") String token, @PathVariable long customerId) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
         UserDetails userDetails = validate(token);
         adminService.deleteCustomer(customerId);
-        return responseEntityGenerator.getResponseEntity(jwtUtils, userDetails);
+        return responseEntityGenerator.getResponseEntity(userDetails);
     }
 
     @GetMapping("/getAllCustomers")
     public ResponseEntity<?> getAllCustomer(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException {
         UserDetails userDetails = validate(token);
-        return responseEntityGenerator.getResponseEntity(jwtUtils, userDetails, adminService.getAllCustomers());
+        return responseEntityGenerator.getResponseEntity(userDetails, adminService.getAllCustomers());
     }
 
     @GetMapping("getOneCustomer/{customerId}")
     public ResponseEntity<?> getOneCustomer(@RequestHeader(name = "Authorization") String token, @PathVariable long customerId) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
         UserDetails userDetails = validate(token);
-        return responseEntityGenerator.getResponseEntity(jwtUtils, userDetails, adminService.getOneCustomer(customerId));
+        return responseEntityGenerator.getResponseEntity(userDetails, adminService.getOneCustomer(customerId));
     }
 
     @GetMapping("/getCustomerCoupons/{customerId}")
     public ResponseEntity<?> getCustomerCoupons(@RequestHeader(name = "Authorization") String token, @PathVariable long customerId) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
         UserDetails userDetails = validate(token);
-        return responseEntityGenerator.getResponseEntity(jwtUtils, userDetails, adminService.getCustomerCoupons(customerId));
+        return responseEntityGenerator.getResponseEntity(userDetails, adminService.getCustomerCoupons(customerId));
     }
 
     private UserDetails validate(String token) throws AppUnauthorizedRequestException {
