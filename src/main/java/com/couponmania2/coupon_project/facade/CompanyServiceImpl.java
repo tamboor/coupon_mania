@@ -157,6 +157,11 @@ public class CompanyServiceImpl implements CompanyService {
         if (!companyRepo.existsById(companyId)) {
             throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);
         }
-        return companyRepo.getById(companyId);
+        //System.out.println(companyRepo.getById(companyId));
+        Optional<Company> optionalCompany = companyRepo.findById(companyId);
+        if(optionalCompany.isEmpty()){
+            throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);
+        }
+        return optionalCompany.get();
     }
 }

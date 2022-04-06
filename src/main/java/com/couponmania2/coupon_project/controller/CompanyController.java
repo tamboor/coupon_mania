@@ -42,20 +42,22 @@ public class CompanyController extends ClientController {
                   ClientType.valueOf(userDetails.getRole()))
                 .getId()
         );
-        return new ResponseEntity<>(jwtUtils.generateToken(userDetails), HttpStatus.OK);
+        return  ResponseEntity.ok().headers(jwtUtils.getHeaderWithToken(userDetails)).body(null);
     }
 
     @PostMapping("/addCoupon")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void addCoupon(@RequestHeader(name = "Authorization") String token, @RequestBody CouponForm couponForm) throws AppUnauthorizedRequestException, AppTargetExistsException {
-
+    public ResponseEntity<?> addCoupon(@RequestHeader(name = "Authorization") String token, @RequestBody CouponForm couponForm) throws AppUnauthorizedRequestException, AppTargetExistsException {
+        UserDetails userDetails = validate(token);
         companyService.addCoupon(new Coupon(couponForm, validateForObject(token)));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .headers(jwtUtils.getHeaderWithToken(userDetails))
+                .body(null);
     }
 
     @PutMapping("/updateCoupon")
-    @ResponseStatus(HttpStatus.OK)
-    private void updateCoupon(@RequestHeader(name = "Authorization") String token, @RequestBody CouponForm couponForm) throws AppUnauthorizedRequestException, AppInvalidInputException, AppTargetNotFoundException {
-        validate(token);
+    private ResponseEntity<?> updateCoupon(@RequestHeader(name = "Authorization") String token, @RequestBody CouponForm couponForm) throws AppUnauthorizedRequestException, AppInvalidInputException, AppTargetNotFoundException {
+       UserDetails userDetails= validate(token);
         Coupon couponToUpdate = companyService.getCouponByID(couponForm.getId());
             couponToUpdate.setCategory(couponForm.getCategory());
             couponToUpdate.setTitle(couponForm.getTitle());
@@ -66,50 +68,68 @@ public class CompanyController extends ClientController {
         couponToUpdate.setStartDate(couponForm.getStartDate());
         couponToUpdate.setEndDate(couponForm.getEndDate());
         companyService.updateCoupon(couponToUpdate);
+
+        return ResponseEntity
+                .ok()
+                .headers(jwtUtils.getHeaderWithToken(userDetails))
+                .body(null);
     }
 
     @DeleteMapping("/deleteCoupon/{couponId}")
     @ResponseStatus(HttpStatus.OK)
-    private void deleteCoupon(@RequestHeader(name = "Authorization") String token, @PathVariable long couponId) throws AppUnauthorizedRequestException, AppTargetNotFoundException, AppInvalidInputException {
-        long id = validate(token);
-        companyService.deleteCoupon(couponId, id);
+    private ResponseEntity<?> deleteCoupon(@RequestHeader(name = "Authorization") String token, @PathVariable long couponId) throws AppUnauthorizedRequestException, AppTargetNotFoundException, AppInvalidInputException {
+        UserDetails userDetails = validate(token);
+        companyService.deleteCoupon(couponId, userDetails.getId());
+        return ResponseEntity
+                .ok()
+                .headers(jwtUtils.getHeaderWithToken(userDetails))
+                .body(null);
     }
 
     @GetMapping("/getCompanyCoupons")
     private ResponseEntity<?> getAllCoupons(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
-        long id = validate(token);
-        return new ResponseEntity<>(companyService.getAllCompanyCoupons(id), HttpStatus.OK);
+        UserDetails userDetails = validate(token);
+        return  ResponseEntity.ok()
+                .headers(jwtUtils.getHeaderWithToken(userDetails))
+                .body(companyService.getAllCompanyCoupons(userDetails.getId()));
     }
 
     @GetMapping("/couponsCategory/{category}")
     private ResponseEntity<?> getCouponsByCategory(@RequestHeader(name = "Authorization") String token, @PathVariable Category category) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
-        long id = validate(token);
-        return new ResponseEntity<>(companyService.getCompanyCouponsByCategory(id, category), HttpStatus.OK);
+         UserDetails userDetails = validate(token);
+        return ResponseEntity.ok()
+                .headers(jwtUtils.getHeaderWithToken(userDetails))
+                .body(companyService.getCompanyCouponsByCategory(userDetails.getId(), category));
     }
 
     @GetMapping("/couponsMaxPrice/{maxPrice}")
     private ResponseEntity<?> getCouponsByMaxPrice(@RequestHeader(name = "Authorization") String token, @PathVariable double maxPrice) throws AppUnauthorizedRequestException, AppTargetNotFoundException, AppInvalidInputException {
-        long id = validate(token);
-        return new ResponseEntity<>(companyService.getCompanyCouponsByMaxPrice(id, maxPrice), HttpStatus.OK);
+        UserDetails userDetails = validate(token);
+        return  ResponseEntity.ok()
+                .headers(jwtUtils.getHeaderWithToken(userDetails))
+                .body(companyService.getCompanyCouponsByMaxPrice(userDetails.getId(), maxPrice));
     }
 
     @GetMapping("/getCompanyDetails")
     private ResponseEntity<?> getCompanyDetails(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
-        long id = validate(token);
-        return new ResponseEntity<>(companyService.getCompanyDetails(id), HttpStatus.OK);
+        UserDetails userDetails = validate(token);
+        return ResponseEntity.ok()
+                .headers(jwtUtils.getHeaderWithToken(userDetails))
+                .body(companyService.getCompanyDetails(userDetails.getId()));
     }
 
-    private long validate(String token) throws AppUnauthorizedRequestException {
+    private UserDetails validate(String token) throws AppUnauthorizedRequestException {
         UserDetails user = jwtUtils.validateToken(token);
         if (!(user.getRole().equals(ClientType.company.getName()))) {
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS);
         }
-        return user.getId();
+        return user;
     }
 
     private Company validateForObject(String token) throws AppUnauthorizedRequestException {
         try {
-            return companyService.getCompanyDetails(validate(token));
+            System.out.println(companyService.getCompanyDetails(validate(token).getId()));
+            return companyService.getCompanyDetails(validate(token).getId());
         } catch (AppTargetNotFoundException err) {
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS);
         }
