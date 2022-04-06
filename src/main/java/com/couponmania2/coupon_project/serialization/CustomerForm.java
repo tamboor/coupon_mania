@@ -1,17 +1,17 @@
 package com.couponmania2.coupon_project.serialization;
 
 public class CustomerForm {
-    private int id;
+    private long id;
     private String firstName="";
     private String lastName="";
     private String email="";
     private String password="";
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
