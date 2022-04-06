@@ -9,6 +9,7 @@ public class ErrorDetails {
 
     /**
      * getter for the error title
+     *
      * @return the error title
      */
     public String getError() {
@@ -17,6 +18,7 @@ public class ErrorDetails {
 
     /**
      * getter for the error description
+     *
      * @return the error description
      */
     public String getDescription() {

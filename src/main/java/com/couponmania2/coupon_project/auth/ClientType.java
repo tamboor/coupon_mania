@@ -9,17 +9,19 @@ public enum ClientType {
 
     /**
      * c'tor that applies a given string name to enum's value name
+     *
      * @param name name
      */
-    ClientType(String name){
+    ClientType(String name) {
         this.name = name;
     }
 
     /**
      * getter for the name
+     *
      * @return enum's value name
      */
-    public String getName(){
+    public String getName() {
         return this.name;
     }
 }

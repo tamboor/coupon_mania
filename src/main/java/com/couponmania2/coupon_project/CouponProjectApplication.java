@@ -11,11 +11,4 @@ public class CouponProjectApplication {
     public static void main(String[] args) {
         SpringApplication.run(CouponProjectApplication.class, args);
     }
-
-//    //todo: find way to move to config
-//    @Bean
-//    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-
 }

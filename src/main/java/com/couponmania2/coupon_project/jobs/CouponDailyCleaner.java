@@ -16,6 +16,9 @@ public class CouponDailyCleaner {
     @Autowired
     CouponRepo couponRepo;
 
+    /**
+     * Daily job that checks once a day for expired coupons and deletes them.
+     */
     @Scheduled(fixedRate = 1000*60*60*24)
     public void cleanExpiredCoupons(){
         //TODO: Check if need handling interuptions

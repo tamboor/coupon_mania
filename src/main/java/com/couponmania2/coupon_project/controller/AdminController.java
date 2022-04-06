@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("admin")
 @RequiredArgsConstructor
-//todo: check all jwt shit
-
 public class AdminController extends ClientController {
     private final AdminServiceImpl adminService;
     private final JwtUtils jwtUtils;
@@ -48,6 +46,15 @@ public class AdminController extends ClientController {
 
     }
 
+    /**
+     * Adds a company to the database.
+     *
+     * @param token       authentication token.
+     * @param companyForm Form representing the company to add.
+     * @return response entity with httpstatus and new token.
+     * @throws AppUnauthorizedRequestException if authentication failed.
+     * @throws AppTargetExistsException        if company exists in the database.
+     */
     @PostMapping("/addCompany")
     public ResponseEntity<?> addCompany(@RequestHeader(name = "Authorization") String token, @RequestBody CompanyForm companyForm) throws AppUnauthorizedRequestException, AppTargetExistsException {
         UserDetails userDetails = validate(token);
@@ -55,6 +62,17 @@ public class AdminController extends ClientController {
         return responseEntityGenerator.getResponseEntity(userDetails, HttpStatus.CREATED);
     }
 
+    /**
+     * updates a company in the database.
+     *
+     * @param token       authentication token.
+     * @param companyForm Form representing the company to update.
+     * @return response entity with httpstatus and new token.
+     * @throws AppTargetNotFoundException      if company to update wasnt found.
+     * @throws AppUnauthorizedRequestException if authentication failed.
+     * @throws AppInvalidInputException        if the input had fields that are not allowed tobe changed.
+     * @throws AppTargetExistsException        if input tried to changed to an existing email.
+     */
     @PutMapping("/updateCompany")
     public ResponseEntity<?> updateCompany(@RequestHeader(name = "Authorization") String token, @RequestBody CompanyForm companyForm) throws AppTargetNotFoundException, AppUnauthorizedRequestException, AppInvalidInputException, AppTargetExistsException {
         UserDetails userDetails = validate(token);
@@ -69,6 +87,15 @@ public class AdminController extends ClientController {
         return responseEntityGenerator.getResponseEntity(userDetails);
     }
 
+    /**
+     * Deletes a company from the database.
+     *
+     * @param token     authentication token.
+     * @param companyId the id of the company to delete.
+     * @return response entity with httpstatus and new token.
+     * @throws AppTargetNotFoundException      if company to delete wasnt found.
+     * @throws AppUnauthorizedRequestException if authentication failed.
+     */
     @DeleteMapping("/deleteCompany/{companyId}")
     public ResponseEntity<?> deleteCompany(@RequestHeader(name = "Authorization") String token, @PathVariable long companyId) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
         UserDetails userDetails = validate(token);
@@ -77,21 +104,40 @@ public class AdminController extends ClientController {
         return responseEntityGenerator.getResponseEntity(userDetails);
     }
 
-
+    /**
+     * @param token
+     * @return
+     * @throws AppUnauthorizedRequestException
+     */
     @GetMapping("/getAllCompanies")
     public ResponseEntity<?> getAllCompanies(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException {
         UserDetails userDetails = validate(token);
 
         return responseEntityGenerator.getResponseEntity(userDetails, adminService.getAllComapnies());
-
     }
 
+    /**
+     * Retrieves one company from the database.
+     * @param token auth token
+     * @param companyId company to retrieves.
+     * @returnresponse entity containing the httpresponse, auth token and the company (serialized and in body.).
+     * @throws AppTargetNotFoundException
+     * @throws AppUnauthorizedRequestException
+     */
     @GetMapping("/getOneCompany/{companyId}")
     public ResponseEntity<?> getOneCompany(@RequestHeader(name = "Authorization") String token, @PathVariable long companyId) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
         UserDetails userDetails = validate(token);
         return responseEntityGenerator.getResponseEntity(userDetails, adminService.getOneCompany(companyId));
     }
 
+    /**
+     * 
+     * @param token
+     * @param companyId
+     * @return
+     * @throws AppTargetNotFoundException
+     * @throws AppUnauthorizedRequestException
+     */
     @GetMapping("/getCompanyCoupons/{companyId}")
     public ResponseEntity<?> getCompanyCoupons(@RequestHeader(name = "Authorization") String token, @PathVariable long companyId) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
         UserDetails userDetails = validate(token);

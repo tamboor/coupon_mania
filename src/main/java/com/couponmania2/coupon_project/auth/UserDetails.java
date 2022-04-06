@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Builder
+/**
+ * Bean for storing info needed in access/authentication operations.
+ */
 public class UserDetails {
     private long id = -1;
     private String userName;

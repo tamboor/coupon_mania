@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("company")
 @RequiredArgsConstructor
-//todo: check all jwt shit
 public class CompanyController extends ClientController {
 
     private final CompanyServiceImpl companyService;

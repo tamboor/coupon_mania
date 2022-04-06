@@ -1,10 +1,6 @@
 package com.couponmania2.coupon_project.beans;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Data;
-
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Table(name = "coupon_purchases")
@@ -13,34 +9,62 @@ public class Purchase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
     private long id;
-//
-    //@JsonBackReference
+
     @ManyToOne
     private Customer customer;
 
-    //@JsonBackReference
     @ManyToOne
     private Coupon coupon;
 
-    protected Purchase(){}
+    /**
+     * Disable instantiating purchases.
+     */
+    private Purchase() {
+    }
 
-    public Purchase(Customer customer , Coupon coupon){
+    /**
+     * C'tor with customer and coupon.
+     *
+     * @param customer the customer.
+     * @param coupon   the coupon.
+     */
+    public Purchase(Customer customer, Coupon coupon) {
         this.customer = customer;
         this.coupon = coupon;
     }
-//@JsonBackReference(value = "customer-purchase")
+
+    /**
+     * getter for the customer.
+     *
+     * @return the customer.
+     */
     public Customer getCustomer() {
         return customer;
     }
 
+    /**
+     * setter for customer.
+     *
+     * @param customer customer.
+     */
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-//@JsonBackReference(value = "coupon-purchase")
+
+    /**
+     * getter for the coupon.
+     *
+     * @return the coupon.
+     */
     public Coupon getCoupon() {
         return coupon;
     }
 
+    /**
+     * setter for coupon.
+     *
+     * @param coupon the coupon.
+     */
     public void setCoupon(Coupon coupon) {
         this.coupon = coupon;
     }

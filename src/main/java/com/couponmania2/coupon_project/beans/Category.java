@@ -1,7 +1,8 @@
 package com.couponmania2.coupon_project.beans;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-
+/**
+ * Possible categoris for coupons.
+ */
 public enum Category {
     food("food"),
     xtreme("xterme"),
@@ -9,13 +10,24 @@ public enum Category {
     vacation("vacation"),
     tattoos("tattoos");
 
+
     private final String name;
 
-    Category(String name){
+    /**
+     * C'tor to set the name value based on the value stored in the enums.
+     *
+     * @param name
+     */
+    Category(String name) {
         this.name = name;
     }
-//@JsonValue
-    public String getName(){
+
+    /**
+     * Gets the name value of the enum.
+     *
+     * @return the name.
+     */
+    public String getName() {
         return this.name;
     }
 

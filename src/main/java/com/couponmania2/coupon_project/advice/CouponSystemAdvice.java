@@ -13,41 +13,45 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class CouponSystemAdvice {
     /**
      * method that handles AppTargetNotFoundException.
+     *
      * @param err the exception
      * @return response entity that holds the message of the exception and the response status
      */
     @ExceptionHandler(value = {AppTargetNotFoundException.class})
-    ResponseEntity<ErrorDetails>  notFoundException(Exception err){
-        return new ResponseEntity<>(new ErrorDetails("Target not found." , err.getMessage()), HttpStatus.NOT_FOUND);
+    ResponseEntity<ErrorDetails> notFoundException(Exception err) {
+        return new ResponseEntity<>(new ErrorDetails("Target not found.", err.getMessage()), HttpStatus.NOT_FOUND);
     }
 
     /**
      * method that handles AppUnauthorizedRequestException.
+     *
      * @param err the exception
      * @return response entity that holds the message of the exception and the response status
      */
     @ExceptionHandler(value = {AppUnauthorizedRequestException.class})
-    ResponseEntity<ErrorDetails>  unauthorizedException(Exception err){
-        return new ResponseEntity<>(new ErrorDetails("Unauthorized Request." , err.getMessage()), HttpStatus.UNAUTHORIZED);
+    ResponseEntity<ErrorDetails> unauthorizedException(Exception err) {
+        return new ResponseEntity<>(new ErrorDetails("Unauthorized Request.", err.getMessage()), HttpStatus.UNAUTHORIZED);
     }
 
     /**
      * method that handles AppTargetExistsException.
+     *
      * @param err the exception
      * @return response entity that holds the message of the exception and the response status
      */
     @ExceptionHandler(value = {AppTargetExistsException.class})
-    ResponseEntity<ErrorDetails>  targetExistsException(Exception err){
-        return new ResponseEntity<>(new ErrorDetails("Target already exists." , err.getMessage()), HttpStatus.UNAUTHORIZED);
+    ResponseEntity<ErrorDetails> targetExistsException(Exception err) {
+        return new ResponseEntity<>(new ErrorDetails("Target already exists.", err.getMessage()), HttpStatus.UNAUTHORIZED);
     }
 
     /**
      * method that handles AppInvalidInputException.
+     *
      * @param err the exception
      * @return response entity that holds the message of the exception and the response status
      */
     @ExceptionHandler(value = {AppInvalidInputException.class})
-    ResponseEntity<ErrorDetails>  invalidInputException(Exception err){
-        return new ResponseEntity<>(new ErrorDetails("Invalid input." , err.getMessage()), HttpStatus.UNAUTHORIZED);
+    ResponseEntity<ErrorDetails> invalidInputException(Exception err) {
+        return new ResponseEntity<>(new ErrorDetails("Invalid input.", err.getMessage()), HttpStatus.UNAUTHORIZED);
     }
 }
