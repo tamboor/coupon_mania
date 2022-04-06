@@ -19,7 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Component
+//@Component
 @Order(2)
 @RequiredArgsConstructor
 public class AdminRestTest implements CommandLineRunner {
