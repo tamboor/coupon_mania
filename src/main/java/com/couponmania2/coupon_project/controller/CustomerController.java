@@ -32,8 +32,18 @@ public class CustomerController extends ClientController {
     @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody UserDetails userDetails)
             throws AppUnauthorizedRequestException, AppInvalidInputException {
-        if (!userDetails.getRole().equals(ClientType.customer.getName())) {
-            throw new AppInvalidInputException("Bad role input.");
+//        if (!userDetails.getRole().equals(ClientType.customer.getName())) {
+//            throw new AppInvalidInputException("Bad role input.");
+//        }
+
+        if (userDetails.checkNullFields()) {
+            //todo: change to custom exception message
+            throw new AppInvalidInputException("One of the fields is null");
+        }
+        userDetails.setRole(userDetails.getRole().toLowerCase());
+        if (!userDetails.roleCheck()){
+            //todo: change to custom exception message
+            throw new AppInvalidInputException("This role doesn't exist");
         }
 
         userDetails.setId(customerService.checkCredentials(

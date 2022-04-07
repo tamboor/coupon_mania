@@ -14,8 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Locale;
-
 // TODO: 07/04/2022 add notnull checks for all args in userDetails and forms. 
 @RestController
 @RequestMapping("admin")
@@ -36,18 +34,29 @@ public class AdminController extends ClientController {
     @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody UserDetails userDetails)
             throws AppUnauthorizedRequestException, AppInvalidInputException {
-        if (userDetails.getRole()==null){
-            throw new AppInvalidInputException("This role doesn't exist!!!");
-        }
-        System.out.println(userDetails.getRole().toLowerCase());
-        System.out.println(ClientType.admin.getName());
+
+//        if (userDetails.getRole()==null){
+//            throw new AppInvalidInputException("This role doesn't exist!!!");
+//        }
+//        System.out.println(userDetails.getRole().toLowerCase());
+//        System.out.println(ClientType.admin.getName());
 //        if (!userDetails.getRole().toLowerCase().equals(ClientType.admin.getName())) {
 //            throw new AppInvalidInputException("Bad role input.");
 //        }
+        if (userDetails.checkNullFields()) {
+            //todo: change to custom exception message
+            throw new AppInvalidInputException("One of the fields is null");
+        }
+        userDetails.setRole(userDetails.getRole().toLowerCase());
+        if (!userDetails.roleCheck()){
+            //todo: change to custom exception message
+            throw new AppInvalidInputException("This role doesn't exist");
+        }
+
         userDetails.setId(adminService.checkCredentials(
                 userDetails.getUserName(),
                 userDetails.getUserPass(),
-                ClientType.valueOf(userDetails.getRole().toLowerCase())));
+                ClientType.valueOf(userDetails.getRole())));
 
         return responseEntityGenerator.getResponseEntity(userDetails);
 
@@ -125,11 +134,12 @@ public class AdminController extends ClientController {
 
     /**
      * Retrieves one company from the database.
-     * @param token auth token
+     *
+     * @param token     auth token
      * @param companyId company to retrieves.
-     * @returnresponse entity containing the httpresponse, auth token and the company (serialized and in body.).
      * @throws AppTargetNotFoundException
      * @throws AppUnauthorizedRequestException
+     * @returnresponse entity containing the httpresponse, auth token and the company (serialized and in body.).
      */
     @GetMapping("/getOneCompany/{companyId}")
     public ResponseEntity<?> getOneCompany(@RequestHeader(name = "Authorization") String token, @PathVariable long companyId) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
@@ -138,7 +148,6 @@ public class AdminController extends ClientController {
     }
 
     /**
-     * 
      * @param token
      * @param companyId
      * @return

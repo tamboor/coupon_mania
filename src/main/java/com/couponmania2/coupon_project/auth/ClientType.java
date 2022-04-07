@@ -1,11 +1,17 @@
 package com.couponmania2.coupon_project.auth;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public enum ClientType {
     admin("admin"),
     company("company"),
     customer("customer");
 
     private final String name;
+
+
 
     /**
      * c'tor that applies a given string name to enum's value name
@@ -24,4 +30,5 @@ public enum ClientType {
     public String getName() {
         return this.name;
     }
+
 }
