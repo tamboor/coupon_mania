@@ -52,30 +52,56 @@ public class AdminRestTest implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+        //region admin login:
         try {
+            System.out.println("=====================================================================");
+            System.out.println("Admin: Login via rest template:");
+            System.out.println("=====================================================================");
             login(UserDetails.builder().userName("admin@admin.com").userPass("admin").role("admin").build());
 
         } catch (Exception e) {
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("!!! REST TEMPLATE ERROR !!!");
             System.out.println(e.getMessage());
-            throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.NO_LOGIN);
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         }
-
+        //endregion
 
         //region rest template tests for customer
+
+            //region get one customer
         try {
+            System.out.println("=====================================================================");
+            System.out.println("Admin: get one customer via rest template:");
+            System.out.println("=====================================================================");
             getOneCustomer(1L);
         } catch (Exception e) {
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("!!! REST TEMPLATE ERROR !!!");
             System.out.println(e.getMessage());
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         }
+            //endregion
 
+            //region get all customers
         try {
+            System.out.println("=====================================================================");
+            System.out.println("Admin: get all customers via rest template:");
+            System.out.println("=====================================================================");
             getAllCustomers();
         } catch (Exception e) {
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("!!! REST TEMPLATE ERROR !!!");
             System.out.println(e.getMessage());
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         }
+            //endregion
 
-        // data of customer to add:
+            //region add customer:
         try {
+            System.out.println("=====================================================================");
+            System.out.println("Admin: add customer via rest template:");
+            System.out.println("=====================================================================");
             CustomerForm cFORM = new CustomerForm();
             cFORM.setFirstName("alon2");
             cFORM.setLastName("mintz2");
@@ -85,19 +111,32 @@ public class AdminRestTest implements CommandLineRunner {
 
             addCustomer(cFORM);
         } catch (Exception e) {
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("!!! REST TEMPLATE ERROR !!!");
             System.out.println(e.getMessage());
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         }
-//
-//        //delete customer:
+            //endregion
+
+            //region delete customer:
         try {
+            System.out.println("=====================================================================");
+            System.out.println("Admin: delete customer via rest template:");
+            System.out.println("=====================================================================");
             deleteCustomer(4L);
         } catch (Exception e) {
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("!!! REST TEMPLATE ERROR !!!");
             System.out.println(e.getMessage());
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         }
+            //endregion
 
-
-        //update customer data:
+            //region update customer:
         try {
+            System.out.println("=====================================================================");
+            System.out.println("Admin: update customer via rest template:");
+            System.out.println("=====================================================================");
             CustomerForm cFORM2 = new CustomerForm();
             cFORM2.setFirstName("notAlon");
             cFORM2.setLastName("notMintz");
@@ -107,34 +146,64 @@ public class AdminRestTest implements CommandLineRunner {
 
             updateCustomer(cFORM2);
         } catch (Exception e) {
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("!!! REST TEMPLATE ERROR !!!");
             System.out.println(e.getMessage());
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         }
-        //get customer coupons:
+            //endregion
+
+            //region get customer's coupons:
         try {
+            System.out.println("=====================================================================");
+            System.out.println("Admin: get customer's coupons via rest template:");
+            System.out.println("=====================================================================");
             getCustomerCoupons(3L);
         } catch (Exception e) {
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("!!! REST TEMPLATE ERROR !!!");
             System.out.println(e.getMessage());
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         }
+            //endregion
 
         //endregion
 
-
         //region rest template tests for company
 
-
+            //region get onr company:
         try {
+            System.out.println("=====================================================================");
+            System.out.println("Company: get one company via rest template:");
+            System.out.println("=====================================================================");
             getOneCompany(2L);
         } catch (Exception e) {
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("!!! REST TEMPLATE ERROR !!!");
             System.out.println(e.getMessage());
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         }
+            //endregion
 
+            //region get all companies
         try {
+            System.out.println("=====================================================================");
+            System.out.println("Company: get all companies via rest template:");
+            System.out.println("=====================================================================");
             getAllCompanies();
         } catch (Exception e) {
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("!!! REST TEMPLATE ERROR !!!");
             System.out.println(e.getMessage());
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         }
+            //endregion
 
+            //region add company:
         try {
+            System.out.println("=====================================================================");
+            System.out.println("Company: add company via rest template:");
+            System.out.println("=====================================================================");
             CompanyForm cFORM = new CompanyForm();
             cFORM.setName("restCompany");
             cFORM.setEmail("rest@company.com");
@@ -142,17 +211,32 @@ public class AdminRestTest implements CommandLineRunner {
 
             addCompany(cFORM);
         } catch (Exception e) {
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("!!! REST TEMPLATE ERROR !!!");
             System.out.println(e.getMessage());
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         }
+            //endregion
 
+            //region delete company
         try {
+            System.out.println("=====================================================================");
+            System.out.println("Company: delete company via rest template:");
+            System.out.println("=====================================================================");
             deleteCompany(4L);
         } catch (Exception e) {
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("!!! REST TEMPLATE ERROR !!!");
             System.out.println(e.getMessage());
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         }
+            //endregion
 
+            //region update company:
         try {
-
+            System.out.println("=====================================================================");
+            System.out.println("Company: update company via rest template:");
+            System.out.println("=====================================================================");
             CompanyForm cFORM2 = new CompanyForm();
             cFORM2.setName("company2");
             cFORM2.setEmail("rest@update.com");
@@ -161,14 +245,27 @@ public class AdminRestTest implements CommandLineRunner {
 
             updateCompany(cFORM2);
         } catch (Exception e) {
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("!!! REST TEMPLATE ERROR !!!");
             System.out.println(e.getMessage());
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         }
-        //get company coupons:
+            //endregion
+
+            //region get company coupons:
         try {
+            System.out.println("=====================================================================");
+            System.out.println("Company: get company's coupons via rest template:");
+            System.out.println("=====================================================================");
             getCompanyCoupons(3L);
         } catch (Exception e) {
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("!!! REST TEMPLATE ERROR !!!");
             System.out.println(e.getMessage());
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         }
+            //endregion
+
         //endregion
     }
 
@@ -204,11 +301,7 @@ public class AdminRestTest implements CommandLineRunner {
                 new HttpEntity<>(userDetails),
                 Void.class);
         checkResponse(response);
-//        this.token = response.getHeaders().getFirst("authorization");
-//        this.headers = new HttpHeaders();
-//        headers.set("Authorization", token);
         updateTokenAndHeaders(response);
-        //       this.httpEntity = new HttpEntity<>(headers);
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         System.out.println("admin login was successful via rest template ");
         System.out.println(token);
@@ -289,7 +382,6 @@ public class AdminRestTest implements CommandLineRunner {
 
     }
 
-    //todo: find out why doesn't work
     private void getCustomerCoupons(long id) throws Exception {
         Map<String, Long> params = new HashMap<>();
         params.put("id", id);
