@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+// TODO: 07/04/2022 add notnull checks for all args in userDetails and forms.
+
 @RestController
 @RequestMapping("customer")
 @RequiredArgsConstructor

@@ -1,5 +1,6 @@
 package com.couponmania2.coupon_project.clr;
 
+import com.couponmania2.coupon_project.auth.ClientType;
 import com.couponmania2.coupon_project.beans.Coupon;
 import com.couponmania2.coupon_project.utils.TablePrinter;
 import lombok.RequiredArgsConstructor;

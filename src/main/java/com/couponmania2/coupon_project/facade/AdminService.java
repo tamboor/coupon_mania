@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface    AdminService {
-    long checkCredentials(String email, String password, ClientType clientType) throws AppUnauthorizedRequestException;
+    long checkCredentials(String email, String password, ClientType clientType) throws AppUnauthorizedRequestException, AppInvalidInputException;
     void addCompany (Company company) throws Exception;
     void addCustomer(Customer customer) throws Exception;
     void updateCompany(Company company) throws AppTargetNotFoundException, AppInvalidInputException, AppTargetExistsException;

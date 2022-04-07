@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Locale;
 
-
+// TODO: 07/04/2022 add notnull checks for all args in userDetails and forms. 
 @RestController
 @RequestMapping("admin")
 @RequiredArgsConstructor
@@ -36,13 +36,18 @@ public class AdminController extends ClientController {
     @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody UserDetails userDetails)
             throws AppUnauthorizedRequestException, AppInvalidInputException {
-        if (!userDetails.getRole().equals(ClientType.admin.getName())) {
-            throw new AppInvalidInputException("Bad role input.");
+        if (userDetails.getRole()==null){
+            throw new AppInvalidInputException("This role doesn't exist!!!");
         }
+        System.out.println(userDetails.getRole().toLowerCase());
+        System.out.println(ClientType.admin.getName());
+//        if (!userDetails.getRole().toLowerCase().equals(ClientType.admin.getName())) {
+//            throw new AppInvalidInputException("Bad role input.");
+//        }
         userDetails.setId(adminService.checkCredentials(
                 userDetails.getUserName(),
                 userDetails.getUserPass(),
-                ClientType.valueOf(userDetails.getRole())));
+                ClientType.valueOf(userDetails.getRole().toLowerCase())));
 
         return responseEntityGenerator.getResponseEntity(userDetails);
 

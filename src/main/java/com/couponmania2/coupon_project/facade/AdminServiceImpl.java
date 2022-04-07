@@ -35,7 +35,10 @@ public class AdminServiceImpl implements AdminService {
      * @throws AppUnauthorizedRequestException if credentials dont match admin credentials..
      */
     @Override
-    public long checkCredentials(String email, String password, ClientType clientType) throws AppUnauthorizedRequestException {
+    public long checkCredentials(String email, String password, ClientType clientType) throws AppUnauthorizedRequestException, AppInvalidInputException {
+        if (clientType==null){
+            throw new AppInvalidInputException("this role doesn't exist!!!");
+        }
         if (!(email.equals(ADMIN_EMAIL) && password.equals(AMDIN_PASSWORD) && clientType.equals(ClientType.admin))) {
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS.getMessage());
         }
