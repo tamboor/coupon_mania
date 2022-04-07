@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
+//todo: add exceptions to advice
 @ControllerAdvice
 public class CouponSystemAdvice {
     /**
@@ -50,7 +50,7 @@ public class CouponSystemAdvice {
      * @param err the exception
      * @return response entity that holds the message of the exception and the response status
      */
-    @ExceptionHandler(value = {AppInvalidInputException.class})
+    @ExceptionHandler(value = {AppInvalidInputException.class, IllegalArgumentException.class})
     ResponseEntity<ErrorDetails> invalidInputException(Exception err) {
         return new ResponseEntity<>(new ErrorDetails("Invalid input.", err.getMessage()), HttpStatus.UNAUTHORIZED);
     }
