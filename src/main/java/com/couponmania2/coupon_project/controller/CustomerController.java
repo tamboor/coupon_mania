@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-// TODO: 07/04/2022 add notnull checks for all args in userDetails and forms.
 
 @RestController
 @RequestMapping("customer")
@@ -32,18 +31,13 @@ public class CustomerController extends ClientController {
     @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody UserDetails userDetails)
             throws AppUnauthorizedRequestException, AppInvalidInputException {
-//        if (!userDetails.getRole().equals(ClientType.customer.getName())) {
-//            throw new AppInvalidInputException("Bad role input.");
-//        }
 
         if (userDetails.checkNullFields()) {
-            //todo: change to custom exception message
-            throw new AppInvalidInputException("One of the fields is null");
+            throw new AppInvalidInputException(AppInvalidInputMessage.NULL_FIELDS);
         }
         userDetails.setRole(userDetails.getRole().toLowerCase());
         if (!userDetails.roleCheck()){
-            //todo: change to custom exception message
-            throw new AppInvalidInputException("This role doesn't exist");
+            throw new AppInvalidInputException(AppInvalidInputMessage.ROLE_NOT_EXIST);
         }
 
         userDetails.setId(customerService.checkCredentials(

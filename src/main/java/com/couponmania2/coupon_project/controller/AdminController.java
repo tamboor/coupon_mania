@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-// TODO: 07/04/2022 add notnull checks for all args in userDetails and forms. 
 @RestController
 @RequestMapping("admin")
 @RequiredArgsConstructor
@@ -35,22 +34,12 @@ public class AdminController extends ClientController {
     public ResponseEntity<?> login(@RequestBody UserDetails userDetails)
             throws AppUnauthorizedRequestException, AppInvalidInputException {
 
-//        if (userDetails.getRole()==null){
-//            throw new AppInvalidInputException("This role doesn't exist!!!");
-//        }
-//        System.out.println(userDetails.getRole().toLowerCase());
-//        System.out.println(ClientType.admin.getName());
-//        if (!userDetails.getRole().toLowerCase().equals(ClientType.admin.getName())) {
-//            throw new AppInvalidInputException("Bad role input.");
-//        }
         if (userDetails.checkNullFields()) {
-            //todo: change to custom exception message
-            throw new AppInvalidInputException("One of the fields is null");
+            throw new AppInvalidInputException(AppInvalidInputMessage.NULL_FIELDS);
         }
         userDetails.setRole(userDetails.getRole().toLowerCase());
         if (!userDetails.roleCheck()){
-            //todo: change to custom exception message
-            throw new AppInvalidInputException("This role doesn't exist");
+            throw new AppInvalidInputException(AppInvalidInputMessage.ROLE_NOT_EXIST);
         }
 
         userDetails.setId(adminService.checkCredentials(
@@ -72,8 +61,11 @@ public class AdminController extends ClientController {
      * @throws AppTargetExistsException        if company exists in the database.
      */
     @PostMapping("/addCompany")
-    public ResponseEntity<?> addCompany(@RequestHeader(name = "Authorization") String token, @RequestBody CompanyForm companyForm) throws AppUnauthorizedRequestException, AppTargetExistsException {
+    public ResponseEntity<?> addCompany(@RequestHeader(name = "Authorization") String token, @RequestBody CompanyForm companyForm) throws AppUnauthorizedRequestException, AppTargetExistsException, AppInvalidInputException {
         UserDetails userDetails = validate(token);
+        if (companyForm.checkNullFields()){
+            throw new AppInvalidInputException(AppInvalidInputMessage.NULL_FIELDS);
+        }
         adminService.addCompany(new Company(companyForm));
         return responseEntityGenerator.getResponseEntity(userDetails, HttpStatus.CREATED);
     }
@@ -92,7 +84,9 @@ public class AdminController extends ClientController {
     @PutMapping("/updateCompany")
     public ResponseEntity<?> updateCompany(@RequestHeader(name = "Authorization") String token, @RequestBody CompanyForm companyForm) throws AppTargetNotFoundException, AppUnauthorizedRequestException, AppInvalidInputException, AppTargetExistsException {
         UserDetails userDetails = validate(token);
-
+        if (companyForm.checkNullFields()){
+            throw new AppInvalidInputException(AppInvalidInputMessage.NULL_FIELDS);
+        }
         Company companyToUpdate = adminService.getOneCompany(companyForm.getId());
         companyToUpdate.setEmail(companyForm.getEmail());
         companyToUpdate.setPassword(companyForm.getPassword());
@@ -161,16 +155,22 @@ public class AdminController extends ClientController {
     }
 
     @PostMapping("/addCustomer")
-    public ResponseEntity<?> addCustomer(@RequestHeader(name = "Authorization") String token, @RequestBody CustomerForm customerForm) throws AppUnauthorizedRequestException, AppTargetExistsException {
+    public ResponseEntity<?> addCustomer(@RequestHeader(name = "Authorization") String token, @RequestBody CustomerForm customerForm) throws AppUnauthorizedRequestException, AppTargetExistsException, AppInvalidInputException {
         UserDetails userDetails = validate(token);
+        if (customerForm.checkNullFields()){
+            throw new AppInvalidInputException(AppInvalidInputMessage.NULL_FIELDS);
+        }
         adminService.addCustomer(new Customer(customerForm));
         return responseEntityGenerator.getResponseEntity(userDetails);
 
     }
 
     @PutMapping("/updateCustomer")
-    public ResponseEntity<?> updateCustomer(@RequestHeader(name = "Authorization") String token, @RequestBody CustomerForm customerForm) throws AppTargetNotFoundException, AppUnauthorizedRequestException, AppTargetExistsException {
+    public ResponseEntity<?> updateCustomer(@RequestHeader(name = "Authorization") String token, @RequestBody CustomerForm customerForm) throws AppTargetNotFoundException, AppUnauthorizedRequestException, AppTargetExistsException, AppInvalidInputException {
         UserDetails userDetails = validate(token);
+        if (customerForm.checkNullFields()){
+            throw new AppInvalidInputException(AppInvalidInputMessage.NULL_FIELDS);
+        }
 
         Customer customerToUpdate = adminService.getOneCustomer(customerForm.getId());
         customerToUpdate.setEmail(customerForm.getEmail());

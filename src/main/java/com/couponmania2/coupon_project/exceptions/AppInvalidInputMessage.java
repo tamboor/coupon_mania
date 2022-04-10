@@ -7,7 +7,10 @@ public enum AppInvalidInputMessage {
     UNMATCHING_COUPON ("Can't complete action - This coupon is owned by another company"),
     CATEGORY_NOT_EXIST ("Can't complete action - This category doesn't exist"),
     END_DATE_BEFORE_START_DATE ("Can't insert an end-date that is before the coupon's start date"),
-    END_DATE_BEFORE_CURRENT_DATE ("Can't insert an end-date that is before the the current date");
+    END_DATE_BEFORE_CURRENT_DATE ("Can't insert an end-date that is before the the current date"),
+    NULL_FIELDS ("Can't complete action - one of the fields is null"),
+    ROLE_NOT_EXIST ("Can't complete action - role doesn't exist");
+
 
 
     private final String message;
