@@ -38,7 +38,7 @@ public class AdminController extends ClientController {
             throw new AppInvalidInputException(AppInvalidInputMessage.NULL_FIELDS);
         }
         userDetails.setRole(userDetails.getRole().toLowerCase());
-        if (!userDetails.roleCheck()){
+        if (!userDetails.roleCheck()) {
             throw new AppInvalidInputException(AppInvalidInputMessage.ROLE_NOT_EXIST);
         }
 
@@ -63,7 +63,7 @@ public class AdminController extends ClientController {
     @PostMapping("/addCompany")
     public ResponseEntity<?> addCompany(@RequestHeader(name = "Authorization") String token, @RequestBody CompanyForm companyForm) throws AppUnauthorizedRequestException, AppTargetExistsException, AppInvalidInputException {
         UserDetails userDetails = validate(token);
-        if (companyForm.checkNullFields()){
+        if (companyForm.checkNullFields()) {
             throw new AppInvalidInputException(AppInvalidInputMessage.NULL_FIELDS);
         }
         adminService.addCompany(new Company(companyForm));
@@ -84,7 +84,7 @@ public class AdminController extends ClientController {
     @PutMapping("/updateCompany")
     public ResponseEntity<?> updateCompany(@RequestHeader(name = "Authorization") String token, @RequestBody CompanyForm companyForm) throws AppTargetNotFoundException, AppUnauthorizedRequestException, AppInvalidInputException, AppTargetExistsException {
         UserDetails userDetails = validate(token);
-        if (companyForm.checkNullFields()){
+        if (companyForm.checkNullFields()) {
             throw new AppInvalidInputException(AppInvalidInputMessage.NULL_FIELDS);
         }
         Company companyToUpdate = adminService.getOneCompany(companyForm.getId());
@@ -115,9 +115,9 @@ public class AdminController extends ClientController {
     }
 
     /**
-     * @param token
-     * @return
-     * @throws AppUnauthorizedRequestException
+     * @param token authentication token.
+     * @return response entity with httpstatus and new token.
+     * @throws AppUnauthorizedRequestException if authentication failed.
      */
     @GetMapping("/getAllCompanies")
     public ResponseEntity<?> getAllCompanies(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException {
@@ -129,11 +129,11 @@ public class AdminController extends ClientController {
     /**
      * Retrieves one company from the database.
      *
-     * @param token     auth token
+     * @param token     authentication token.
      * @param companyId company to retrieves.
-     * @throws AppTargetNotFoundException
-     * @throws AppUnauthorizedRequestException
      * @return response entity containing the httpresponse, auth token and the company (serialized and in body.).
+     * @throws AppTargetNotFoundException      if failed to find company.
+     * @throws AppUnauthorizedRequestException if authentication failed.
      */
     @GetMapping("/getOneCompany/{companyId}")
     public ResponseEntity<?> getOneCompany(@RequestHeader(name = "Authorization") String token, @PathVariable long companyId) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
@@ -142,11 +142,11 @@ public class AdminController extends ClientController {
     }
 
     /**
-     * @param token
-     * @param companyId
-     * @return
-     * @throws AppTargetNotFoundException
-     * @throws AppUnauthorizedRequestException
+     * @param token     authentication token.
+     * @param companyId company to get the coupons of.
+     * @return response entity containing httpstatus, new token and the coupons of the specified company.
+     * @throws AppTargetNotFoundException      if failed to find company.
+     * @throws AppUnauthorizedRequestException if authentication failed.
      */
     @GetMapping("/getCompanyCoupons/{companyId}")
     public ResponseEntity<?> getCompanyCoupons(@RequestHeader(name = "Authorization") String token, @PathVariable long companyId) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
@@ -154,10 +154,20 @@ public class AdminController extends ClientController {
         return responseEntityGenerator.getResponseEntity(userDetails, adminService.getCompanyCoupons(companyId));
     }
 
+    /**
+     * adds a customer to the database.
+     *
+     * @param token        authentication token.
+     * @param customerForm form representing the details of the customer to add to the database.
+     * @return response entity containing httpstatus and new token.
+     * @throws AppUnauthorizedRequestException if authentication failed.
+     * @throws AppTargetExistsException        if the customer already exists in teh database.
+     * @throws AppInvalidInputException        if the CustomerForm has null fields (invalid input)
+     */
     @PostMapping("/addCustomer")
     public ResponseEntity<?> addCustomer(@RequestHeader(name = "Authorization") String token, @RequestBody CustomerForm customerForm) throws AppUnauthorizedRequestException, AppTargetExistsException, AppInvalidInputException {
         UserDetails userDetails = validate(token);
-        if (customerForm.checkNullFields()){
+        if (customerForm.checkNullFields()) {
             throw new AppInvalidInputException(AppInvalidInputMessage.NULL_FIELDS);
         }
         adminService.addCustomer(new Customer(customerForm));
@@ -165,10 +175,21 @@ public class AdminController extends ClientController {
 
     }
 
+    /**
+     * Updates the details of a customer in the database.
+     *
+     * @param token        Authentication token.
+     * @param customerForm Form representing the details of the customer to update in the database.
+     * @return ResponseEntity with HttpStatus and new token.
+     * @throws AppTargetNotFoundException      if the target customer was not found.
+     * @throws AppUnauthorizedRequestException if authentication failed.
+     * @throws AppTargetExistsException        if trying to update to existing email.
+     * @throws AppInvalidInputException        if the customer form has any null fields.
+     */
     @PutMapping("/updateCustomer")
     public ResponseEntity<?> updateCustomer(@RequestHeader(name = "Authorization") String token, @RequestBody CustomerForm customerForm) throws AppTargetNotFoundException, AppUnauthorizedRequestException, AppTargetExistsException, AppInvalidInputException {
         UserDetails userDetails = validate(token);
-        if (customerForm.checkNullFields()){
+        if (customerForm.checkNullFields()) {
             throw new AppInvalidInputException(AppInvalidInputMessage.NULL_FIELDS);
         }
 
@@ -182,6 +203,15 @@ public class AdminController extends ClientController {
         return responseEntityGenerator.getResponseEntity(userDetails);
     }
 
+    /**
+     * delete a customer from the database.
+     *
+     * @param token      authorization token.
+     * @param customerId the id of the customer to delete.
+     * @return response entity with httpstatus and new token.
+     * @throws AppTargetNotFoundException      if no customer with given id exists.
+     * @throws AppUnauthorizedRequestException if authentication failed.
+     */
     @DeleteMapping("/deleteCustomer/{customerId}")
     public ResponseEntity<?> deleteCustomer(@RequestHeader(name = "Authorization") String token, @PathVariable long customerId) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
         UserDetails userDetails = validate(token);
@@ -189,24 +219,56 @@ public class AdminController extends ClientController {
         return responseEntityGenerator.getResponseEntity(userDetails);
     }
 
+    /**
+     * retrieves all customers from teh database.
+     *
+     * @param token authorization token.
+     * @return ResponseEntity with HttpStatus,new token and the customers in the database.
+     * @throws AppUnauthorizedRequestException if authentication failed.
+     */
     @GetMapping("/getAllCustomers")
     public ResponseEntity<?> getAllCustomer(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException {
         UserDetails userDetails = validate(token);
         return responseEntityGenerator.getResponseEntity(userDetails, adminService.getAllCustomers());
     }
 
+    /**
+     * retrieves one customer from the database.
+     *
+     * @param token      authorization token.
+     * @param customerId the id of the customer to find.
+     * @return the customer found.
+     * @throws AppTargetNotFoundException      if customer was not found in teh database.
+     * @throws AppUnauthorizedRequestException if authentication failed.
+     */
     @GetMapping("getOneCustomer/{customerId}")
     public ResponseEntity<?> getOneCustomer(@RequestHeader(name = "Authorization") String token, @PathVariable long customerId) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
         UserDetails userDetails = validate(token);
         return responseEntityGenerator.getResponseEntity(userDetails, adminService.getOneCustomer(customerId));
     }
 
+    /**
+     * gets the coupons of given customer.
+     *
+     * @param token      authorization token.
+     * @param customerId the id of the customer to find the coupons of.
+     * @return ResponseEntity with HttpStatus ,  new token and a list of the coupons of the customer.
+     * @throws AppTargetNotFoundException      if the customer was not found in the database.
+     * @throws AppUnauthorizedRequestException if authentication failed.
+     */
     @GetMapping("/getCustomerCoupons/{customerId}")
     public ResponseEntity<?> getCustomerCoupons(@RequestHeader(name = "Authorization") String token, @PathVariable long customerId) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
         UserDetails userDetails = validate(token);
         return responseEntityGenerator.getResponseEntity(userDetails, adminService.getCustomerCoupons(customerId));
     }
 
+    /**
+     * Checks a token and makes sure its valid, retrieves the userdetails stored in the token.
+     *
+     * @param token the token to validate.
+     * @return the userdetails stored in the token.
+     * @throws AppUnauthorizedRequestException if authentication
+     */
     private UserDetails validate(String token) throws AppUnauthorizedRequestException {
         UserDetails user = jwtUtils.validateToken(token);
         if (!(user.getRole().equals(ClientType.admin.getName()))) {

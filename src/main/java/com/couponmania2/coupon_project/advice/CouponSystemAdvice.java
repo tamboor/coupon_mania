@@ -59,6 +59,12 @@ public class CouponSystemAdvice {
         return new ResponseEntity<>(new ErrorDetails("Invalid input.", err.getMessage()), HttpStatus.UNAUTHORIZED);
     }
 
+    /**
+     * method that handles DataTruncation sql exception.
+     *
+     * @param err the exception
+     * @return response entity that holds the message of the exception and the response status
+     */
     @ExceptionHandler(value = {DataTruncation.class})
     ResponseEntity<ErrorDetails> invalidSqlInputException(Exception err) {
         return new ResponseEntity<>(new ErrorDetails("Invalid sql input.", "Data is invalid to the database."), HttpStatus.UNAUTHORIZED);
