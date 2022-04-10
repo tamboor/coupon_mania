@@ -119,8 +119,10 @@ public class Coupon {
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.amount = amount;
-        this.price = price;
+        //this.amount = amount;
+        setAmount(amount);
+        //this.price = price;
+        setPrice(price);
         this.image = image;
         this.purchases = purchases;
     }
@@ -270,7 +272,7 @@ public class Coupon {
      * @param amount coupon amount
      */
     public void setAmount(int amount) {
-        this.amount = amount;
+        this.amount= amount<0? 0 : amount;
     }
 
     /**
@@ -288,7 +290,7 @@ public class Coupon {
      * @param price coupon price
      */
     public void setPrice(double price) {
-        this.price = price;
+        this.price = price<0? 0 : price;
     }
 
     /**

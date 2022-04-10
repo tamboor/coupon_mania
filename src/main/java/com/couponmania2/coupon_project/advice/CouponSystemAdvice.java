@@ -4,6 +4,7 @@ import com.couponmania2.coupon_project.exceptions.AppInvalidInputException;
 import com.couponmania2.coupon_project.exceptions.AppTargetExistsException;
 import com.couponmania2.coupon_project.exceptions.AppTargetNotFoundException;
 import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestException;
+import org.hibernate.PropertyValueException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -50,7 +51,7 @@ public class CouponSystemAdvice {
      * @param err the exception
      * @return response entity that holds the message of the exception and the response status
      */
-    @ExceptionHandler(value = {AppInvalidInputException.class, IllegalArgumentException.class})
+    @ExceptionHandler(value = {AppInvalidInputException.class, IllegalArgumentException.class, PropertyValueException.class})
     ResponseEntity<ErrorDetails> invalidInputException(Exception err) {
         return new ResponseEntity<>(new ErrorDetails("Invalid input.", err.getMessage()), HttpStatus.UNAUTHORIZED);
     }

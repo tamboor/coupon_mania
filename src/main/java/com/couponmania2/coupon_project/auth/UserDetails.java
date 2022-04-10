@@ -32,8 +32,10 @@ public class UserDetails {
     }
 
     public boolean roleCheck() {
-        List<String> allRoles = Arrays.stream(ClientType.values()).map(r -> r.getName()).collect(Collectors.toList());
-        for (String name : allRoles){
+        List<String> allClientTypes = Arrays.stream(ClientType.values())
+                .map(r -> r.getName())
+                .collect(Collectors.toList());
+        for (String name : allClientTypes){
             if (this.role.equals(name)){
                 return true;
             }

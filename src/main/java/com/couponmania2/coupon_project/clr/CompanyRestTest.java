@@ -49,7 +49,7 @@ public class CompanyRestTest implements CommandLineRunner {
             System.out.println("=====================================================================");
             System.out.println("Company: Login via rest template:");
             System.out.println("=====================================================================");
-            login(UserDetails.builder().userPass("password2").userName("email2").role("company").build());
+            login(UserDetails.builder().userPass("password3").userName("email3").role("company").build());
 
         } catch (Exception e) {
             System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
