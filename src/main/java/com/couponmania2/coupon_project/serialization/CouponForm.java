@@ -86,4 +86,9 @@ public class CouponForm {
     public void setImage(String image) {
         this.image = image;
     }
+
+    public boolean checkNullFields() {
+        return this.category == null || this.description == null || this.startDate == null ||
+                this.endDate == null || this.title == null;
+    }
 }

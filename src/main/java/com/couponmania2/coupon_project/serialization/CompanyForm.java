@@ -37,4 +37,8 @@ public class CompanyForm {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public boolean checkNullFields() {
+        return this.email == null || this.name == null || this.password == null;
+    }
 }

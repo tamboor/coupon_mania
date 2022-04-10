@@ -46,4 +46,8 @@ public class CustomerForm {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public boolean checkNullFields() {
+        return this.email == null || this.firstName == null || this.lastName==null || this.password == null;
+    }
 }
