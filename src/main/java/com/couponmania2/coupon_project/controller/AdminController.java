@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController extends ClientController {
     private final AdminServiceImpl adminService;
     private final JwtUtils jwtUtils;
-    private final ResponseWithTokenProvider responseEntityGenerator;
+    private final ResponseWithTokenProvider responseWithTokenProvider;
 
     /**
      * tries to login an admin user.
@@ -47,7 +47,7 @@ public class AdminController extends ClientController {
                 userDetails.getUserPass(),
                 ClientType.valueOf(userDetails.getRole())));
 
-        return responseEntityGenerator.getResponseEntity(userDetails);
+        return responseWithTokenProvider.getResponseEntity(userDetails);
 
     }
 
@@ -67,7 +67,7 @@ public class AdminController extends ClientController {
             throw new AppInvalidInputException(AppInvalidInputMessage.NULL_FIELDS);
         }
         adminService.addCompany(new Company(companyForm));
-        return responseEntityGenerator.getResponseEntity(userDetails, HttpStatus.CREATED);
+        return responseWithTokenProvider.getResponseEntity(userDetails, HttpStatus.CREATED);
     }
 
     /**
@@ -94,7 +94,7 @@ public class AdminController extends ClientController {
 
         adminService.updateCompany(companyToUpdate);
 
-        return responseEntityGenerator.getResponseEntity(userDetails);
+        return responseWithTokenProvider.getResponseEntity(userDetails);
     }
 
     /**
@@ -111,7 +111,7 @@ public class AdminController extends ClientController {
         UserDetails userDetails = validate(token);
         adminService.deleteCompany(companyId);
 
-        return responseEntityGenerator.getResponseEntity(userDetails);
+        return responseWithTokenProvider.getResponseEntity(userDetails);
     }
 
     /**
@@ -123,7 +123,7 @@ public class AdminController extends ClientController {
     public ResponseEntity<?> getAllCompanies(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException {
         UserDetails userDetails = validate(token);
 
-        return responseEntityGenerator.getResponseEntity(userDetails, adminService.getAllCompanies());
+        return responseWithTokenProvider.getResponseEntity(userDetails, adminService.getAllCompanies());
     }
 
     /**
@@ -138,7 +138,7 @@ public class AdminController extends ClientController {
     @GetMapping("/getOneCompany/{companyId}")
     public ResponseEntity<?> getOneCompany(@RequestHeader(name = "Authorization") String token, @PathVariable long companyId) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
         UserDetails userDetails = validate(token);
-        return responseEntityGenerator.getResponseEntity(userDetails, adminService.getOneCompany(companyId));
+        return responseWithTokenProvider.getResponseEntity(userDetails, adminService.getOneCompany(companyId));
     }
 
     /**
@@ -151,7 +151,7 @@ public class AdminController extends ClientController {
     @GetMapping("/getCompanyCoupons/{companyId}")
     public ResponseEntity<?> getCompanyCoupons(@RequestHeader(name = "Authorization") String token, @PathVariable long companyId) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
         UserDetails userDetails = validate(token);
-        return responseEntityGenerator.getResponseEntity(userDetails, adminService.getCompanyCoupons(companyId));
+        return responseWithTokenProvider.getResponseEntity(userDetails, adminService.getCompanyCoupons(companyId));
     }
 
     /**
@@ -171,7 +171,7 @@ public class AdminController extends ClientController {
             throw new AppInvalidInputException(AppInvalidInputMessage.NULL_FIELDS);
         }
         adminService.addCustomer(new Customer(customerForm));
-        return responseEntityGenerator.getResponseEntity(userDetails);
+        return responseWithTokenProvider.getResponseEntity(userDetails);
 
     }
 
@@ -200,7 +200,7 @@ public class AdminController extends ClientController {
         customerToUpdate.setPassword(customerForm.getPassword());
         adminService.updateCustomer(customerToUpdate);
 
-        return responseEntityGenerator.getResponseEntity(userDetails);
+        return responseWithTokenProvider.getResponseEntity(userDetails);
     }
 
     /**
@@ -216,7 +216,7 @@ public class AdminController extends ClientController {
     public ResponseEntity<?> deleteCustomer(@RequestHeader(name = "Authorization") String token, @PathVariable long customerId) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
         UserDetails userDetails = validate(token);
         adminService.deleteCustomer(customerId);
-        return responseEntityGenerator.getResponseEntity(userDetails);
+        return responseWithTokenProvider.getResponseEntity(userDetails);
     }
 
     /**
@@ -229,7 +229,7 @@ public class AdminController extends ClientController {
     @GetMapping("/getAllCustomers")
     public ResponseEntity<?> getAllCustomer(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException {
         UserDetails userDetails = validate(token);
-        return responseEntityGenerator.getResponseEntity(userDetails, adminService.getAllCustomers());
+        return responseWithTokenProvider.getResponseEntity(userDetails, adminService.getAllCustomers());
     }
 
     /**
@@ -244,7 +244,7 @@ public class AdminController extends ClientController {
     @GetMapping("getOneCustomer/{customerId}")
     public ResponseEntity<?> getOneCustomer(@RequestHeader(name = "Authorization") String token, @PathVariable long customerId) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
         UserDetails userDetails = validate(token);
-        return responseEntityGenerator.getResponseEntity(userDetails, adminService.getOneCustomer(customerId));
+        return responseWithTokenProvider.getResponseEntity(userDetails, adminService.getOneCustomer(customerId));
     }
 
     /**
@@ -259,7 +259,7 @@ public class AdminController extends ClientController {
     @GetMapping("/getCustomerCoupons/{customerId}")
     public ResponseEntity<?> getCustomerCoupons(@RequestHeader(name = "Authorization") String token, @PathVariable long customerId) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
         UserDetails userDetails = validate(token);
-        return responseEntityGenerator.getResponseEntity(userDetails, adminService.getCustomerCoupons(customerId));
+        return responseWithTokenProvider.getResponseEntity(userDetails, adminService.getCustomerCoupons(customerId));
     }
 
     /**

@@ -13,8 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.DataTruncation;
-
 
 @RestController
 @RequestMapping("company")
@@ -23,7 +21,7 @@ public class CompanyController extends ClientController {
 
     private final CompanyServiceImpl companyService;
     private final JwtUtils jwtUtils;
-    private final ResponseWithTokenProvider responseEntityGenerator;
+    private final ResponseWithTokenProvider responseWithTokenProvider;
 
     /**
      * tries to login an admin user.
@@ -52,7 +50,7 @@ public class CompanyController extends ClientController {
                 .getId()
         );
 
-        return responseEntityGenerator.getResponseEntity(userDetails);
+        return responseWithTokenProvider.getResponseEntity(userDetails);
     }
 
     /**
@@ -73,7 +71,7 @@ public class CompanyController extends ClientController {
             throw new AppInvalidInputException(AppInvalidInputMessage.NULL_FIELDS);
         }
         companyService.addCoupon(new Coupon(couponForm, companyService.getCompanyDetails(userDetails.getId())));
-        return responseEntityGenerator.getResponseEntity(userDetails, HttpStatus.CREATED);
+        return responseWithTokenProvider.getResponseEntity(userDetails, HttpStatus.CREATED);
     }
 
     /**
@@ -103,7 +101,7 @@ public class CompanyController extends ClientController {
         couponToUpdate.setEndDate(couponForm.getEndDate());
         companyService.updateCoupon(couponToUpdate);
 
-        return responseEntityGenerator.getResponseEntity(userDetails);
+        return responseWithTokenProvider.getResponseEntity(userDetails);
     }
 
     /**
@@ -120,7 +118,7 @@ public class CompanyController extends ClientController {
     private ResponseEntity<?> deleteCoupon(@RequestHeader(name = "Authorization") String token, @PathVariable long couponId) throws AppUnauthorizedRequestException, AppTargetNotFoundException, AppInvalidInputException {
         UserDetails userDetails = validate(token);
         companyService.deleteCoupon(couponId, userDetails.getId());
-        return responseEntityGenerator.getResponseEntity(userDetails);
+        return responseWithTokenProvider.getResponseEntity(userDetails);
     }
 
     /**
@@ -135,7 +133,7 @@ public class CompanyController extends ClientController {
     private ResponseEntity<?> getAllCoupons(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
 
         UserDetails userDetails = validate(token);
-        return responseEntityGenerator.getResponseEntity(userDetails, companyService.getAllCompanyCoupons(userDetails.getId()));
+        return responseWithTokenProvider.getResponseEntity(userDetails, companyService.getAllCompanyCoupons(userDetails.getId()));
     }
 
     /**
@@ -151,7 +149,7 @@ public class CompanyController extends ClientController {
     private ResponseEntity<?> getCouponsByCategory(@RequestHeader(name = "Authorization") String token, @PathVariable Category category) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
 
         UserDetails userDetails = validate(token);
-        return responseEntityGenerator.getResponseEntity(userDetails, companyService.getCompanyCouponsByCategory(userDetails.getId(), category));
+        return responseWithTokenProvider.getResponseEntity(userDetails, companyService.getCompanyCouponsByCategory(userDetails.getId(), category));
     }
 
     /**
@@ -167,7 +165,7 @@ public class CompanyController extends ClientController {
     @GetMapping("/couponsMaxPrice/{maxPrice}")
     private ResponseEntity<?> getCouponsByMaxPrice(@RequestHeader(name = "Authorization") String token, @PathVariable double maxPrice) throws AppUnauthorizedRequestException, AppTargetNotFoundException, AppInvalidInputException {
         UserDetails userDetails = validate(token);
-        return responseEntityGenerator.getResponseEntity(userDetails, companyService.getCompanyCouponsByMaxPrice(userDetails.getId(), maxPrice));
+        return responseWithTokenProvider.getResponseEntity(userDetails, companyService.getCompanyCouponsByMaxPrice(userDetails.getId(), maxPrice));
     }
 
     /**
@@ -181,7 +179,7 @@ public class CompanyController extends ClientController {
     @GetMapping("/getCompanyDetails")
     private ResponseEntity<?> getCompanyDetails(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
         UserDetails userDetails = validate(token);
-        return responseEntityGenerator.getResponseEntity(userDetails, companyService.getCompanyDetails(userDetails.getId()));
+        return responseWithTokenProvider.getResponseEntity(userDetails, companyService.getCompanyDetails(userDetails.getId()));
     }
 
     /**
