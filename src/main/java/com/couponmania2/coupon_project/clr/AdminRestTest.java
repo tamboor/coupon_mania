@@ -123,7 +123,7 @@ public class AdminRestTest implements CommandLineRunner {
             System.out.println("=====================================================================");
             System.out.println("Admin: delete customer via rest template:");
             System.out.println("=====================================================================");
-            deleteCustomer(4L);
+            deleteCustomer(1L);
         } catch (Exception e) {
             System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             System.out.println("!!! REST TEMPLATE ERROR !!!");
