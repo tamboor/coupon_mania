@@ -119,17 +119,16 @@ public class Coupon {
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
-        //this.amount = amount;
         setAmount(amount);
-        //this.price = price;
         setPrice(price);
         this.image = image;
         this.purchases = purchases;
     }
 
-    public Coupon(Category category, String title, String description, Date startDate, Date endDate, int amount, double price, String image) {
-        this(null, category, title, description, startDate, endDate, amount, price, image, new HashSet<>());
-    }
+    //todo: check if this c'tor is necessary
+//    public Coupon(Category category, String title, String description, Date startDate, Date endDate, int amount, double price, String image) {
+//        this(null, category, title, description, startDate, endDate, amount, price, image, new HashSet<>());
+//    }
 
     /**
      * Getter for coupon id

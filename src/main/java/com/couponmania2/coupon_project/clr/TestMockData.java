@@ -13,10 +13,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.HashSet;
 
 //todo: beautify mock data
 @Component
@@ -93,31 +89,6 @@ public class TestMockData implements CommandLineRunner {
         purchaseRepo.save(new Purchase(customerRepo.getById(3L), couponRepo.getById(3L)));
         purchaseRepo.save(new Purchase(customerRepo.getById(3L), couponRepo.getById(5L)));
 
-
-//        Company insertCompany = new Company("company6", "email6", "password6");
-//
-//        insertCompany.setCoupons(new HashSet<Coupon>(Arrays.asList(
-//                new Coupon(insertCompany, Category.cars, "cool title1",
-//                        "desccccc1", DateUtils.getRandomSqlStartDate(), DateUtils.getRandomSqlEndDate(),
-//                        10, 10, "img"
-//                ),
-//                new Coupon(insertCompany, Category.vacation, "cool title2",
-//                        "desccccc2", DateUtils.getRandomSqlStartDate(), DateUtils.getRandomSqlEndDate(),
-//                        10, 10, "img"
-//                ),
-//                new Coupon(insertCompany, Category.cars, "cool title3",
-//                        "desccccc3", DateUtils.getRandomSqlStartDate(), DateUtils.getRandomSqlEndDate(),
-//                        -1, 10, "img"
-//                ))));
-//        companyRepo.save(insertCompany);
-////
-//
-//        companyRepo.deleteById(1L);
-//
-//
-//        couponRepo.save(new Coupon(companyRepo.getById(2L), Category.vacation, "couponDeleteJob",
-//                "AAAAAAAAA", Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now().minusDays(1)),
-//                10, 50, "img"));
 
 
     }

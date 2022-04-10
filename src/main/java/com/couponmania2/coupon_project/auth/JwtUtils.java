@@ -57,9 +57,6 @@ public class JwtUtils {
      */
     public UserDetails validateToken(String token) throws AppUnauthorizedRequestException {
 
-//        if (token.isEmpty() || !(token.startsWith("Bearer "))){
-//            throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.INVALID_TOKEN);
-//        }
         if (!(token.startsWith("Bearer "))) {
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.INVALID_TOKEN);
         }

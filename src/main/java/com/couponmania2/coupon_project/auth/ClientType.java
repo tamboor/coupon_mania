@@ -11,8 +11,6 @@ public enum ClientType {
 
     private final String name;
 
-
-
     /**
      * c'tor that applies a given string name to enum's value name
      *

@@ -39,7 +39,9 @@ public class Company {
     public Company(CompanyForm companyForm) {
         this(companyForm.getName(), companyForm.getEmail(), companyForm.getPassword(), new HashSet<>());
     }
-
+    /**
+     * Private c'tor to disable instantiating a company with no data.
+     */
     protected Company() {
     }
 
