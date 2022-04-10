@@ -107,7 +107,7 @@ public class AdminRestTest implements CommandLineRunner {
             cFORM.setLastName("test");
             cFORM.setEmail("rest@customer");
             cFORM.setPassword("testing");
-            //cFORM.setId(8L);
+            ///cFORM.setId(8L);
 
             addCustomer(cFORM);
         } catch (Exception e) {
