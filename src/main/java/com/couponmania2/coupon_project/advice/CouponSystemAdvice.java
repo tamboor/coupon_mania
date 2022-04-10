@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.sql.DataTruncation;
+
 //todo: add exceptions to advice
 @ControllerAdvice
 public class CouponSystemAdvice {
@@ -54,5 +57,10 @@ public class CouponSystemAdvice {
     @ExceptionHandler(value = {AppInvalidInputException.class, IllegalArgumentException.class, PropertyValueException.class})
     ResponseEntity<ErrorDetails> invalidInputException(Exception err) {
         return new ResponseEntity<>(new ErrorDetails("Invalid input.", err.getMessage()), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(value = {DataTruncation.class})
+    ResponseEntity<ErrorDetails> invalidSqlInputException(Exception err) {
+        return new ResponseEntity<>(new ErrorDetails("Invalid sql input.", "Data is invalid to the database."), HttpStatus.UNAUTHORIZED);
     }
 }

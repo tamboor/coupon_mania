@@ -9,6 +9,7 @@ import com.couponmania2.coupon_project.exceptions.AppTargetExistsException;
 import com.couponmania2.coupon_project.exceptions.AppTargetNotFoundException;
 import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestException;
 
+import java.sql.DataTruncation;
 import java.util.Set;
 
 public interface CompanyService {
