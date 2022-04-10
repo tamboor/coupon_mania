@@ -103,11 +103,11 @@ public class AdminRestTest implements CommandLineRunner {
             System.out.println("Admin: add customer via rest template:");
             System.out.println("=====================================================================");
             CustomerForm cFORM = new CustomerForm();
-            cFORM.setFirstName("alon2");
-            cFORM.setLastName("mintz2");
-            cFORM.setEmail("alon222mintz222@mintz");
-            cFORM.setPassword("ggggggggg");
-            cFORM.setId(2L);
+            cFORM.setFirstName("restCustomer");
+            cFORM.setLastName("test");
+            cFORM.setEmail("rest@customer");
+            cFORM.setPassword("testing");
+            //cFORM.setId(8L);
 
             addCustomer(cFORM);
         } catch (Exception e) {
@@ -138,10 +138,10 @@ public class AdminRestTest implements CommandLineRunner {
             System.out.println("Admin: update customer via rest template:");
             System.out.println("=====================================================================");
             CustomerForm cFORM2 = new CustomerForm();
-            cFORM2.setFirstName("notAlon");
-            cFORM2.setLastName("notMintz");
-            cFORM2.setEmail("mail2");
-            cFORM2.setPassword("ggggggggg");
+            cFORM2.setFirstName("newAlon");
+            cFORM2.setLastName("newMintz");
+            cFORM2.setEmail("alon@mintz");
+            cFORM2.setPassword("alonpass");
             cFORM2.setId(2L);
 
             updateCustomer(cFORM2);
@@ -223,7 +223,7 @@ public class AdminRestTest implements CommandLineRunner {
             System.out.println("=====================================================================");
             System.out.println("Company: delete company via rest template:");
             System.out.println("=====================================================================");
-            deleteCompany(4L);
+            deleteCompany(1L);
         } catch (Exception e) {
             System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             System.out.println("!!! REST TEMPLATE ERROR !!!");

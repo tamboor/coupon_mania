@@ -133,7 +133,7 @@ public class AdminController extends ClientController {
      * @param companyId company to retrieves.
      * @throws AppTargetNotFoundException
      * @throws AppUnauthorizedRequestException
-     * @returnresponse entity containing the httpresponse, auth token and the company (serialized and in body.).
+     * @return response entity containing the httpresponse, auth token and the company (serialized and in body.).
      */
     @GetMapping("/getOneCompany/{companyId}")
     public ResponseEntity<?> getOneCompany(@RequestHeader(name = "Authorization") String token, @PathVariable long companyId) throws AppTargetNotFoundException, AppUnauthorizedRequestException {

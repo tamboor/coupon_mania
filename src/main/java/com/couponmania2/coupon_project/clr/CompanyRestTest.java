@@ -21,7 +21,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
-@Component
+//@Component
 @Order(3)
 @RequiredArgsConstructor
 

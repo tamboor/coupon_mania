@@ -1,6 +1,9 @@
 package com.couponmania2.coupon_project.serialization;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class CustomerForm {
+
     private long id;
     private String firstName="";
     private String lastName="";

@@ -17,7 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
-@Component
+//@Component
 @Order(4)
 @RequiredArgsConstructor
 
@@ -127,7 +127,7 @@ public class CustomerRestTest implements CommandLineRunner {
             System.out.println("=====================================================================");
             System.out.println("Customer: purchase coupon via rest template:");
             System.out.println("=====================================================================");
-            purchaseCoupon(7);
+            purchaseCoupon(12);
         } catch (Exception e) {
             System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             System.out.println("!!! REST TEMPLATE ERROR !!!");

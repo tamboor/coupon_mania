@@ -1,10 +1,12 @@
 package com.couponmania2.coupon_project.serialization;
 
 import com.couponmania2.coupon_project.beans.Category;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.sql.Date;
 
 public class CouponForm {
+
     private long id;
     private Category category;
     private String title = "";

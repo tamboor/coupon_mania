@@ -38,7 +38,7 @@ public class Customer {
         this(customerForm.getFirstName(),
                 customerForm.getLastName(),
                 customerForm.getEmail(),
-                customerForm.getLastName(),
+                customerForm.getPassword(),
                 new HashSet<>());
     }
 
