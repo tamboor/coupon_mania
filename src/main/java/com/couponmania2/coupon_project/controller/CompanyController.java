@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.DataTruncation;
+
 
 @RestController
 @RequestMapping("company")
@@ -106,18 +108,14 @@ public class CompanyController extends ClientController {
 
     @GetMapping("/couponsMaxPrice/{maxPrice}")
     private ResponseEntity<?> getCouponsByMaxPrice(@RequestHeader(name = "Authorization") String token, @PathVariable double maxPrice) throws AppUnauthorizedRequestException, AppTargetNotFoundException, AppInvalidInputException {
-
         UserDetails userDetails = validate(token);
         return responseEntityGenerator.getResponseEntity(userDetails, companyService.getCompanyCouponsByMaxPrice(userDetails.getId(), maxPrice));
-
     }
 
     @GetMapping("/getCompanyDetails")
     private ResponseEntity<?> getCompanyDetails(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
-
         UserDetails userDetails = validate(token);
         return responseEntityGenerator.getResponseEntity(userDetails, companyService.getCompanyDetails(userDetails.getId()));
-
     }
 
     private UserDetails validate(String token) throws AppUnauthorizedRequestException {

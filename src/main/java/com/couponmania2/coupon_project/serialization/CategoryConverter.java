@@ -37,6 +37,5 @@ public class CategoryConverter implements AttributeConverter<Category, String> {
                 .filter(category -> category.getName().equals(name))
                 .findFirst()
                 .orElseThrow(IllegalArgumentException::new);
-
     }
 }
