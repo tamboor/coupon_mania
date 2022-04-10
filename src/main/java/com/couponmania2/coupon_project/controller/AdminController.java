@@ -123,7 +123,7 @@ public class AdminController extends ClientController {
     public ResponseEntity<?> getAllCompanies(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException {
         UserDetails userDetails = validate(token);
 
-        return responseEntityGenerator.getResponseEntity(userDetails, adminService.getAllComapnies());
+        return responseEntityGenerator.getResponseEntity(userDetails, adminService.getAllCompanies());
     }
 
     /**

@@ -9,12 +9,7 @@ import com.couponmania2.coupon_project.repositories.CompanyRepo;
 import com.couponmania2.coupon_project.repositories.CouponRepo;
 import com.couponmania2.coupon_project.utils.DateUtils;
 import lombok.RequiredArgsConstructor;
-import org.apache.logging.log4j.CloseableThreadContext;
 import org.springframework.stereotype.Service;
-
-import java.sql.DataTruncation;
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Set;
 

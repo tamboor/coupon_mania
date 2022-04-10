@@ -4,7 +4,6 @@ import com.couponmania2.coupon_project.auth.ClientType;
 import com.couponmania2.coupon_project.beans.Company;
 import com.couponmania2.coupon_project.beans.Coupon;
 import com.couponmania2.coupon_project.beans.Customer;
-import com.couponmania2.coupon_project.beans.Purchase;
 import com.couponmania2.coupon_project.exceptions.*;
 import com.couponmania2.coupon_project.repositories.CompanyRepo;
 import com.couponmania2.coupon_project.repositories.CustomerRepo;
@@ -142,7 +141,7 @@ public class AdminServiceImpl implements AdminService {
      * @return all the companies in the database.
      */
     @Override
-    public Set<Company> getAllComapnies() {
+    public Set<Company> getAllCompanies() {
         return new HashSet<>(companyRepo.findAll());
     }
 
@@ -171,6 +170,12 @@ public class AdminServiceImpl implements AdminService {
         return companyOptional.get();
     }
 
+    /**
+     * retrieves all company's coupons by a company ID.
+     * @param companyID company ID to check its coupons
+     * @return set of the company's coupons
+     * @throws AppTargetNotFoundException if the company doesn't exist.
+     */
     @Override
     public Set<Coupon> getCompanyCoupons(long companyID) throws AppTargetNotFoundException {
         if (!companyRepo.existsById(companyID)){
@@ -195,6 +200,12 @@ public class AdminServiceImpl implements AdminService {
         return customerOptional.get();
     }
 
+    /**
+     * retrieves all customer's coupons by a customer ID.
+     * @param customerID customer ID to check its coupons
+     * @return set of the customer's coupons
+     * @throws AppTargetNotFoundException if the customer doesn't exist.
+     */
     @Override
     public Set<Coupon> getCustomerCoupons(long customerID) throws AppTargetNotFoundException {
         if (!customerRepo.existsById(customerID)){

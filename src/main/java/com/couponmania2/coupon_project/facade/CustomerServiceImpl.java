@@ -49,7 +49,7 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public void purchaseCoupon(Coupon coupon, Customer customer) throws AppTargetExistsException {
-        if (purchaseRepo.findByCustomerAndCoupon(customer, coupon) != null) {
+        if (purchaseRepo.findByCustomerAndCoupon(customer, coupon).isPresent()) {
             throw new AppTargetExistsException(AppTargetExistsMessage.COUPON_EXISTS);
         }
         purchaseRepo.save(new Purchase(customer, coupon));
@@ -65,7 +65,7 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public void purchaseCoupon(long couponId, long customerId) throws AppTargetExistsException, AppTargetNotFoundException {
-        if (purchaseRepo.findByCustomerAndCoupon(customerRepo.getById(customerId), couponRepo.getById(couponId)) != null) {
+        if (purchaseRepo.findByCustomerAndCoupon(customerRepo.getById(customerId), couponRepo.getById(couponId)).isPresent()) {
             throw new AppTargetExistsException(AppTargetExistsMessage.COUPON_EXISTS);
         }
         if (customerRepo.findById(customerId).isEmpty()) {
@@ -84,7 +84,6 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public Set<Coupon> getAllCoupons() {
-        // System.out.println("This is the coupons: "+ couponRepo.findAll());
         return new HashSet<>(couponRepo.findAll());
     }
 
