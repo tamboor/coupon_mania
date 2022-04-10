@@ -15,8 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class GuestController {
     private final CustomerServiceImpl customerService;
+
+    /**
+     * gets all coupons from the database.
+     *
+     * @return ResponseEntity containing HttpStatus, a new token and all the coupons in the database.
+     */
     @GetMapping("/getAllCoupons")
-    public ResponseEntity<?> getAllCoupons() throws AppUnauthorizedRequestException {
+    public ResponseEntity<?> getAllCoupons() {
         return new ResponseEntity<>(customerService.getAllCoupons(), HttpStatus.OK);
     }
 }
