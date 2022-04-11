@@ -14,7 +14,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 
-//todo: beautify mock data
 @Component
 @Order(1)
 public class TestMockData implements CommandLineRunner {

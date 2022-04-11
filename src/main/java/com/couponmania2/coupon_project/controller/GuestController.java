@@ -1,7 +1,5 @@
 package com.couponmania2.coupon_project.controller;
-//todo: complete
 
-import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestException;
 import com.couponmania2.coupon_project.facade.CustomerServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

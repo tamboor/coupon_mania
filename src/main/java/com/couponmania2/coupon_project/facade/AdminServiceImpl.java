@@ -80,7 +80,7 @@ public class AdminServiceImpl implements AdminService {
         if (!companyRepo.existsByIdAndName(company.getId(), company.getName())) {
             throw new AppInvalidInputException(AppInvalidInputMessage.COMPANY_NAME_CHANGE);
         }
-        //TODO: make better(stage 3)
+
         Optional<Company> companyOptional= companyRepo.findByEmail(company.getEmail());
         if (companyOptional.isPresent()){
             if (companyOptional.get().getId() != company.getId()){

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.sql.DataTruncation;
 
-//todo: add exceptions to advice
 @ControllerAdvice
 public class CouponSystemAdvice {
     /**
