@@ -46,9 +46,6 @@ public interface CouponRepo extends JpaRepository<Coupon, Long> {
      */
     Set<Coupon> findByCompanyAndPriceLessThanEqual(Company company, double price);
 
-
-//todo: study more about these annotations
-
     /**
      * deletes coupons whose end date is before the current date
      *

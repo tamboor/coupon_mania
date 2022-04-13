@@ -125,7 +125,6 @@ public class Coupon {
         this.purchases = purchases;
     }
 
-    //todo: check if this c'tor is necessary
 //    public Coupon(Category category, String title, String description, Date startDate, Date endDate, int amount, double price, String image) {
 //        this(null, category, title, description, startDate, endDate, amount, price, image, new HashSet<>());
 //    }

@@ -42,7 +42,7 @@ public class CustomerRestTest implements CommandLineRunner {
             System.out.println("=====================================================================");
             System.out.println("Customer: Login via rest template:");
             System.out.println("=====================================================================");
-            login(UserDetails.builder().userPass("pass").userName("mail1").role("customer").build());
+            login(UserDetails.builder().userPass("ranpass").userName("ran@manor").role("customer").build());
             System.out.println("Login was successful via rest template");
         } catch (Exception e) {
             System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
@@ -165,7 +165,7 @@ public class CustomerRestTest implements CommandLineRunner {
 
         ResponseEntity<?> response = restTemplate.exchange(LOGIN_URI,
                 HttpMethod.POST,
-                new HttpEntity<>(userDetails),
+                getHttpEntity(userDetails),
                 Void.class);
         checkResponse(response);
         updateTokenAndHeaders(response);

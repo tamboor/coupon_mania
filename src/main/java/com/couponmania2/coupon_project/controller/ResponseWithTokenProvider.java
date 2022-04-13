@@ -35,7 +35,6 @@ public class ResponseWithTokenProvider {
         return getResponseEntity(userDetails, httpStatus, null);
     }
 
-    //TODO: check change to generic
 
     /**
      * returns a response entity with Bearer Authorization from specified UserDetails and with given body and HttpStatus.

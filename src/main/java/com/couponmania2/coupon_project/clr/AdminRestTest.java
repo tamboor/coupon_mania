@@ -45,7 +45,6 @@ public class AdminRestTest implements CommandLineRunner {
     private final String GET_CUSTOMER_COUPONS = "http://localhost:8080/admin/getCustomerCoupons/{id}";
 
 
-    //private HttpEntity<?> httpEntity;
     private HttpHeaders headers;
     private String token;
 
@@ -298,7 +297,7 @@ public class AdminRestTest implements CommandLineRunner {
 
         ResponseEntity<?> response = restTemplate.exchange(LOGIN_URI,
                 HttpMethod.POST,
-                new HttpEntity<>(userDetails),
+                getHttpEntity(userDetails),
                 Void.class);
         checkResponse(response);
         updateTokenAndHeaders(response);
@@ -315,11 +314,7 @@ public class AdminRestTest implements CommandLineRunner {
         params.put("id", id);
         ResponseEntity<Customer> response = restTemplate.exchange(GET_ONE_CUSTOMER_URI,
                 HttpMethod.GET, getHttpEntity(null), Customer.class, params);
-        try {
-            checkResponse(response);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+
         checkResponse(response);
         Customer customer = response.getBody();
         updateTokenAndHeaders(response);

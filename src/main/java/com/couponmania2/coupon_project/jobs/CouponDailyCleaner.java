@@ -21,7 +21,6 @@ public class CouponDailyCleaner {
      */
     @Scheduled(fixedRate = 1000*60*60*24)
     public void cleanExpiredCoupons(){
-        //TODO: Check if need handling interuptions
         couponRepo.deleteByEndDateBefore(DateUtils.getCurrDate());
     }
 }

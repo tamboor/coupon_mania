@@ -20,6 +20,7 @@ public class JwtUtils {
 
     private final String idClaimKey = "id";
     private final String roleClaimKey = "role";
+    private final String secretKey = "alon_nir_ran_the_kings_of_the_valley";
 
     /**
      * method that generates a token for the user to use.
@@ -29,8 +30,8 @@ public class JwtUtils {
      */
     public String generateToken(UserDetails userDetails) {
         try {
-            //TODO: change to application properties+ check if needs to be final
-            Algorithm algorithmHS = Algorithm.HMAC256("alon_nir_ran_the_kings_of_the_valley".getBytes());
+            //TODO: check if can be put in application properties
+            Algorithm algorithmHS = Algorithm.HMAC256(secretKey.getBytes());
             String token = JWT.create()
                     .withSubject(userDetails.getUserName())
                     .withIssuedAt(java.sql.Date.valueOf(LocalDate.now()))
@@ -65,7 +66,7 @@ public class JwtUtils {
 
         try {
             DecodedJWT jwt = JWT.decode(extractedToken);
-            JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256("alon_nir_ran_the_kings_of_the_valley".getBytes()))
+            JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(secretKey.getBytes()))
                     .build();
             DecodedJWT decodedJWT = jwtVerifier.verify(jwt.getToken());
             UserDetails user = new UserDetails();

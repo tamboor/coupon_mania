@@ -206,7 +206,7 @@ public class CompanyRestTest implements CommandLineRunner {
 
         ResponseEntity<?> response = restTemplate.exchange(LOGIN_URI,
                 HttpMethod.POST,
-                new HttpEntity<>(userDetails),
+                getHttpEntity(userDetails),
                 Void.class);
         checkResponse(response);
         updateTokenAndHeaders(response);
