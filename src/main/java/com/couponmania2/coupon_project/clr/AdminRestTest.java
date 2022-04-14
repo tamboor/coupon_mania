@@ -23,7 +23,7 @@ import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
-//@Component
+@Component
 @Order(2)
 @RequiredArgsConstructor
 public class AdminRestTest implements CommandLineRunner {

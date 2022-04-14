@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-//@Component
+@Component
 @Order(5)
 @RequiredArgsConstructor
 public class GuestRestTest implements CommandLineRunner {
