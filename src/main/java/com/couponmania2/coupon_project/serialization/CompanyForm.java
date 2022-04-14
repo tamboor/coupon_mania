@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class CompanyForm {
 
     private Long id;
-    private String name= "";
-    private String email= "";
-    private String password= "";
+    private String name;
+    private String email;
+    private String password;
     /**
      * getter for id
      *

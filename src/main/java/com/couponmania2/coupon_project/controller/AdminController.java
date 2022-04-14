@@ -198,6 +198,7 @@ public class AdminController extends ClientController {
         customerToUpdate.setFirstName(customerForm.getFirstName());
         customerToUpdate.setLastName(customerForm.getLastName());
         customerToUpdate.setPassword(customerForm.getPassword());
+        System.out.println("HERE: " + customerForm.getEmail());
         adminService.updateCustomer(customerToUpdate);
 
         return responseWithTokenProvider.getResponseEntity(userDetails);

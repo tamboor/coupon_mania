@@ -9,13 +9,13 @@ public class CouponForm {
 
     private long id;
     private Category category;
-    private String title = "";
-    private String description = "";
+    private String title  ;
+    private String description ;
     private Date startDate;
     private Date endDate;
     private int amount = -1;
     private double price = -1;
-    private String image = "";
+    private String image ;
 
     /**
      * getter for id

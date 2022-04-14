@@ -8,10 +8,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class CustomerForm {
 
     private long id;
-    private String firstName = "";
-    private String lastName = "";
-    private String email = "";
-    private String password = "";
+    private String firstName ;
+    private String lastName ;
+    private String email ;
+    private String password ;
 
     /**
      * getter for id
