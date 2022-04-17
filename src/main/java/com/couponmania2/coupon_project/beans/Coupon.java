@@ -327,8 +327,5 @@ public class Coupon {
         this.purchases = purchases;
     }
 
-    /**
-     * Printing details of the coupon
-     * @return Coupon details
-     */
+
 }

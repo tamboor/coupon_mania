@@ -61,6 +61,7 @@ public class CouponForm {
     public String getTitle() {
         return title;
     }
+
     /**
      * setter for the coupon's title
      *
@@ -78,6 +79,7 @@ public class CouponForm {
     public String getDescription() {
         return description;
     }
+
     /**
      * setter for the coupon's description
      *
@@ -95,6 +97,7 @@ public class CouponForm {
     public Date getStartDate() {
         return startDate;
     }
+
     /**
      * setter for the coupon's start date
      *
@@ -112,6 +115,7 @@ public class CouponForm {
     public Date getEndDate() {
         return endDate;
     }
+
     /**
      * setter for the coupon's end date
      *
@@ -146,6 +150,7 @@ public class CouponForm {
     public double getPrice() {
         return price;
     }
+
     /**
      * setter for the coupon's price
      *
@@ -163,6 +168,7 @@ public class CouponForm {
     public String getImage() {
         return image;
     }
+
     /**
      * setter for the coupon's image
      *
@@ -171,6 +177,7 @@ public class CouponForm {
     public void setImage(String image) {
         this.image = image;
     }
+
     /**
      * boolean method that checks if any of the Object fields is null.
      * @return true if there are null fields, false if not.

@@ -23,7 +23,7 @@ public class AdminServiceImpl implements AdminService {
     private final CustomerRepo customerRepo;
     private final PurchaseRepo purchaseRepo;
     private final String ADMIN_EMAIL = "admin@admin.com";
-    private final String AMDIN_PASSWORD = "admin";
+    private final String ADMIN_PASSWORD = "admin";
 
     /**
      * Checks if given credentials match admin login credentials.
@@ -38,7 +38,7 @@ public class AdminServiceImpl implements AdminService {
         if (clientType==null){
             throw new AppInvalidInputException("this role doesn't exist!!!");
         }
-        if (!(email.equals(ADMIN_EMAIL) && password.equals(AMDIN_PASSWORD) && clientType.equals(ClientType.admin))) {
+        if (!(email.equals(ADMIN_EMAIL) && password.equals(ADMIN_PASSWORD) && clientType.equals(ClientType.admin))) {
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS.getMessage());
         }
         return 0;

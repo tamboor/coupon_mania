@@ -1,6 +1,5 @@
 package com.couponmania2.coupon_project.serialization;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * an object that hold the data that will be passed by the API.

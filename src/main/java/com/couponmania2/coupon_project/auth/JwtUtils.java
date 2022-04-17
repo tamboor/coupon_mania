@@ -30,7 +30,6 @@ public class JwtUtils {
      */
     public String generateToken(UserDetails userDetails) {
         try {
-            //TODO: check if can be put in application properties
             Algorithm algorithmHS = Algorithm.HMAC256(secretKey.getBytes());
             String token = JWT.create()
                     .withSubject(userDetails.getUserName())

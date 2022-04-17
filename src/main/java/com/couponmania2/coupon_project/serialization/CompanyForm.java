@@ -16,6 +16,7 @@ public class CompanyForm {
     public Long getId() {
         return id;
     }
+
     /**
      * setter for the id
      *
@@ -24,6 +25,7 @@ public class CompanyForm {
     public void setId(Long id) {
         this.id = id;
     }
+
     /**
      * getter for the company name
      *
@@ -32,6 +34,7 @@ public class CompanyForm {
     public String getName() {
         return name;
     }
+
     /**
      * setter for company name
      *
@@ -40,6 +43,7 @@ public class CompanyForm {
     public void setName(String name) {
         this.name = name;
     }
+
     /**
      * getter for the email
      *
@@ -48,6 +52,7 @@ public class CompanyForm {
     public String getEmail() {
         return email;
     }
+
     /**
      * setter for the email
      *
@@ -56,6 +61,7 @@ public class CompanyForm {
     public void setEmail(String email) {
         this.email = email;
     }
+
     /**
      * getter for the password
      *
@@ -64,6 +70,7 @@ public class CompanyForm {
     public String getPassword() {
         return password;
     }
+
     /**
      * setter for the password
      *
@@ -72,6 +79,7 @@ public class CompanyForm {
     public void setPassword(String password) {
         this.password = password;
     }
+
     /**
      * boolean method that checks if any of the Object fields is null.
      * @return true if there are null fields, false if not.
