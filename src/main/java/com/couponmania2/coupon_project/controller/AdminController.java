@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("admin")
 @RequiredArgsConstructor
+@CrossOrigin(maxAge = 3600)
 public class AdminController extends ClientController {
     private final AdminServiceImpl adminService;
     private final JwtUtils jwtUtils;
