@@ -33,6 +33,7 @@ public class CustomerController extends ClientController {
     public ResponseEntity<?> login(@RequestBody UserDetails userDetails)
             throws AppUnauthorizedRequestException, AppInvalidInputException {
 
+        System.out.println("Attempted Login");
         if (userDetails.checkNullFields()) {
             throw new AppInvalidInputException(AppInvalidInputMessage.NULL_FIELDS);
         }
