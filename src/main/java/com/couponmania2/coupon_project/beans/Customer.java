@@ -17,7 +17,7 @@ public class Customer {
     @Column(updatable = false)
     private long id;
     @Column(nullable = false, length = 40)
-    private String firstName;
+    private String name;
     @Column(nullable = false, length = 40)
     private String lastName;
     @Column(nullable = false, length = 40)
@@ -58,7 +58,7 @@ public class Customer {
      * @param purchases all purchases of the customer.
      */
     public Customer(String firstName, String lastName, String email, String password, Set<Purchase> purchases) {
-        this.firstName = firstName;
+        this.name = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
@@ -91,17 +91,17 @@ public class Customer {
      *
      * @return the first name.
      */
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
     /**
      * setter for first name.
      *
-     * @param firstName the value to set first name to.
+     * @param name the value to set first name to.
      */
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
@@ -186,7 +186,7 @@ public class Customer {
     public String toString() {
         return "Customer{" +
                 "id=" + id +
-                ", firstName='" + firstName + '\'' +
+                ", firstName='" + name + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
