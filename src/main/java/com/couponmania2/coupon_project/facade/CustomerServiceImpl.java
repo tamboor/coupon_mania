@@ -115,7 +115,7 @@ public class CustomerServiceImpl implements CustomerService {
         if (!customerRepo.existsById(customerId)) {
             throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
         }
-        return purchaseRepo.getCouponsOfCustomerByCategory(customerRepo.getById(customerId), category);
+        return couponRepo.findByCategory(category);
     }
 
     /**
