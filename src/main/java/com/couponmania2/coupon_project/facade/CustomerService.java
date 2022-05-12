@@ -89,5 +89,7 @@ public interface CustomerService {
      */
     Customer getCustomerDetails(long customerId) throws AppTargetNotFoundException;
 
+    Coupon validateCoupon(long couponId , long customerId) throws AppTargetExistsException, AppTargetNotFoundException;
+
 
 }

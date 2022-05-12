@@ -149,6 +149,13 @@ public class CustomerController extends ClientController {
         return responseWithTokenProvider
                 .getResponseEntity(userDetails, customerService.getCustomerDetails(userDetails.getId()));
     }
+    @GetMapping("/checkCoupon/{id}")
+    public ResponseEntity<?> checkCoupon(@RequestHeader(name = "Authorization") String token , @PathVariable long id) throws AppUnauthorizedRequestException, AppTargetExistsException, AppTargetNotFoundException {
+        UserDetails userDetails = validate(token);
+
+        return responseWithTokenProvider
+                .getResponseEntity(userDetails , customerService.validateCoupon(id , userDetails.getId()));
+    }
 
     /**
      * validates auth token and retrieves associated userdetails.
@@ -164,4 +171,6 @@ public class CustomerController extends ClientController {
         }
         return user;
     }
+
+
 }

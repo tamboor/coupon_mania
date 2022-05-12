@@ -2,6 +2,7 @@ package com.couponmania2.coupon_project.beans;
 
 import com.couponmania2.coupon_project.serialization.CouponForm;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -10,6 +11,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "coupons")
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer","handler"})
 public class Coupon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -125,7 +127,7 @@ public class Coupon {
         this.purchases = purchases;
     }
 
-//    public Coupon(Category category, String title, String description, Date startDate, Date endDate, int amount, double price, String image) {
+//      public Coupon(Category category, String title, String description, Date startDate, Date endDate, int amount, double price, String image) {
 //        this(null, category, title, description, startDate, endDate, amount, price, image, new HashSet<>());
 //    }
 

@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -150,5 +151,22 @@ public class CustomerServiceImpl implements CustomerService {
             throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
         }
         return customerRepo.getById(customerId);
+    }
+
+    @Override
+    public Coupon validateCoupon(long couponId, long customerId) throws AppTargetExistsException, AppTargetNotFoundException {
+        if (purchaseRepo.findByCustomerAndCoupon(customerRepo.getById(customerId), couponRepo.getById(couponId)).isPresent()) {
+            throw new AppTargetExistsException(AppTargetExistsMessage.COUPON_EXISTS);
+        }
+        if (customerRepo.findById(customerId).isEmpty()) {
+            throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
+        }
+        Optional<Coupon> couponOptional = couponRepo.findById(couponId);
+        if (couponOptional.isEmpty()) {
+            throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COUPON_NOT_FOUND);
+        }
+        Coupon coupon = couponOptional.get();
+        return coupon;
+//        return couponOptional.get();
     }
 }
