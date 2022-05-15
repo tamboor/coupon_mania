@@ -171,6 +171,7 @@ public class AdminController extends ClientController {
         if (customerForm.checkNullFields()) {
             throw new AppInvalidInputException(AppInvalidInputMessage.NULL_FIELDS);
         }
+        System.out.println(customerForm);
         adminService.addCustomer(new Customer(customerForm));
         return responseWithTokenProvider.getResponseEntity(userDetails,HttpStatus.CREATED);
 
@@ -196,7 +197,7 @@ public class AdminController extends ClientController {
 
         Customer customerToUpdate = adminService.getOneCustomer(customerForm.getId());
         customerToUpdate.setEmail(customerForm.getEmail());
-        customerToUpdate.setName(customerForm.getFirstName());
+        customerToUpdate.setFirstName(customerForm.getFirstName());
         customerToUpdate.setLastName(customerForm.getLastName());
         customerToUpdate.setPassword(customerForm.getPassword());
         System.out.println("HERE: " + customerForm.getEmail());
