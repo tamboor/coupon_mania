@@ -171,7 +171,7 @@ public class AdminController extends ClientController {
         if (customerForm.checkNullFields()) {
             throw new AppInvalidInputException(AppInvalidInputMessage.NULL_FIELDS);
         }
-        System.out.println(customerForm);
+//        System.out.println(customerForm);
         adminService.addCustomer(new Customer(customerForm));
         return responseWithTokenProvider.getResponseEntity(userDetails,HttpStatus.CREATED);
 
