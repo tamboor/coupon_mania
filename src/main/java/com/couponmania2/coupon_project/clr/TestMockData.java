@@ -48,10 +48,10 @@ public class TestMockData implements CommandLineRunner {
 
         couponRepo.save(new Coupon(companyRepo.getById(1L), Category.cars, "coupon1",
                 "company1car", DateUtils.getRandomSqlStartDate(), DateUtils.getRandomSqlEndDate(),
-                10, 10, "img"));
+                10, 10, "https://m.gagam.co.il/wp-content/uploads/2017/10/מגנה-הדפסת-תמונה-על-מגנט-תמונות-על-מגנט-2.jpg"));
         couponRepo.save(new Coupon(companyRepo.getById(1L), Category.tattoos, "coupon2",
                 "company1tattoo", DateUtils.getRandomSqlStartDate(), DateUtils.getRandomSqlEndDate(),
-                10, 15, "img"));
+                10, 15, "https://m.media-amazon.com/images/I/81lu9mj9WeL._SL1500_._AC_SL120_.jpg"));
         couponRepo.save(new Coupon(companyRepo.getById(1L), Category.food, "coupon3",
                 "company1food", DateUtils.getRandomSqlStartDate(), DateUtils.getRandomSqlEndDate(),
                 10, 20, "img"));
