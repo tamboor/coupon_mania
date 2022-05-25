@@ -213,4 +213,22 @@ public class AdminServiceImpl implements AdminService {
         }
        return  purchaseRepo.getAllCouponsOfCustomer(customerRepo.getById(customerID));
     }
+
+    @Override
+    public Customer getCustomerByEmail(String email) throws AppTargetNotFoundException {
+        Optional<Customer> customerOptional = customerRepo.findByEmail(email);
+        if (customerOptional.isEmpty()) {
+            throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
+        }
+        return customerOptional.get();
+    }
+
+    @Override
+    public Company getCompanyByEmail(String email) throws AppTargetNotFoundException {
+       Optional<Company> companyOptional = companyRepo.findByEmail(email);
+        if (companyOptional.isEmpty()) {
+            throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COMPANY_NOT_FOUND);
+        }
+        return companyOptional.get();
+    }
 }

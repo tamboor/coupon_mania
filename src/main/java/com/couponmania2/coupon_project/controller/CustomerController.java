@@ -6,6 +6,7 @@ import com.couponmania2.coupon_project.auth.UserDetails;
 import com.couponmania2.coupon_project.beans.Category;
 import com.couponmania2.coupon_project.exceptions.*;
 import com.couponmania2.coupon_project.facade.CustomerServiceImpl;
+import com.couponmania2.coupon_project.serialization.CouponForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,16 +56,18 @@ public class CustomerController extends ClientController {
      * adds a coupon purchase to the database.
      *
      * @param token    authorization token.
-     * @param couponId the coupon the customer wishes to buy.
+     * @param coupon the coupon the customer wishes to buy.
      * @return ResponseEntity containing HttpStatus and a new token.
      * @throws AppUnauthorizedRequestException if authorization is expired or failed.
      * @throws AppTargetExistsException        if the customer already has a coupon of this type.
      * @throws AppTargetNotFoundException      if couponid doesnt exist in the database.
      */
     @PostMapping("/newPurchase")
-    public ResponseEntity<?> purchaseCoupon(@RequestHeader(name = "Authorization") String token, @RequestParam long couponId) throws AppUnauthorizedRequestException, AppTargetExistsException, AppTargetNotFoundException {
+    public ResponseEntity<?> purchaseCoupon(@RequestHeader(name = "Authorization") String token, @RequestBody CouponForm coupon) throws AppUnauthorizedRequestException, AppTargetExistsException, AppTargetNotFoundException {
+        System.out.println("reached rest before valid");
         UserDetails userDetails = validate(token);
-        customerService.purchaseCoupon(couponId, userDetails.getId());
+        System.out.println("reached rest valid");
+        customerService.purchaseCoupon(coupon.getId(), userDetails.getId());
 
         return responseWithTokenProvider.getResponseEntity(userDetails, HttpStatus.CREATED);
     }
@@ -93,6 +96,8 @@ public class CustomerController extends ClientController {
      */
     @GetMapping("/getCustomerCoupons")
     public ResponseEntity<?> getCustomerCoupons(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
+        System.out.println(token);
+
         UserDetails userDetails = validate(token);
 
         return responseWithTokenProvider
@@ -161,11 +166,12 @@ public class CustomerController extends ClientController {
      * validates auth token and retrieves associated userdetails.
      *
      * @param token authorization token.
-     * @return the userdetails in the token,
+     * @return the userdetails in the token,1
      * @throws AppUnauthorizedRequestException if the token has expired or if the user is un-authorized.
      */
     private UserDetails validate(String token) throws AppUnauthorizedRequestException {
         UserDetails user = jwtUtils.validateToken(token);
+        System.out.println(user);
         if (!(user.getRole().equals(ClientType.customer.getName()))) {
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS);
         }

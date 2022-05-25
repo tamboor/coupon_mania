@@ -84,8 +84,10 @@ public class AdminController extends ClientController {
      */
     @PutMapping("/updateCompany")
     public ResponseEntity<?> updateCompany(@RequestHeader(name = "Authorization") String token, @RequestBody CompanyForm companyForm) throws AppTargetNotFoundException, AppUnauthorizedRequestException, AppInvalidInputException, AppTargetExistsException {
+        System.out.println("company null fields");
         UserDetails userDetails = validate(token);
         if (companyForm.checkNullFields()) {
+
             throw new AppInvalidInputException(AppInvalidInputMessage.NULL_FIELDS);
         }
         Company companyToUpdate = adminService.getOneCompany(companyForm.getId());
@@ -263,6 +265,20 @@ public class AdminController extends ClientController {
     public ResponseEntity<?> getCustomerCoupons(@RequestHeader(name = "Authorization") String token, @PathVariable long customerId) throws AppTargetNotFoundException, AppUnauthorizedRequestException {
         UserDetails userDetails = validate(token);
         return responseWithTokenProvider.getResponseEntity(userDetails, adminService.getCustomerCoupons(customerId));
+    }
+
+    @GetMapping("getCustomerByEmail/{email}")
+    public ResponseEntity<?> getCustomerByEmail(@RequestHeader(name = "Authorization") String token , @PathVariable String email) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
+        UserDetails userDetails  = validate(token);
+
+        return responseWithTokenProvider.getResponseEntity(userDetails, adminService.getCustomerByEmail(email));
+    }
+
+    @GetMapping("getCompanyByEmail/{email}")
+    public ResponseEntity<?> getCompanyByEmail(@RequestHeader(name = "Authorization") String token , @PathVariable String email) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
+        UserDetails userDetails  = validate(token);
+
+        return responseWithTokenProvider.getResponseEntity(userDetails, adminService.getCompanyByEmail(email));
     }
 
     /**

@@ -29,6 +29,7 @@ public interface PurchaseRepo extends JpaRepository<Purchase, Long> {
     @Query("SELECT p.coupon FROM Purchase p WHERE p.customer = :customer")
     Set<Coupon> getAllCouponsOfCustomer(@Param("customer") Customer customer);
 
+
     /**
      * get coupons owned by a specific customer by a specific category
      * @param customer the customer to check its coupons

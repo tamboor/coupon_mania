@@ -107,4 +107,7 @@ public interface    AdminService {
      * @throws AppTargetNotFoundException if the customer doesn't exist.
      */
     Set<Coupon> getCustomerCoupons (long customerID) throws AppTargetNotFoundException;
+
+    Customer getCustomerByEmail(String email) throws AppTargetNotFoundException;
+    Company getCompanyByEmail(String email) throws AppTargetNotFoundException;
 }

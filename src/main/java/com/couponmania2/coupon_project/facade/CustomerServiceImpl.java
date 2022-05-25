@@ -66,6 +66,8 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public void purchaseCoupon(long couponId, long customerId) throws AppTargetExistsException, AppTargetNotFoundException {
+        System.out.println("reached start");
+
         if (purchaseRepo.findByCustomerAndCoupon(customerRepo.getById(customerId), couponRepo.getById(couponId)).isPresent()) {
             throw new AppTargetExistsException(AppTargetExistsMessage.COUPON_EXISTS);
         }
@@ -75,6 +77,9 @@ public class CustomerServiceImpl implements CustomerService {
         if (couponRepo.findById(couponId).isEmpty()) {
             throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COUPON_NOT_FOUND);
         }
+
+        System.out.println("reached good");
+
         purchaseRepo.save(new Purchase(customerRepo.getById(customerId), couponRepo.getById(couponId)));
     }
 
