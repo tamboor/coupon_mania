@@ -80,6 +80,11 @@ public class TestMockData implements CommandLineRunner {
         customerRepo.save(new Customer("nir", "katz", "nir@katz", "nirpass"));
         customerRepo.save(new Customer("alon", "mintz", "alon@mintz", "alonpass"));
         customerRepo.save(new Customer("ran", "manor", "ran@manor", "ranpass"));
+        customerRepo.save(new Customer("yael", "katz", "yael@katz", "yaelpass"));
+        customerRepo.save(new Customer("some1", "some1", "some1", "some1"));
+        customerRepo.save(new Customer("some2", "some2", "some2", "some2"));
+        customerRepo.save(new Customer("some3", "some3", "some3", "some3"));
+        customerRepo.save(new Customer("some4", "some4", "some4", "some4"));
 
         purchaseRepo.save(new Purchase(customerRepo.getById(1L), couponRepo.getById(3L)));
         purchaseRepo.save(new Purchase(customerRepo.getById(1L), couponRepo.getById(4L)));
