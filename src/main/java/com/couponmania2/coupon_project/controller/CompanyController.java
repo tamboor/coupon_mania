@@ -67,6 +67,8 @@ public class CompanyController extends ClientController {
     @PostMapping("/addCoupon")
     public ResponseEntity<?> addCoupon(@RequestHeader(name = "Authorization") String token, @RequestBody CouponForm couponForm) throws AppUnauthorizedRequestException, AppTargetExistsException, AppInvalidInputException, AppTargetNotFoundException {
         UserDetails userDetails = validate(token);
+
+
         if (couponForm.checkNullFields()) {
             throw new AppInvalidInputException(AppInvalidInputMessage.NULL_FIELDS);
         }

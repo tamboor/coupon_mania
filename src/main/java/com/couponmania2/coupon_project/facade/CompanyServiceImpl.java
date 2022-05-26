@@ -10,6 +10,9 @@ import com.couponmania2.coupon_project.repositories.CouponRepo;
 import com.couponmania2.coupon_project.utils.DateUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Set;
 
@@ -63,6 +66,7 @@ public class CompanyServiceImpl implements CompanyService {
         {
             throw new AppInvalidInputException(AppInvalidInputMessage.END_DATE_BEFORE_CURRENT_DATE);
         }
+
         couponRepo.save(coupon);
 
     }
