@@ -36,6 +36,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer checkCredentials(String userName, String userPass, ClientType clientType) throws AppUnauthorizedRequestException {
         System.out.println("IM IN CUSTOMER SERVICE CHECK CREDENTIALS");
+        customerRepo.findAll().forEach(System.out::println);
         if (customerRepo.findByEmailAndPassword(userName, userPass).isEmpty() || !(clientType.equals(ClientType.customer))) {
             System.out.println("FAILED CHECK CREDENTIALS");
             System.out.println(userName + " " + userPass);
