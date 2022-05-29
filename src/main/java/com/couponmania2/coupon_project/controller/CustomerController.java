@@ -30,7 +30,7 @@ public class CustomerController extends ClientController {
      * @throws AppUnauthorizedRequestException if the token has expired or if the user is un-authorized.
      */
     @Override
-    @PostMapping("login")
+    @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserDetails userDetails)
             throws AppUnauthorizedRequestException, AppInvalidInputException {
 
