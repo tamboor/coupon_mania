@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("customer")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*" , allowedHeaders = "*")
 public class CustomerController extends ClientController {
     private final CustomerServiceImpl customerService;
     private final JwtUtils jwtUtils;
