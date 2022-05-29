@@ -13,7 +13,7 @@ public interface CustomerRepo extends JpaRepository<Customer,Long> {
      * @param password customer's password
      * @return an Optional object that holds a customer
      */
-    Optional<Customer> findByEmailAndPassword(String email , String password);
+    Optional<Customer> findOneByEmailAndPassword(String email , String password);
     /**
      * method that finds whether a company exists by a given email
      * @param email email to check

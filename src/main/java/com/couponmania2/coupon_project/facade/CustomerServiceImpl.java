@@ -37,13 +37,13 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer checkCredentials(String userName, String userPass, ClientType clientType) throws AppUnauthorizedRequestException {
         System.out.println("IM IN CUSTOMER SERVICE CHECK CREDENTIALS");
         customerRepo.findAll().forEach(System.out::println);
-        if (customerRepo.findByEmailAndPassword(userName, userPass).isEmpty() || !(clientType.equals(ClientType.customer))) {
+        if (customerRepo.findOneByEmailAndPassword(userName, userPass).isEmpty() || !(clientType.equals(ClientType.customer))) {
             System.out.println("FAILED CHECK CREDENTIALS");
             System.out.println(userName + " " + userPass);
             System.out.println(clientType);
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS.getMessage());
         }
-        return customerRepo.findByEmailAndPassword(userName, userPass).get();
+        return customerRepo.findOneByEmailAndPassword(userName, userPass).get();
     }
 
     /**
