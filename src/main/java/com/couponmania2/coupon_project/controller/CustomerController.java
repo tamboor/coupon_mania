@@ -45,7 +45,7 @@ public class CustomerController extends ClientController {
 
             throw new AppInvalidInputException(AppInvalidInputMessage.ROLE_NOT_EXIST);
         }
-
+        System.out.println("BEFORE CHECK CREDENTIALS");
         userDetails.setId(customerService.checkCredentials(
                         userDetails.getUserName(),
                         userDetails.getUserPass(),
