@@ -34,12 +34,15 @@ public class CustomerController extends ClientController {
     public ResponseEntity<?> login(@RequestBody UserDetails userDetails)
             throws AppUnauthorizedRequestException, AppInvalidInputException {
 
-        System.out.println("Attempted Login");
+        System.out.println("IM IN CUSTOMER CONTROLLER LOGIN");
         if (userDetails.checkNullFields()) {
+
+            System.out.println("FIELDS ARE NULL");
             throw new AppInvalidInputException(AppInvalidInputMessage.NULL_FIELDS);
         }
         userDetails.setRole(userDetails.getRole().toLowerCase());
         if (!userDetails.roleCheck()) {
+
             throw new AppInvalidInputException(AppInvalidInputMessage.ROLE_NOT_EXIST);
         }
 
