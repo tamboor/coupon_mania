@@ -351,7 +351,7 @@ public class AdminRestTest implements CommandLineRunner {
         System.out.println("Customer adding via rest template was successful");
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     }
-
+//
     private void deleteCustomer(Long id) throws Exception {
 
         Map<String, Long> params = new HashMap<>();
