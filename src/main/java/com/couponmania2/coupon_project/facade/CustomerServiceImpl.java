@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -71,21 +72,22 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public void purchaseCoupon(long couponId, long customerId) throws AppTargetExistsException, AppTargetNotFoundException {
-        System.out.println("reached start");
-
         if (purchaseRepo.findByCustomerAndCoupon(customerRepo.getById(customerId), couponRepo.getById(couponId)).isPresent()) {
             throw new AppTargetExistsException(AppTargetExistsMessage.COUPON_EXISTS);
         }
-        if (customerRepo.findById(customerId).isEmpty()) {
+        Optional<Customer> customerOptional = customerRepo.findById(customerId);
+        if (customerOptional.isEmpty()) {
             throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
         }
-        if (couponRepo.findById(couponId).isEmpty()) {
+        Optional<Coupon> couponOptional = couponRepo.findById(couponId);
+        if (couponOptional.isEmpty()) {
             throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COUPON_NOT_FOUND);
         }
 
-        System.out.println("reached good");
+        Coupon coupon = couponOptional.get();
+        coupon.setAmount(coupon.getAmount() - 1);
 
-        purchaseRepo.save(new Purchase(customerRepo.getById(customerId), couponRepo.getById(couponId)));
+        purchaseRepo.save(new Purchase(customerOptional.get(), coupon));
     }
 
     /**
@@ -94,8 +96,8 @@ public class CustomerServiceImpl implements CustomerService {
      * @return all of the coupons.
      */
     @Override
-    public Set<Coupon> getAllCoupons() {
-        return new HashSet<>(couponRepo.findAll());
+    public List<Coupon> getAllCoupons() {
+        return couponRepo.findAll();
     }
 
     /**

@@ -11,6 +11,7 @@ import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestExceptio
 import com.couponmania2.coupon_project.repositories.CompanyRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Set;
 
 public interface CustomerService {
@@ -49,7 +50,7 @@ public interface CustomerService {
      *
      * @return all of the coupons.
      */
-    Set <Coupon> getAllCoupons ();
+    List<Coupon> getAllCoupons ();
 
     /**
      * gets all the coupons the customer owns.
