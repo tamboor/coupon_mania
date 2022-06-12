@@ -55,11 +55,7 @@ public interface CouponRepo extends JpaRepository<Coupon, Long> {
      *
      * @param currDate the current date
      */
-    @Transactional
+//    @Transactional
     @Modifying
     void deleteByEndDateBefore(Date currDate);
-
-
-//    @Query("SELECT c FROM Coupon c WHERE c.purchases.")
-//    Set<Coupon> findAvailibleCoupons(@Param("id") Long id);
 }

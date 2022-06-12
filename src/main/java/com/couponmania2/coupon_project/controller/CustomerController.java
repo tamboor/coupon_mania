@@ -68,9 +68,7 @@ public class CustomerController extends ClientController {
      */
     @PostMapping("/newPurchase")
     public ResponseEntity<?> purchaseCoupon(@RequestHeader(name = "Authorization") String token, @RequestBody CouponForm coupon) throws AppUnauthorizedRequestException, AppTargetExistsException, AppTargetNotFoundException {
-        System.out.println("reached rest before valid");
         UserDetails userDetails = validate(token);
-        System.out.println("reached rest valid");
         customerService.purchaseCoupon(coupon.getId(), userDetails.getId());
 
         return responseWithTokenProvider.getResponseEntity(userDetails, HttpStatus.CREATED);
