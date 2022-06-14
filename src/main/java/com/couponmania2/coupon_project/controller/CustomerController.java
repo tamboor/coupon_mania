@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("customer")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*" , allowedHeaders = "*")
-public class CustomerController extends ClientController {
+public class CustomerController implements AuthenticatedController {
     private final CustomerServiceImpl customerService;
     private final JwtUtils jwtUtils;
     private final ResponseWithTokenProvider responseWithTokenProvider;
@@ -31,14 +31,11 @@ public class CustomerController extends ClientController {
      * @throws AppUnauthorizedRequestException if the token has expired or if the user is un-authorized.
      */
     @Override
-    @PostMapping("/login")
+//    @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserDetails userDetails)
             throws AppUnauthorizedRequestException, AppInvalidInputException {
 
-        System.out.println("IM IN CUSTOMER CONTROLLER LOGIN");
         if (userDetails.checkNullFields()) {
-
-            System.out.println("FIELDS ARE NULL");
             throw new AppInvalidInputException(AppInvalidInputMessage.NULL_FIELDS);
         }
         userDetails.setRole(userDetails.getRole().toLowerCase());
@@ -46,7 +43,6 @@ public class CustomerController extends ClientController {
 
             throw new AppInvalidInputException(AppInvalidInputMessage.ROLE_NOT_EXIST);
         }
-        System.out.println("BEFORE CHECK CREDENTIALS");
         userDetails.setId(customerService.checkCredentials(
                         userDetails.getUserName(),
                         userDetails.getUserPass(),
@@ -68,9 +64,7 @@ public class CustomerController extends ClientController {
      */
     @PostMapping("/newPurchase")
     public ResponseEntity<?> purchaseCoupon(@RequestHeader(name = "Authorization") String token, @RequestBody CouponForm coupon) throws AppUnauthorizedRequestException, AppTargetExistsException, AppTargetNotFoundException {
-        System.out.println("reached rest before valid");
         UserDetails userDetails = validate(token);
-        System.out.println("reached rest valid");
         customerService.purchaseCoupon(coupon.getId(), userDetails.getId());
 
         return responseWithTokenProvider.getResponseEntity(userDetails, HttpStatus.CREATED);
@@ -100,8 +94,6 @@ public class CustomerController extends ClientController {
      */
     @GetMapping("/getCustomerCoupons")
     public ResponseEntity<?> getCustomerCoupons(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException, AppTargetNotFoundException {
-        System.out.println(token);
-
         UserDetails userDetails = validate(token);
 
         return responseWithTokenProvider
@@ -175,7 +167,6 @@ public class CustomerController extends ClientController {
      */
     private UserDetails validate(String token) throws AppUnauthorizedRequestException {
         UserDetails user = jwtUtils.validateToken(token);
-        System.out.println(user);
         if (!(user.getRole().equals(ClientType.customer.getName()))) {
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS);
         }

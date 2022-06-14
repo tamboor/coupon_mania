@@ -35,12 +35,7 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public Customer checkCredentials(String userName, String userPass, ClientType clientType) throws AppUnauthorizedRequestException {
-        System.out.println("IM IN CUSTOMER SERVICE CHECK CREDENTIALS");
-        customerRepo.findAll().forEach(System.out::println);
         if (customerRepo.findOneByEmailAndPassword(userName, userPass).isEmpty() || !(clientType.equals(ClientType.customer))) {
-            System.out.println("FAILED CHECK CREDENTIALS");
-            System.out.println(userName + " " + userPass);
-            System.out.println(clientType);
             throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS.getMessage());
         }
         return customerRepo.findOneByEmailAndPassword(userName, userPass).get();
@@ -71,8 +66,6 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public void purchaseCoupon(long couponId, long customerId) throws AppTargetExistsException, AppTargetNotFoundException {
-        System.out.println("reached start");
-
         if (purchaseRepo.findByCustomerAndCoupon(customerRepo.getById(customerId), couponRepo.getById(couponId)).isPresent()) {
             throw new AppTargetExistsException(AppTargetExistsMessage.COUPON_EXISTS);
         }
@@ -82,9 +75,6 @@ public class CustomerServiceImpl implements CustomerService {
         if (couponRepo.findById(couponId).isEmpty()) {
             throw new AppTargetNotFoundException(AppTargetNotFoundMessage.COUPON_NOT_FOUND);
         }
-
-        System.out.println("reached good");
-
         purchaseRepo.save(new Purchase(customerRepo.getById(customerId), couponRepo.getById(couponId)));
     }
 

@@ -6,7 +6,7 @@ import com.couponmania2.coupon_project.auth.UserDetails;
 import com.couponmania2.coupon_project.beans.Company;
 import com.couponmania2.coupon_project.beans.Customer;
 import com.couponmania2.coupon_project.exceptions.*;
-import com.couponmania2.coupon_project.facade.AdminServiceImpl;
+import com.couponmania2.coupon_project.facade.AdminService;
 import com.couponmania2.coupon_project.serialization.CompanyForm;
 import com.couponmania2.coupon_project.serialization.CustomerForm;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("admin")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*" , allowedHeaders = "*")
-public class AdminController extends ClientController {
-    private final AdminServiceImpl adminService;
+public class AdminController implements AuthenticatedController {
+    private final AdminService adminService;
     private final JwtUtils jwtUtils;
     private final ResponseWithTokenProvider responseWithTokenProvider;
 
@@ -31,7 +31,6 @@ public class AdminController extends ClientController {
      * @throws AppUnauthorizedRequestException if the token has expired or if the user is un-authorized.
      */
     @Override
-    @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody UserDetails userDetails)
             throws AppUnauthorizedRequestException, AppInvalidInputException {
 
@@ -84,7 +83,6 @@ public class AdminController extends ClientController {
      */
     @PutMapping("/updateCompany")
     public ResponseEntity<?> updateCompany(@RequestHeader(name = "Authorization") String token, @RequestBody CompanyForm companyForm) throws AppTargetNotFoundException, AppUnauthorizedRequestException, AppInvalidInputException, AppTargetExistsException {
-        System.out.println("company null fields");
         UserDetails userDetails = validate(token);
         if (companyForm.checkNullFields()) {
 
@@ -173,7 +171,6 @@ public class AdminController extends ClientController {
         if (customerForm.checkNullFields()) {
             throw new AppInvalidInputException(AppInvalidInputMessage.NULL_FIELDS);
         }
-//        System.out.println(customerForm);
         adminService.addCustomer(new Customer(customerForm));
         return responseWithTokenProvider.getResponseEntity(userDetails,HttpStatus.CREATED);
 
@@ -202,7 +199,6 @@ public class AdminController extends ClientController {
         customerToUpdate.setFirstName(customerForm.getFirstName());
         customerToUpdate.setLastName(customerForm.getLastName());
         customerToUpdate.setPassword(customerForm.getPassword());
-        System.out.println("HERE: " + customerForm.getEmail());
         adminService.updateCustomer(customerToUpdate);
 
         return responseWithTokenProvider.getResponseEntity(userDetails);

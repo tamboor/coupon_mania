@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("company")
 @RequiredArgsConstructor
-public class CompanyController extends ClientController {
+public class CompanyController implements AuthenticatedController {
 
     private final CompanyServiceImpl companyService;
     private final JwtUtils jwtUtils;
@@ -31,7 +31,7 @@ public class CompanyController extends ClientController {
      * @throws AppUnauthorizedRequestException if the token has expired or if the user is un-authorized.
      */
     @Override
-    @PostMapping("login")
+//    @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody UserDetails userDetails)
             throws AppUnauthorizedRequestException, AppInvalidInputException {
 

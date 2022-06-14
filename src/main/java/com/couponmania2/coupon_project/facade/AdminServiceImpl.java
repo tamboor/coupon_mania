@@ -196,7 +196,6 @@ public class AdminServiceImpl implements AdminService {
         if (customerOptional.isEmpty()) {
             throw new AppTargetNotFoundException(AppTargetNotFoundMessage.CUSTOMER_NOT_FOUND);
         }
-        System.out.println(customerOptional.get());
         return customerOptional.get();
     }
 

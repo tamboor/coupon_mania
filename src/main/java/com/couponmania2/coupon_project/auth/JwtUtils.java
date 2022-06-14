@@ -42,7 +42,7 @@ public class JwtUtils {
             return token;
 
         } catch (JWTCreationException err) {
-            System.out.println(err.getMessage());
+            //TODO: handle
         }
         return null;
     }

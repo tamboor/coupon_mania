@@ -4,8 +4,10 @@ import com.couponmania2.coupon_project.auth.UserDetails;
 import com.couponmania2.coupon_project.exceptions.AppInvalidInputException;
 import com.couponmania2.coupon_project.exceptions.AppUnauthorizedRequestException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-public abstract class ClientController {
+public interface AuthenticatedController {
     /**
      * tries to login a user..
      *
@@ -13,6 +15,7 @@ public abstract class ClientController {
      * @return response entity that holds a token and a response status.
      * @throws AppUnauthorizedRequestException if the token has expired or if the user is un-authorized.
      */
-    public abstract ResponseEntity<?> login(UserDetails userDetails)
+    @PostMapping("login")
+     ResponseEntity<?> login(UserDetails userDetails)
             throws AppUnauthorizedRequestException, AppInvalidInputException;
 }

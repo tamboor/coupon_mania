@@ -52,9 +52,6 @@ public class GuestController {
         if (customerForm.checkNullFields()) {
             throw new AppInvalidInputException(AppInvalidInputMessage.NULL_FIELDS);
         }
-//        System.out.println(customerForm);
         adminService.addCustomer(new Customer(customerForm));
-//        return responseWithTokenProvider.getResponseEntity(userDetails,HttpStatus.CREATED);
-//        return ResponseEntity<?> (HttpStatus.CREATED);
     }
 }

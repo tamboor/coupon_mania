@@ -27,14 +27,14 @@ public interface    AdminService {
      * @param company the company to add.
      * @throws AppTargetExistsException if company name or email already exists in database.
      */
-    void addCompany (Company company) throws Exception;
+    void addCompany (Company company) throws AppTargetExistsException;
 
     /**
      * adds a customer to the database.
      * @param customer the company to add.
      * @throws AppTargetExistsException if customer email already exists in database.
      */
-    void addCustomer(Customer customer) throws Exception;
+    void addCustomer(Customer customer) throws AppTargetExistsException;
 
     /**
      * updates a company in the database.
